@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,6 +25,7 @@ public class MainActivity extends ActionBarActivity {
 
     private static String logtag ="CameraApp8";
     private static int TAKE_PICTURE =1;
+    static final int REQUEST_IMAGE_GET = 1;
     private Uri imageUri;
 
     @Override
@@ -35,6 +35,9 @@ public class MainActivity extends ActionBarActivity {
 
         Button cameraButton = (Button)findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
+
+        Button fromGalleryButton = (Button) findViewById(R.id.pic_from_gallery_button);
+        fromGalleryButton.setOnClickListener(GalleryListener);
     }
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {
@@ -43,6 +46,21 @@ public class MainActivity extends ActionBarActivity {
             takePhoto(v);
         }
     };
+
+    private View.OnClickListener GalleryListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            pickPhoto(v);
+        }
+    };
+
+    private void pickPhoto(View v){
+    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_IMAGE_GET);
+        }
+    }
 
     private void takePhoto (View v){
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
@@ -53,11 +71,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
-        super.onActivityResult(requestCode, resultCode, intent);
-
-        if(resultCode == Activity.RESULT_OK){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK){
             Uri selectedImage = imageUri;
+          
             getContentResolver().notifyChange(selectedImage, null);
 
             ImageView imageview = (ImageView)findViewById(R.id.image);
@@ -74,7 +92,6 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
