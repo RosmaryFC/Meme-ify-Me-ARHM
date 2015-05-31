@@ -49,11 +49,11 @@ public class MainActivity extends ActionBarActivity {
         switch(view.getId()) {
             case R.id.vanilla_memes:
                 if (checked)
-                    // Pirates are the best
+                    // load vanilla_memes layout
                     break;
             case R.id.demotivational_posters:
                 if (checked)
-                    // Ninjas rule
+                    // load demotivational_posters layout
                     break;
         }
     }
