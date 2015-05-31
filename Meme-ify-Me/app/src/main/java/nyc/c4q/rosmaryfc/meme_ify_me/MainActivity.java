@@ -1,16 +1,24 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
 import android.app.Activity;
+
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.content.res.Resources;
+
+import android.content.ContentResolver;
+import android.content.Intent;
+
 import android.graphics.Bitmap;
 import android.media.Image;
 import android.net.Uri;
 import android.os.Environment;
+
 import android.os.Parcelable;
+
+>>>>>>> f1482341f055f1df9c1cfdf6cc96d75fbf5b7cd4
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -24,15 +32,20 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.io.File;
+<<<<<<< HEAD
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 public class MainActivity extends ActionBarActivity {
 
     private static String logtag ="CameraApp8";
     private static int TAKE_PICTURE =1;
+
     static final int REQUEST_IMAGE_CAPTURE = 1;
+
+
     private Uri imageUri;
 
     @Override
@@ -60,10 +73,17 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         super.onActivityResult(requestCode, resultCode, intent);
         try{
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
+        super.onActivityResult(requestCode, resultCode, intent);
+
+
         if(resultCode == Activity.RESULT_OK){
             Uri selectedImage = imageUri;
             getContentResolver().notifyChange(selectedImage, null);
@@ -71,6 +91,7 @@ public class MainActivity extends ActionBarActivity {
             ImageView imageview = (ImageView)findViewById(R.id.image);
             ContentResolver cr = getContentResolver();
             Bitmap bitmap;
+
 
 
                 bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage); //don't store in memor card by default
@@ -81,6 +102,16 @@ public class MainActivity extends ActionBarActivity {
         }
         }catch(Exception e){
             Log.e(logtag, e.toString());
+
+            try{
+                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
+                imageview.setImageBitmap(bitmap);
+                Toast.makeText(MainActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
+
+            }catch(Exception e){
+                Log.e(logtag, e.toString());
+            }
+
         }
     }
 
@@ -126,6 +157,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+
     public void saveMeme(View v){
 //        Intent intent = new Intent(MainActivity.this, MemeHandler.class);
 //        startActivity(intent);
@@ -168,4 +200,6 @@ public class MainActivity extends ActionBarActivity {
     public  void exportMeme(View v){
 
     }
+
+
 }
