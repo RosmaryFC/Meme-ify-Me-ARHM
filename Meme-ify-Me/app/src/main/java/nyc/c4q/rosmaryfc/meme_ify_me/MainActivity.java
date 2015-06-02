@@ -1,5 +1,11 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
+
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.os.Parcelable;
+
 import android.app.Activity;
 
 import android.content.ComponentName;
@@ -18,23 +24,31 @@ import android.os.Environment;
 
 import android.os.Parcelable;
 
->>>>>>> f1482341f055f1df9c1cfdf6cc96d75fbf5b7cd4
+
 import android.provider.MediaStore;
+
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+
+
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.List;
+
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.io.File;
-<<<<<<< HEAD
+
 import java.util.ArrayList;
 import java.util.List;
+
 
 
 
@@ -139,6 +153,43 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+    public void onShareClick(View v){
+               List<Intent> targetShareIntents=new ArrayList<Intent>();
+                Intent shareIntent=new Intent();
+                shareIntent.setAction(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                List<ResolveInfo> resInfos = getPackageManager().queryIntentActivities(shareIntent, 0);
+                boolean intentSafe = resInfos.size() > 0;
+                if(intentSafe){
+
+                                for(ResolveInfo resInfo : resInfos){
+                                String packageName=resInfo.activityInfo.packageName;
+                                Log.i("Package Name", packageName);
+
+                                            Intent intent=new Intent();
+                                    intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
+                                    intent.setAction(Intent.ACTION_SEND);
+                                    intent.setType("image/jpg");
+                                  //reference hoshiko's code
+                                    intent.putExtra(Intent.EXTRA_STREAM, " imageUri "); //need to update this so that we are using variable imageUri not the name (as per hoshiko's code)
+
+                                   // maybe convert imageUri + userinputted text as a Bitmap.     bmp = Bitmap.createBitmap(imageUri);
+
+                                                    intent.putExtra(Intent.EXTRA_SUBJECT, "Made with Meme-ify Me");
+                                    intent.putExtra(Intent.EXTRA_TEXT, "Check out my new meme!");
+
+                                            intent.setPackage(packageName);
+                                    targetShareIntents.add(intent);
+                            }
+                        Intent chooserIntent=Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
+                        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
+                        startActivity(chooserIntent);
+                    } else {
+                        return;
+                    }
+           }
+
+
 
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
@@ -156,6 +207,7 @@ public class MainActivity extends ActionBarActivity {
                     break;
         }
     }
+
 
 
     public void saveMeme(View v){
@@ -200,6 +252,8 @@ public class MainActivity extends ActionBarActivity {
     public  void exportMeme(View v){
 
     }
+
+
 
 
 }
