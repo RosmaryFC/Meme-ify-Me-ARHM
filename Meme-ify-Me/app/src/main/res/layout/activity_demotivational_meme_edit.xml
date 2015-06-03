@@ -18,31 +18,33 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/successkid">
+        android:background="@drawable/demotivationalposterblank">
 
         <TextView
-            android:id="@+id/top_textView"
-            android:layout_weight="1"
+            android:layout_weight="3"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/title_textView"
+            android:layout_weight="12"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="top" />
+            android:textAllCaps="true"
+            android:textColor="#ffff0000"
+            android:textSize="30dp"
+            android:text="Related Word" />
 
         <TextView
-            android:id="@+id/mid_textView"
-            android:layout_weight="1"
+            android:id="@+id/phrase_textView"
+            android:layout_weight="12"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
-            android:text="middle" />
+            android:textColor="#ffff0000"
+            android:text="Redundant Statement" />
 
-        <TextView
-            android:id="@+id/bottom_textView"
-            android:layout_weight="1"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:text="bottom" />
 
     </LinearLayout>
 
@@ -70,14 +72,14 @@
                 android:layout_height="match_parent">
 
                 <EditText
-                    android:id="@+id/top_editText"
+                    android:id="@+id/title_editText"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="top text" />
+                    android:hint="title (Related word) text" />
 
                 <Button
-                    android:id="@+id/top_editText_preview_btn"
+                    android:id="@+id/title_editText_preview_btn"
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -93,38 +95,14 @@
                 android:layout_height="match_parent">
 
                 <EditText
-                    android:id="@+id/mid_editText"
+                    android:id="@+id/phrase_editText"
                     android:layout_weight="1"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:hint="mid text" />
+                    android:hint="phrase (Redundant Statement) text" />
 
                 <Button
-                    android:id="@+id/mid_editText_preview_btn"
-                    android:layout_weight="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Preview" />
-
-            </LinearLayout>
-
-            <!-- bottom edit text and preview button -->
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_weight="1"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <EditText
-                    android:id="@+id/bottom_editText"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:hint="bottom text" />
-
-                <Button
-                    android:id="@+id/bottom_editText_preview_btn"
+                    android:id="@+id/phrase_editText_preview_btn"
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -159,4 +137,5 @@
         </LinearLayout>
 
     </LinearLayout>
+    
 </LinearLayout>
