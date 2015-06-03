@@ -27,6 +27,10 @@
             android:name=".VanillaMemeEdit"
             android:label="@string/title_activity_vanilla_meme_edit" >
         </activity>
+        <activity
+            android:name=".DemotivationalMemeEdit"
+            android:label="@string/title_activity_demotivational_meme_edit" >
+        </activity>
     </application>
 
 </manifest>

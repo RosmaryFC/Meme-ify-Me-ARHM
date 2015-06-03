@@ -1,37 +1,30 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.pm.ResolveInfo;
-import android.os.Parcelable;
-
 import android.app.Activity;
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
-
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 
 
@@ -40,6 +33,12 @@ public class MainActivity extends ActionBarActivity {
     private static String logtag ="CameraApp8";
     private static int TAKE_PICTURE =1;
     private Uri imageUri;
+    private Button editMemeButton;
+    private RadioButton vanillaRadioButton;
+    private RadioButton demotivationalRadBtn;
+    private Intent vanillaMemeIntent;
+    private Intent demotivationalMemeIntent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,15 +48,18 @@ public class MainActivity extends ActionBarActivity {
         Button cameraButton = (Button)findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
 
-        //todo: feel free to edit the editButton and intent part in the event that you want to locate it outside the onCreate
-        final Intent vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
-        Button editButton = (Button)findViewById(R.id.edit_meme);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(vanillaMemeIntent);
-            }
-        });
+        vanillaRadioButton = (RadioButton) findViewById(R.id.vanilla_memes_radBtn);
+        demotivationalRadBtn = (RadioButton) findViewById(R.id.demotivational_posters_radBtn);
+
+        vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
+        demotivationalMemeIntent = new Intent(this, DemotivationalMemeEdit.class);
+
+        editMemeButton = (Button)findViewById(R.id.edit_meme_button);
+        editMemeButton.setOnClickListener(editMemeListener);
+
+
+
+
     }
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {
@@ -75,7 +77,20 @@ public class MainActivity extends ActionBarActivity {
         startActivityForResult(intent, TAKE_PICTURE);
     }
 
-    @Override
+    private View.OnClickListener editMemeListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(vanillaRadioButton.isChecked()){
+                startActivity(vanillaMemeIntent);
+            }else if(demotivationalRadBtn.isChecked()) {
+                startActivity(demotivationalMemeIntent);
+            } else {
+                Toast.makeText(getApplicationContext(),"Select a Meme Type", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
+
+
     protected void onActivityResult(int requestCode, int resultCode, Intent intent){
         super.onActivityResult(requestCode, resultCode, intent);
 
@@ -166,13 +181,15 @@ public class MainActivity extends ActionBarActivity {
 
         // Check which radio button was clicked
         switch(view.getId()) {
-            case R.id.vanilla_memes:
+            case R.id.vanilla_memes_radBtn:
                 if (checked)
                     // load vanilla_memes layout
+                //todo: this is where code will go to change sample image to sample vanilla meme image
                     break;
-            case R.id.demotivational_posters:
+            case R.id.demotivational_posters_radBtn:
                 if (checked)
                     // load demotivational_posters layout
+                    //todo: this is where code will go to change sample image to sample demotivational poster image
                     break;
         }
     }

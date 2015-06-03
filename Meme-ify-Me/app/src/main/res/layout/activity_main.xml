@@ -67,7 +67,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vanilla Memes"
-            android:id="@+id/vanilla_memes"
+            android:id="@+id/vanilla_memes_radBtn"
             android:layout_weight="1"
             android:onClick="onRadioButtonClicked"/>
 
@@ -75,7 +75,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Demotivational Posters"
-            android:id="@+id/demotivational_posters"
+            android:id="@+id/demotivational_posters_radBtn"
             android:layout_weight="1"
             android:onClick="onRadioButtonClicked"
             android:layout_alignTop="@+id/radioGroup"
@@ -87,11 +87,11 @@
 
     <!-- added button to test VanillaMeme activity -->
     <Button
-        android:id="@+id/edit_meme"
+        android:id="@+id/edit_meme_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/radioGroup"
-        android:text="Edit Meme(test)"/>
+        android:text="Edit Meme"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
