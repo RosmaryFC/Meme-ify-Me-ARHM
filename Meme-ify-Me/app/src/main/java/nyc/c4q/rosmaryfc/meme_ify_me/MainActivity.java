@@ -67,8 +67,20 @@ public class MainActivity extends ActionBarActivity {
         Button cameraButton = (Button)findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
 
+
         Button fromGalleryButton = (Button) findViewById(R.id.pic_from_gallery_button);
         fromGalleryButton.setOnClickListener(GalleryListener);
+
+        //todo: feel free to edit the editButton and intent part in the event that you want to locate it outside the onCreate
+        final Intent vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
+        Button editButton = (Button)findViewById(R.id.edit_meme);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(vanillaMemeIntent);
+            }
+        });
+
     }
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {

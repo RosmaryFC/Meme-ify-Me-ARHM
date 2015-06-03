@@ -3,5 +3,8 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="title_activity_meme_handler">MemeHandler</string>
+
+   
+    <string name="title_activity_vanilla_meme_edit">VanillaMemeEdit</string>
+>>>>>>> 4a6796aa4a3f0bdee3cefb76d35bde56b5c54e4a
 </resources>

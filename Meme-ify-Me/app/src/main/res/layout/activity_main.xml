@@ -149,6 +149,16 @@
 
 
 
+
+    <!-- added button to test VanillaMeme activity -->
+    <Button
+        android:id="@+id/edit_meme"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/radioGroup"
+        android:text="Edit Meme)"/>
+
+
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
@@ -158,7 +168,6 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:onClick="onShareClick" />
-
 
 </RelativeLayout>
 
