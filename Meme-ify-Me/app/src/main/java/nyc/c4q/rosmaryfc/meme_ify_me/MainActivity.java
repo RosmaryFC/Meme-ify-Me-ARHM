@@ -10,13 +10,12 @@ import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -49,6 +48,16 @@ public class MainActivity extends ActionBarActivity {
 
         Button cameraButton = (Button)findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
+
+        //todo: feel free to edit the editButton and intent part in the event that you want to locate it outside the onCreate
+        final Intent vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
+        Button editButton = (Button)findViewById(R.id.edit_meme);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(vanillaMemeIntent);
+            }
+        });
     }
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {
