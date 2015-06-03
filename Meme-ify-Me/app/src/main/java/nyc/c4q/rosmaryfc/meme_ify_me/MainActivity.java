@@ -18,8 +18,8 @@ import android.content.ContentResolver;
 import android.content.Intent;
 
 import android.graphics.Bitmap;
-import android.media.Image;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Environment;
 
 import android.os.Parcelable;
@@ -28,7 +28,6 @@ import android.os.Parcelable;
 import android.provider.MediaStore;
 
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,6 +39,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -67,8 +67,18 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button cameraButton = (Button)findViewById(R.id.camera_button);
+        ImageButton cameraButton = (ImageButton)findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
+
+        //todo: feel free to edit the editButton and intent part in the event that you want to locate it outside the onCreate
+        final Intent vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
+        Button editButton = (Button)findViewById(R.id.edit_meme);
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(vanillaMemeIntent);
+            }
+        });
     }
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {
@@ -78,7 +88,7 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-    private void takePhoto (View v){
+    public void takePhoto (View v){
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
         imageUri = Uri.fromFile(photo);
@@ -176,39 +186,7 @@ public class MainActivity extends ActionBarActivity {
 //        startActivity(intent);
     }
 
-    public void onShareClick(View v){
-        List<Intent> targetShareIntents=new ArrayList<Intent>();
-        Intent shareIntent=new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        List<ResolveInfo> resInfos = getPackageManager().queryIntentActivities(shareIntent, 0);
-        boolean intentSafe = resInfos.size() > 0;
-        if(intentSafe){
 
-            for(ResolveInfo resInfo : resInfos){
-                String packageName=resInfo.activityInfo.packageName;
-                Log.i("Package Name", packageName);
-
-                    Intent intent=new Intent();
-                    intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
-                    intent.setAction(Intent.ACTION_SEND);
-                    intent.setType("image/jpg");
-                    intent.putExtra(Intent.EXTRA_STREAM, imageUri); //need to update this so that we are sending the final meme, not the image.
-                   // maybe convert imageUri + userinputted text as a Bitmap.     bmp = Bitmap.createBitmap(imageUri);
-
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "Made with Meme-ify Me");
-                    intent.putExtra(Intent.EXTRA_TEXT, "Check out my new meme!");
-
-                    intent.setPackage(packageName);
-                    targetShareIntents.add(intent);
-            }
-            Intent chooserIntent=Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
-            startActivity(chooserIntent);
-        } else {
-            return;
-        }
-    }
 
     public  void exportMeme(View v){
 
