@@ -59,7 +59,7 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:text="Choose a picture from gallery"
-        android:id="@+id/pic_from_gallery"
+        android:id="@+id/pic_from_gallery_button"
         android:layout_below="@+id/camera_button"
         android:layout_alignLeft="@id/camera_button" />
     </LinearLayout>
@@ -68,6 +68,7 @@
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
 
 
 
@@ -98,10 +99,21 @@
             android:layout_alignLeft="@id/camera_button" />
     </LinearLayout>
 
+        android:id="@+id/editText"
+        android:layout_below="@+id/pic_from_gallery_button"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:text="Choose Meme Type"/>
+
+
 
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
+
+
+        android:layout_below="@+id/pic_from_gallery_button"
 
         android:layout_marginTop="50dp"
         android:layout_alignParentLeft="true"
@@ -161,9 +173,9 @@
 
 
 
-=======
->>>>>>> e19546af76b8814ec9f384b62b7aab8b66299d31
 
->>>>>>> f1482341f055f1df9c1cfdf6cc96d75fbf5b7cd4
+
+
+
 
 </RelativeLayout>
