@@ -27,6 +27,7 @@
         android:id="@+id/image"/>
 
     <LinearLayout
+        android:id="@+id/layout_containing_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/image">
@@ -90,7 +91,7 @@
         android:id="@+id/edit_meme_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/radioGroup"
+        android:layout_below="@+id/layout_containing_buttons"
         android:text="Edit Meme"/>
 
     <Button
