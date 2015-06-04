@@ -51,7 +51,6 @@ public class MainActivity extends ActionBarActivity {
         Button cameraButton = (Button)findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
 
-
         vanillaRadioButton = (RadioButton) findViewById(R.id.vanilla_memes_radBtn);
         demotivationalRadBtn = (RadioButton) findViewById(R.id.demotivational_posters_radBtn);
 
