@@ -61,7 +61,7 @@ public class MainActivity extends ActionBarActivity {
         editMemeButton = (Button)findViewById(R.id.edit_meme_button);
         editMemeButton.setOnClickListener(editMemeListener);
 
-        Button fromGalleryButton = (Button) findViewById(R.id.pic_from_gallery_button);
+        ImageButton fromGalleryButton = (ImageButton) findViewById(R.id.pic_from_gallery_button);
         fromGalleryButton.setOnClickListener(GalleryListener);
 
     }
@@ -85,7 +85,7 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-    private void pickPhoto(View v){
+    public void pickPhoto(View v){
     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         if (intent.resolveActivity(getPackageManager()) != null) {
@@ -93,7 +93,7 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
-    private void takePhoto (View v){
+    public void takePhoto (View v){
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
         imageUri = Uri.fromFile(photo);

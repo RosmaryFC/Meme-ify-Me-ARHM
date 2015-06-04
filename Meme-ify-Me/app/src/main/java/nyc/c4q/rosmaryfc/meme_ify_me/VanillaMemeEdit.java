@@ -15,18 +15,20 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
+
+
+
+
+
 public class VanillaMemeEdit extends ActionBarActivity {
     private Uri imageUri;
-import android.widget.EditText;
-import android.widget.TextView;
-
-
-public class VanillaMemeEdit extends ActionBarActivity {
     private TextView topTextView;
     private TextView midTextView;
     private TextView btmTextView;
@@ -41,7 +43,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
 
         //Drawable myIcon = getResources().getDrawable( R.drawable.);
 
-     }
+
         Button topEditTxtPreviewBtn = (Button) findViewById(R.id.top_editText_preview_btn);
         topEditTxtPreviewBtn.setOnClickListener(topPreviewBtnListener);
 

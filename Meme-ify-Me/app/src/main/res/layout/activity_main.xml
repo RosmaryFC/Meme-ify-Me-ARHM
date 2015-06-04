@@ -86,7 +86,7 @@
             android:orientation="horizontal"
             android:paddingRight="30dp"
             android:clickable="true"
-            android:onClick="takePhoto"
+
             android:id="@+id/mediaButtons">
 
             <ImageButton
@@ -95,6 +95,7 @@
                 android:src="@android:drawable/ic_menu_camera"
                 android:id="@+id/camera_button"
                 android:background="@null"
+                android:onClick="takePhoto"
                 android:layout_below="@id/image"
                 />
 
@@ -102,6 +103,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:text="Take a picture"
+                android:onClick="takePhoto"
                 android:textSize="20dp"/>
         </LinearLayout>
 
@@ -114,15 +116,18 @@
         <ImageButton
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:src="@android:drawable/ic_menu_gallery"
-        android:id="@+id/pic_from_gallery"
-        android:background="@null"/>
+        android:id="@+id/pic_from_gallery_button"
+        android:background="@null"
+            android:onClick="pickPhoto" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Gallery"
-            android:textSize="20dp"/>
+            android:textSize="20dp"
+            android:onClick="pickPhoto" />
     />
     </LinearLayout>
         <!--<ListView-->
@@ -169,19 +174,14 @@
 
     <!-- added button to test VanillaMeme activity -->
 
-    <Button
-        android:id="@+id/edit_meme_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_containing_buttons"
-        android:text="Edit Meme"/>
+
 
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="-->"
-        android:id="@+id/edit_meme"
+        android:id="@+id/edit_meme_button"
         android:layout_alignParentBottom="true"
        android:layout_centerHorizontal="true"
 
