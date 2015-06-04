@@ -53,14 +53,12 @@ import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
-
     private static String logtag ="CameraApp8";
     private static int TAKE_PICTURE =1;
-
     static final int REQUEST_IMAGE_CAPTURE = 1;
-
-
+    static final int REQUEST_IMAGE_GET = 1;
     private Uri imageUri;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +67,10 @@ public class MainActivity extends ActionBarActivity {
 
         ImageButton cameraButton = (ImageButton)findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
+
+
+        Button fromGalleryButton = (Button) findViewById(R.id.pic_from_gallery_button);
+        fromGalleryButton.setOnClickListener(GalleryListener);
 
         //todo: feel free to edit the editButton and intent part in the event that you want to locate it outside the onCreate
         final Intent vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
@@ -79,6 +81,7 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(vanillaMemeIntent);
             }
         });
+
     }
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {
@@ -88,7 +91,27 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-    public void takePhoto (View v){
+
+
+
+     private  View.OnClickListener GalleryListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                pickPhoto(v);
+            }
+        };
+
+
+
+    private void pickPhoto(View v){
+    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, REQUEST_IMAGE_GET);
+        }
+    }
+
+    private void takePhoto (View v){
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
         imageUri = Uri.fromFile(photo);
@@ -100,40 +123,34 @@ public class MainActivity extends ActionBarActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent intent){
-        super.onActivityResult(requestCode, resultCode, intent);
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK){
+
+            try {
+
+                Uri selectedImage = imageUri;
+
+                getContentResolver().notifyChange(selectedImage, null);
+
+                ImageView imageview = (ImageView) findViewById(R.id.image);
+                ContentResolver cr = getContentResolver();
+                Bitmap bitmap;
 
 
-        if(resultCode == Activity.RESULT_OK){
-            Uri selectedImage = imageUri;
-            getContentResolver().notifyChange(selectedImage, null);
-
-            ImageView imageview = (ImageView)findViewById(R.id.image);
-            ContentResolver cr = getContentResolver();
-            Bitmap bitmap;
-
-
-
-                //bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage); //don't store in memor card by default
-                //imageview.setImageBitmap(bitmap);
-                Toast.makeText(MainActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
-
-
-
-
-
-            try{
-                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
+                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage); //don't store in memor card by default
                 imageview.setImageBitmap(bitmap);
                 Toast.makeText(MainActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
-
-            }catch(Exception e){
-                Log.e(logtag, e.toString());
             }
+
+
+
+        catch(Exception e) {
+            Log.e(logtag, e.toString());
+        }
 
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
