@@ -104,7 +104,8 @@
                 android:layout_height="match_parent"
                 android:text="Take a picture"
                 android:onClick="takePhoto"
-                android:textSize="20dp"/>
+                android:textSize="20dp"
+                android:clickable="true" />
         </LinearLayout>
 
 
@@ -128,7 +129,8 @@
             android:layout_height="wrap_content"
             android:text="Gallery"
             android:textSize="20dp"
-            android:onClick="pickPhoto" />
+            android:onClick="pickPhoto"
+            android:clickable="true" />
     />
     </LinearLayout>
         <!--<ListView-->
@@ -175,12 +177,6 @@
     </RadioGroup>
 
     <!-- added button to test VanillaMeme activity -->
-    <Button
-        android:id="@+id/edit_meme_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/layout_containing_buttons"
-        android:text="Edit Meme"/>
 
 
 

@@ -128,135 +128,119 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
+//
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+//        super.onActivityResult(requestCode, resultCode, data);
+//        if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
+//
+//            try {
+//
+//                Uri selectedImage = imageUri;
+//
+//
+//                getContentResolver().notifyChange(selectedImage, null);
+//
+//                ImageView imageview = (ImageView) findViewById(R.id.image);
+//                ContentResolver cr = getContentResolver();
+//                Bitmap bitmap;
+//
+//
+//                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage); //don't store in memor card by default
+//                imageview.setImageBitmap(bitmap);
+//                Toast.makeText(MainActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
+//            }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK){
 
-            try {
-
-                Uri selectedImage = imageUri;
-
-
-                getContentResolver().notifyChange(selectedImage, null);
-
-                ImageView imageview = (ImageView) findViewById(R.id.image);
-                ContentResolver cr = getContentResolver();
-                Bitmap bitmap;
-
-
-                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage); //don't store in memor card by default
-                imageview.setImageBitmap(bitmap);
-                Toast.makeText(MainActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
-            }
-
-
-    //method for gathering intent information from takePhoto and pickPhoto methods
-    // and setting the imageview with correct bitmap
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        if(resultCode == RESULT_OK ){
-                if (requestCode == PICK_PICTURE){
-                    selectedImagePath = String.valueOf(data.getData());
-                    imageview.setImageBitmap(decodePhoto(selectedImagePath));
-                } else if (requestCode == TAKE_PICTURE){
-                    selectedImagePath = imageUri.toString();
-                    imageview.setImageBitmap(decodePhoto(selectedImagePath));
-                } else {
-                    super.onActivityResult(requestCode, resultCode, data);
+            //method for gathering intent information from takePhoto and pickPhoto methods
+            // and setting the imageview with correct bitmap
+            @Override
+            protected void onActivityResult ( int requestCode, int resultCode, Intent data){
+                if (resultCode == RESULT_OK) {
+                    if (requestCode == PICK_PICTURE) {
+                        selectedImagePath = String.valueOf(data.getData());
+                        imageview.setImageBitmap(decodePhoto(selectedImagePath));
+                    } else if (requestCode == TAKE_PICTURE) {
+                        selectedImagePath = imageUri.toString();
+                        imageview.setImageBitmap(decodePhoto(selectedImagePath));
+                    } else {
+                        super.onActivityResult(requestCode, resultCode, data);
+                    }
                 }
-        }
-    }
-
-    //requesting image's file path and converting into url and calling the
-    // ContentResolver to retrieve image and set it inside a bitmap
-    public Bitmap decodePhoto (String path) {
-        Uri selectedImageUri = Uri.parse(selectedImagePath);
-        getContentResolver().notifyChange(selectedImageUri, null);
-        ContentResolver cr = getContentResolver();
-        Bitmap bitmap = null;
-        try {
-            bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImageUri);
-            //show image file path to user
-            Toast.makeText(MainActivity.this, selectedImageUri.toString(), Toast.LENGTH_LONG).show();
-
-        } catch (Exception e) {
-            Log.e(logtag, e.toString());
-        }
-        return bitmap;
-    }
-
-    private View.OnClickListener editMemeListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            if(vanillaRadioButton.isChecked()){
-                startActivity(vanillaMemeIntent);
-            }else if(demotivationalRadBtn.isChecked()) {
-                startActivity(demotivationalMemeIntent);
-            } else {
-                Toast.makeText(getApplicationContext(),"Select a Meme Type", Toast.LENGTH_SHORT).show();
             }
+
+            //requesting image's file path and converting into url and calling the
+            // ContentResolver to retrieve image and set it inside a bitmap
+        public Bitmap decodePhoto (String path){
+            Uri selectedImageUri = Uri.parse(selectedImagePath);
+            getContentResolver().notifyChange(selectedImageUri, null);
+            ContentResolver cr = getContentResolver();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImageUri);
+                //show image file path to user
+                Toast.makeText(MainActivity.this, selectedImageUri.toString(), Toast.LENGTH_LONG).show();
+
+            } catch (Exception e) {
+                Log.e(logtag, e.toString());
+            }
+            return bitmap;
         }
-    };
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        @Override
+        public boolean onCreateOptionsMenu (Menu menu){
+            // Inflate the menu; this adds items to the action bar if it is present.
+            getMenuInflater().inflate(R.menu.menu_main, menu);
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
-    }
+        @Override
+        public boolean onOptionsItemSelected (MenuItem item){
+            // Handle action bar item clicks here. The action bar will
+            // automatically handle clicks on the Home/Up button, so long
+            // as you specify a parent activity in AndroidManifest.xml.
+            int id = item.getItemId();
 
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_settings) {
+                return true;
+            }
 
-
-
-
-
-    public void onRadioButtonClicked(View view) {
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-
-        // Check which radio button was clicked
-        switch(view.getId()) {
-            case R.id.vanilla_memes_radBtn:
-                if (checked)
-                    // load vanilla_memes layout
-                //todo: this is where code will go to change sample image to sample vanilla meme image
-                    break;
-            case R.id.demotivational_posters_radBtn:
-                if (checked)
-                    // load demotivational_posters layout
-                    //todo: this is where code will go to change sample image to sample demotivational poster image
-                    break;
+            return super.onOptionsItemSelected(item);
         }
-    }
 
 
-    public void saveMeme(View v){
+        public void onRadioButtonClicked (View view){
+            // Is the button now checked?
+            boolean checked = ((RadioButton) view).isChecked();
+
+            // Check which radio button was clicked
+            switch (view.getId()) {
+                case R.id.vanilla_memes_radBtn:
+                    if (checked)
+                        // load vanilla_memes layout
+                        //todo: this is where code will go to change sample image to sample vanilla meme image
+                        break;
+                case R.id.demotivational_posters_radBtn:
+                    if (checked)
+                        // load demotivational_posters layout
+                        //todo: this is where code will go to change sample image to sample demotivational poster image
+                        break;
+            }
+        }
+
+
+        public void saveMeme (View v){
 //        Intent intent = new Intent(MainActivity.this, MemeHandler.class);
 //        startActivity(intent);
-    }
+        }
 
 
+        public void exportMeme (View v){
 
-    public  void exportMeme(View v){
-
-    }
+        }
 
 
-}
+        }

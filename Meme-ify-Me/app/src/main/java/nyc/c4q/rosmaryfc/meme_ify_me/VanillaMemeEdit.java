@@ -20,7 +20,6 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 
-public class VanillaMemeEdit extends ActionBarActivity {
 
 import java.util.ArrayList;
 import java.util.List;
