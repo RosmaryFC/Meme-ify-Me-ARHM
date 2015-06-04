@@ -2,35 +2,15 @@ package nyc.c4q.rosmaryfc.meme_ify_me;
 
 
 import android.app.Activity;
-
-
-
-
-
-
-
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.content.res.Resources;
-
-import android.content.ContentResolver;
-import android.content.Intent;
-
-
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-
-
-
-
 import android.os.Parcelable;
-
-
-
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -43,9 +23,6 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -84,23 +61,8 @@ public class MainActivity extends ActionBarActivity {
         editMemeButton = (Button)findViewById(R.id.edit_meme_button);
         editMemeButton.setOnClickListener(editMemeListener);
 
-
-
-
-
         Button fromGalleryButton = (Button) findViewById(R.id.pic_from_gallery_button);
         fromGalleryButton.setOnClickListener(GalleryListener);
-
-
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -147,12 +109,6 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     };
-
-
-
-
-
-
 
 
     @Override
@@ -208,10 +164,6 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
-
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
@@ -230,7 +182,6 @@ public class MainActivity extends ActionBarActivity {
                     break;
         }
     }
-
 
 
     public void saveMeme(View v){
@@ -275,8 +226,6 @@ public class MainActivity extends ActionBarActivity {
     public  void exportMeme(View v){
 
     }
-
-
 
 
 }
