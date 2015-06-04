@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -25,8 +26,8 @@ import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
-    private static String logtag ="CameraApp8";
-    private static int TAKE_PICTURE =1;
+    private static String logtag = "CameraApp8";
+    private static int TAKE_PICTURE = 1;
     private static final int PICK_PICTURE = 2;
     private Uri imageUri;
     ImageView imageview;
@@ -43,11 +44,11 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
-        imageview = (ImageView)findViewById(R.id.image);
-        Button cameraButton = (Button)findViewById(R.id.camera_button);
+        imageview = (ImageView) findViewById(R.id.image);
+        ImageButton cameraButton = (ImageButton) findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
-        Button fromGalleryButton = (Button) findViewById(R.id.pic_from_gallery_button);
-        fromGalleryButton.setOnClickListener(galleryListener);
+        ImageButton fromGalleryButton = (ImageButton) findViewById(R.id.pic_from_gallery_button);
+        fromGalleryButton.setOnClickListener(GalleryListener);
 
 
         vanillaRadioButton = (RadioButton) findViewById(R.id.vanilla_memes_radBtn);
@@ -56,7 +57,7 @@ public class MainActivity extends ActionBarActivity {
         vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
         demotivationalMemeIntent = new Intent(this, DemotivationalMemeEdit.class);
 
-        editMemeButton = (Button)findViewById(R.id.edit_meme_button);
+        editMemeButton = (Button) findViewById(R.id.edit_meme_button);
         editMemeButton.setOnClickListener(editMemeListener);
 
     }
@@ -68,6 +69,22 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
+
+    private View.OnClickListener GalleryListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            pickPhoto(v);
+        }
+    };
+
+
+    //method for requesting image from gallery/camera roll
+    public void pickPhoto(View v) {
+    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+    intent.setType("image/*");
+    startActivityForResult(intent, PICK_PICTURE);
+
+}
     private View.OnClickListener galleryListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -75,15 +92,9 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-    //method for requesting image from gallery/camera roll
-    private void pickPhoto(View v){
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-        intent.setType("image/*");
-        startActivityForResult(intent, PICK_PICTURE);
 
-    }
     //method for requesting camera to capture image and save it under a new file
-    private void takePhoto (View v){
+    public void takePhoto (View v){
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
         imageUri = Uri.fromFile(photo);
@@ -161,6 +172,11 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
+
+
+
+
+
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
@@ -186,39 +202,7 @@ public class MainActivity extends ActionBarActivity {
 //        startActivity(intent);
     }
 
-    public void onShareClick(View v){
-        List<Intent> targetShareIntents=new ArrayList<Intent>();
-        Intent shareIntent=new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        List<ResolveInfo> resInfos = getPackageManager().queryIntentActivities(shareIntent, 0);
-        boolean intentSafe = resInfos.size() > 0;
-        if(intentSafe){
 
-            for(ResolveInfo resInfo : resInfos){
-                String packageName=resInfo.activityInfo.packageName;
-                Log.i("Package Name", packageName);
-
-                    Intent intent=new Intent();
-                    intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
-                    intent.setAction(Intent.ACTION_SEND);
-                    intent.setType("image/jpg");
-                    intent.putExtra(Intent.EXTRA_STREAM, imageUri); //need to update this so that we are sending the final meme, not the image.
-                   // maybe convert imageUri + userinputted text as a Bitmap.     bmp = Bitmap.createBitmap(imageUri);
-
-                    intent.putExtra(Intent.EXTRA_SUBJECT, "Made with Meme-ify Me");
-                    intent.putExtra(Intent.EXTRA_TEXT, "Check out my new meme!");
-
-                    intent.setPackage(packageName);
-                    targetShareIntents.add(intent);
-            }
-            Intent chooserIntent=Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
-            startActivity(chooserIntent);
-        } else {
-            return;
-        }
-    }
 
     public  void exportMeme(View v){
 

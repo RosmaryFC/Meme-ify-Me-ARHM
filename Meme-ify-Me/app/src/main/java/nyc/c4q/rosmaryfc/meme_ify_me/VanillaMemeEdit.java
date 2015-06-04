@@ -1,5 +1,14 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
+import android.content.ComponentName;
+import android.content.Intent;
+import android.content.pm.ResolveInfo;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
+import android.os.Parcelable;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
+import android.util.Log;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -9,8 +18,17 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+import java.util.List;
+
+
+
+
+
+
 
 public class VanillaMemeEdit extends ActionBarActivity {
+    private Uri imageUri;
     private TextView topTextView;
     private TextView midTextView;
     private TextView btmTextView;
@@ -22,6 +40,9 @@ public class VanillaMemeEdit extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vanilla_meme_edit);
+
+        //Drawable myIcon = getResources().getDrawable( R.drawable.);
+
 
         Button topEditTxtPreviewBtn = (Button) findViewById(R.id.top_editText_preview_btn);
         topEditTxtPreviewBtn.setOnClickListener(topPreviewBtnListener);
@@ -68,6 +89,40 @@ public class VanillaMemeEdit extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_vanilla_meme_edit, menu);
         return true;
+    }
+
+    public void onShareClick(View v){
+        List<Intent> targetShareIntents=new ArrayList<Intent>();
+        Intent shareIntent=new Intent();
+        shareIntent.setAction(Intent.ACTION_SEND);
+        shareIntent.setType("text/plain");
+        List<ResolveInfo> resInfos = getPackageManager().queryIntentActivities(shareIntent, 0);
+        boolean intentSafe = resInfos.size() > 0;
+        if(intentSafe){
+
+            for(ResolveInfo resInfo : resInfos){
+                String packageName=resInfo.activityInfo.packageName;
+                Log.i("Package Name", packageName);
+
+                Intent intent=new Intent();
+                intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
+                intent.setAction(Intent.ACTION_SEND);
+                intent.setType("image/jpg");
+                intent.putExtra(Intent.EXTRA_STREAM, imageUri); //need to update this so that we are sending the final meme, not the image.
+                // maybe convert imageUri + userinputted text as a Bitmap.     bmp = Bitmap.createBitmap(imageUri);
+
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Made with Meme-ify Me");
+                intent.putExtra(Intent.EXTRA_TEXT, "Check out my new meme!");
+
+                intent.setPackage(packageName);
+                targetShareIntents.add(intent);
+            }
+            Intent chooserIntent=Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
+            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
+            startActivity(chooserIntent);
+        } else {
+            return;
+        }
     }
 
     @Override

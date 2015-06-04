@@ -149,12 +149,14 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="share" />
+                android:text="share"
+                android:onClick="onShareClick" />
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="save" />
+                android:text="save"
+                android:id="@+id/shareButton"/>
 
             <Button
                 android:layout_width="wrap_content"
