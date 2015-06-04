@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nyc.c4q.rosmaryfc.meme_ify_me" >
 
+
     <!-- Permissions for camera app -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -21,16 +22,24 @@
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.OPENABLE" />
             </intent-filter>
         </activity>
+
+
+
         <activity
             android:name=".VanillaMemeEdit"
             android:label="@string/title_activity_vanilla_meme_edit" >
         </activity>
+
         <activity
             android:name=".DemotivationalMemeEdit"
             android:label="@string/title_activity_demotivational_meme_edit" >
         </activity>
+
+
+
     </application>
 
 </manifest>

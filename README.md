@@ -26,8 +26,6 @@ Number of hours:
 
 
 Issue Log
-- Discuss display of how user will be prompted to add text
-- Camera save function works on Hoshiko's phone, test on older android versions
-- Discuss meme-switch logic. fragments w live preview vs activities/intents using a "meme-me button"
+- test on older android versions
 - save state throughout activity lifecycle (esp. for orientation switch)
 
