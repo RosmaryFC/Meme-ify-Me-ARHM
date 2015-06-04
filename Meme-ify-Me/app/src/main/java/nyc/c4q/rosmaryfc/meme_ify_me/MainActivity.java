@@ -1,6 +1,5 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
-import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -25,19 +24,21 @@ public class MainActivity extends ActionBarActivity {
 
     private static String logtag ="CameraApp8";
     private static int TAKE_PICTURE =1;
-    static final int REQUEST_IMAGE_GET = 1;
+    private static final int PICK_PICTURE = 2;
     private Uri imageUri;
+    ImageView imageview;
+    private String selectedImagePath;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        imageview = (ImageView)findViewById(R.id.image);
         Button cameraButton = (Button)findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
-
         Button fromGalleryButton = (Button) findViewById(R.id.pic_from_gallery_button);
-        fromGalleryButton.setOnClickListener(GalleryListener);
+        fromGalleryButton.setOnClickListener(galleryListener);
     }
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {
@@ -47,7 +48,7 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-    private View.OnClickListener GalleryListener = new View.OnClickListener() {
+    private View.OnClickListener galleryListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             pickPhoto(v);
@@ -55,11 +56,10 @@ public class MainActivity extends ActionBarActivity {
     };
 
     private void pickPhoto(View v){
-    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
-        if (intent.resolveActivity(getPackageManager()) != null) {
-            startActivityForResult(intent, REQUEST_IMAGE_GET);
-        }
+        startActivityForResult(intent, PICK_PICTURE);
+
     }
 
     private void takePhoto (View v){
@@ -70,28 +70,39 @@ public class MainActivity extends ActionBarActivity {
         startActivityForResult(intent, TAKE_PICTURE);
     }
 
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK){
-            Uri selectedImage = imageUri;
-          
-            getContentResolver().notifyChange(selectedImage, null);
+        if(resultCode == RESULT_OK ){
+                if (requestCode == PICK_PICTURE){
+                    selectedImagePath = String.valueOf(data.getData());
+                    imageview.setImageBitmap(decodePhoto(selectedImagePath));
+                } else if (requestCode == TAKE_PICTURE){
+                    selectedImagePath = imageUri.toString();
+                    imageview.setImageBitmap(decodePhoto(selectedImagePath));
+                } else {
+                    super.onActivityResult(requestCode, resultCode, data);
+                }
+        }
+    }
 
-            ImageView imageview = (ImageView)findViewById(R.id.image);
-            ContentResolver cr = getContentResolver();
-            Bitmap bitmap;
-
-            try{
-                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
-                imageview.setImageBitmap(bitmap);
-                Toast.makeText(MainActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
+    public Bitmap decodePhoto (String path){
+        Uri selectedImageUri=Uri.parse(selectedImagePath);
+        getContentResolver().notifyChange(selectedImageUri, null);
+        ContentResolver cr = getContentResolver();
+        Bitmap bitmap=null;
+        try{
+                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImageUri);
+               //imageview.setImageBitmap(bitmap);
+                Toast.makeText(MainActivity.this, selectedImageUri.toString(), Toast.LENGTH_LONG).show();
 
             }catch(Exception e){
                 Log.e(logtag, e.toString());
             }
-        }
+      return bitmap;
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
