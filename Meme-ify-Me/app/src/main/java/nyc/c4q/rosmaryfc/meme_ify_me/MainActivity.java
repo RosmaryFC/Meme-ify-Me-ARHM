@@ -1,50 +1,28 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
 
-import android.content.ComponentName;
-import android.content.Intent;
-import android.content.pm.ResolveInfo;
-import android.os.Parcelable;
-
 import android.app.Activity;
-
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.content.res.Resources;
-
-import android.content.ContentResolver;
-import android.content.Intent;
-
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-
 import android.os.Parcelable;
-
-
 import android.provider.MediaStore;
-
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-
-
-import java.net.URI;
-import java.util.ArrayList;
-import java.util.List;
-
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.io.File;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,6 +35,12 @@ public class MainActivity extends ActionBarActivity {
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int REQUEST_IMAGE_GET = 1;
     private Uri imageUri;
+    private Button editMemeButton;
+    private RadioButton vanillaRadioButton;
+    private RadioButton demotivationalRadBtn;
+    private Intent vanillaMemeIntent;
+    private Intent demotivationalMemeIntent;
+
 
 
     @Override
@@ -67,19 +51,17 @@ public class MainActivity extends ActionBarActivity {
         Button cameraButton = (Button)findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
 
+        vanillaRadioButton = (RadioButton) findViewById(R.id.vanilla_memes_radBtn);
+        demotivationalRadBtn = (RadioButton) findViewById(R.id.demotivational_posters_radBtn);
+
+        vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
+        demotivationalMemeIntent = new Intent(this, DemotivationalMemeEdit.class);
+
+        editMemeButton = (Button)findViewById(R.id.edit_meme_button);
+        editMemeButton.setOnClickListener(editMemeListener);
 
         Button fromGalleryButton = (Button) findViewById(R.id.pic_from_gallery_button);
         fromGalleryButton.setOnClickListener(GalleryListener);
-
-        //todo: feel free to edit the editButton and intent part in the event that you want to locate it outside the onCreate
-        final Intent vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
-        Button editButton = (Button)findViewById(R.id.edit_meme);
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(vanillaMemeIntent);
-            }
-        });
 
     }
 
@@ -114,6 +96,18 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+    private View.OnClickListener editMemeListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            if(vanillaRadioButton.isChecked()){
+                startActivity(vanillaMemeIntent);
+            }else if(demotivationalRadBtn.isChecked()) {
+                startActivity(demotivationalMemeIntent);
+            } else {
+                Toast.makeText(getApplicationContext(),"Select a Meme Type", Toast.LENGTH_SHORT).show();
+            }
+        }
+    };
 
 
     @Override
@@ -124,6 +118,7 @@ public class MainActivity extends ActionBarActivity {
             try {
 
                 Uri selectedImage = imageUri;
+
 
                 getContentResolver().notifyChange(selectedImage, null);
 
@@ -168,27 +163,24 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-
-
-
-
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
 
         // Check which radio button was clicked
         switch(view.getId()) {
-            case R.id.vanilla_memes:
+            case R.id.vanilla_memes_radBtn:
                 if (checked)
                     // load vanilla_memes layout
+                //todo: this is where code will go to change sample image to sample vanilla meme image
                     break;
-            case R.id.demotivational_posters:
+            case R.id.demotivational_posters_radBtn:
                 if (checked)
                     // load demotivational_posters layout
+                    //todo: this is where code will go to change sample image to sample demotivational poster image
                     break;
         }
     }
-
 
 
     public void saveMeme(View v){
@@ -233,8 +225,6 @@ public class MainActivity extends ActionBarActivity {
     public  void exportMeme(View v){
 
     }
-
-
 
 
 }

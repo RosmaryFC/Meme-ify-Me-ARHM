@@ -1,18 +1,66 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 
 public class VanillaMemeEdit extends ActionBarActivity {
+    private TextView topTextView;
+    private TextView midTextView;
+    private TextView btmTextView;
+    private EditText topEditText;
+    private EditText midEditText;
+    private EditText btmEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vanilla_meme_edit);
+
+        Button topEditTxtPreviewBtn = (Button) findViewById(R.id.top_editText_preview_btn);
+        topEditTxtPreviewBtn.setOnClickListener(topPreviewBtnListener);
+
+        Button midEditTxtPreviewBtn = (Button) findViewById(R.id.mid_editText_preview_btn);
+        midEditTxtPreviewBtn.setOnClickListener(midPreviewBtnListener);
+
+        Button btmEditTxtPreviewBtn = (Button) findViewById(R.id.btm_editText_preview_btn);
+        btmEditTxtPreviewBtn.setOnClickListener(btmPreviewBtnListener);
+
     }
+
+    private View.OnClickListener topPreviewBtnListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            topEditText = (EditText) findViewById(R.id.top_editText);
+            topTextView = (TextView) findViewById(R.id.top_textView);
+            topTextView.setText(topEditText.getText().toString());
+        }
+    };
+
+    private View.OnClickListener midPreviewBtnListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            midEditText = (EditText) findViewById(R.id.mid_editText);
+            midTextView = (TextView) findViewById(R.id.mid_textView);
+            midTextView.setText(midEditText.getText().toString());
+        }
+    };
+
+    private View.OnClickListener btmPreviewBtnListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            btmEditText = (EditText) findViewById(R.id.btm_editText);
+            btmTextView = (TextView) findViewById(R.id.btm_textView);
+            btmTextView.setText(btmEditText.getText().toString());
+        }
+    };
+
 
 
     @Override
