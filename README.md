@@ -2,30 +2,31 @@ Include your team name, how many hours you believe each of
 you worked on this over the course of the week, who was responsible for what features, 
 and general project navigation.
 
-Team Name: ARHM
+#Team Name: ARHM
 
-Project Navigation:
+##Team Members:
 
+* Abass Bayo:  
+  -Responsible for: UI + Saving meme, sharing, and exporting  
+  -Number of hours: 
 
+* Rosemary Fermin:  
+  -Responsible for: UI + customizing dynamic elements of meme   
+  -Number of hours: 
 
-Abass Bayo:
-Responsible for: UI + Saving meme, sharing, and exporting
-Number of hours: 
+* Hoshiko Oki:  
+  -Responsible for: UI + capturing image and implementing avery(if time permits)   
+  -Number of hours: 
 
-Rosemary Fermin:
-Responsible for: UI + customizing dynamic elements of meme
-Number of hours: 
+* Marbella Vidals:    
+  -Responsible for: UI + implementing gallery/camera roll button and debugging camera and gallery functionality, styling   
+  -Number of hours: 
 
-Hoshiko Oki:
-Responsible for: UI` + capturing image 
-Number of hours: 
+##Project Navigation: 
 
-Marbella Vidals
-Responsible for: UI + implementing camera features
-Number of hours: 
-
-
-Issue Log
+###Issue Log
 - test on older android versions
 - save state throughout activity lifecycle (esp. for orientation switch)
+- create a drawable shape to add to imageview in demotivional meme template for better scaling
+- review on styling layouts 
 
