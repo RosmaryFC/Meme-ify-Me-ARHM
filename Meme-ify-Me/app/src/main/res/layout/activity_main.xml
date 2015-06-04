@@ -13,35 +13,20 @@
         android:width="100pt"
         android:textSize="10pt"
         android:id="@+id/editText"
-
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:text="Choose Meme Type"/>
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:width="100pt"
-        android:textSize="10pt"
-        android:id="@+id/editText"
-
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="Choose Meme Type"/>
-
-
 
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="250dp"
         android:src="@drawable/successkid"
         android:layout_gravity="center"
-
-
         android:layout_below="@+id/radioGroup"
         android:id="@+id/image"/>
 
     <LinearLayout
+        android:id="@+id/layout_containing_buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/image">
@@ -63,18 +48,6 @@
         android:layout_below="@+id/camera_button"
         android:layout_alignLeft="@id/camera_button" />
     </LinearLayout>
-
-
-    <RadioGroup
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-
-
-
-        android:layout_below="@+id/radioGroup"
-
-        android:id="@+id/image"/>
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -99,22 +72,10 @@
             android:layout_alignLeft="@id/camera_button" />
     </LinearLayout>
 
-        android:id="@+id/editText"
-        android:layout_below="@+id/pic_from_gallery_button"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:text="Choose Meme Type"/>
-
-
-
     <RadioGroup
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-
-
-
         android:layout_below="@+id/pic_from_gallery_button"
-
         android:layout_marginTop="50dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -128,7 +89,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Vanilla Memes"
-            android:id="@+id/vanilla_memes"
+            android:id="@+id/vanilla_memes_radBtn"
             android:layout_weight="1"
             android:onClick="onRadioButtonClicked"/>
 
@@ -136,7 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Demotivational Posters"
-            android:id="@+id/demotivational_posters"
+            android:id="@+id/demotivational_posters_radBtn"
             android:layout_weight="1"
             android:onClick="onRadioButtonClicked"
             android:layout_alignTop="@+id/radioGroup"
@@ -145,19 +106,13 @@
 
     </RadioGroup>
 
-
-
-
-
-
     <!-- added button to test VanillaMeme activity -->
     <Button
-        android:id="@+id/edit_meme"
+        android:id="@+id/edit_meme_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/radioGroup"
-        android:text="Edit Meme)"/>
-
+        android:layout_below="@+id/layout_containing_buttons"
+        android:text="Edit Meme"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -171,20 +126,3 @@
 
 </RelativeLayout>
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-</RelativeLayout>
