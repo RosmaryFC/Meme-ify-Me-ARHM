@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.io.File;
@@ -159,11 +160,13 @@ public class VanillaMemeEdit extends ActionBarActivity {
         layout.destroyDrawingCache();
         return meme;
     }
-    public void saveMeme (View v) {
+    public void saveVanillaMeme (View v) {
         Bitmap returnedBitmap = drawMeme(v);
 
         try {
             returnedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream("memeFile.jpg"));
+            File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+
 
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
@@ -175,7 +178,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
         imageUri = Uri.fromFile(photo);
 
         File f = new File("memeFile");
-
+        Toast.makeText(getApplicationContext(), "File saved to: " + imageUri.toString(), Toast.LENGTH_LONG).show();
 
 
         MediaStore.Images.Media.insertImage(getContentResolver(), returnedBitmap, "Meme _", "New meme");

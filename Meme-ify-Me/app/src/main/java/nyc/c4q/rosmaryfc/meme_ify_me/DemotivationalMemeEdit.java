@@ -19,6 +19,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -140,7 +141,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     }
 
     public Bitmap drawMeme(View v){
-        LinearLayout layout = (LinearLayout) findViewById(R.id.meme_preview);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.meme_preview_relative_layout);
         layout.setDrawingCacheEnabled(true);
         Bitmap memeBitMap = layout.getDrawingCache();
         Bitmap meme = memeBitMap.copy(Bitmap.Config.ARGB_8888, false);
@@ -148,28 +149,34 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         layout.destroyDrawingCache();
         return meme;
     }
-    public void saveMeme (View v) {
-        Bitmap returnedBitmap = drawMeme(v);
 
+    public void saveDemotivationalMeme (View v) {
+        Bitmap meme = drawMeme(v);
         try {
-            returnedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream("memeFile.jpg"));
+            meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
+
+
 
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        String filename;
 
         File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "memeFile.jpg");
         imageUri = Uri.fromFile(photo);
+        //Toast.makeText(DemotivationalMemeEdit.this, "File saved to :" + imageUri.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(getApplicationContext(), "File saved to: " + imageUri.toString(), Toast.LENGTH_LONG).show();
 
         File f = new File("memeFile");
 
 
 
-        MediaStore.Images.Media.insertImage(getContentResolver(), returnedBitmap, "Meme _", "New meme");
+        MediaStore.Images.Media.insertImage(getContentResolver(), meme, "Meme _", "New meme");
         //return returnedBitmap;
     }
+
 
 
     @Override

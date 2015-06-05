@@ -191,6 +191,40 @@ public class MainActivity extends ActionBarActivity {
 
             return super.onOptionsItemSelected(item);
         }
+    public Bitmap drawMeme(View v){
+        LinearLayout layout = (LinearLayout) findViewById(R.id.meme_preview);
+        layout.setDrawingCacheEnabled(true);
+        Bitmap memeBitMap = layout.getDrawingCache();
+        Bitmap meme = memeBitMap.copy(Bitmap.Config.ARGB_8888, false);
+        layout.buildDrawingCache();
+        layout.destroyDrawingCache();
+        return meme;
+    }
+
+//    public void saveMeme (View v) {    //if there is time, fix this so it can be generalized for both types of memes
+//        Bitmap meme = drawMeme(v);
+//        try {
+//            meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
+//
+//
+//
+//        } catch (FileNotFoundException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//
+//        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "memeFile.jpg");
+//        imageUri = Uri.fromFile(photo);
+//        Toast.makeText(getApplicationContext(), "File saved to :" + imageUri.toString(), Toast.LENGTH_LONG).show();
+//
+//        File f = new File("memeFile");
+//
+//
+//
+//        MediaStore.Images.Media.insertImage(getContentResolver(), meme, "Meme _", "New meme");
+//        //return returnedBitmap;
+//    }
 
 
         public void onRadioButtonClicked (View view){

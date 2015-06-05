@@ -195,7 +195,7 @@
                 android:layout_height="wrap_content"
 
                 android:text="save"
-                android:onClick="saveMeme" />
+                android:onClick="saveDemotivationalMeme" />
 
             <Button
                 android:layout_width="wrap_content"
