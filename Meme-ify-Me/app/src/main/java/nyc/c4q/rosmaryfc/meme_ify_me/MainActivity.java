@@ -21,7 +21,6 @@ import android.widget.Toast;
 
 import java.io.File;
 
-
 public class MainActivity extends ActionBarActivity {
     private static String logtag = "CameraApp8";
     private static int TAKE_PICTURE = 1;
@@ -201,11 +200,13 @@ public class MainActivity extends ActionBarActivity {
                     if (checked)
                         // load vanilla_memes layout
                         //todo: this is where code will go to change sample image to sample vanilla meme image
+                        imageview.setImageResource(R.drawable.vanillapreview);
                         break;
                 case R.id.demotivational_posters_radBtn:
                     if (checked)
                         // load demotivational_posters layout
                         //todo: this is where code will go to change sample image to sample demotivational poster image
+                        imageview.setImageResource(R.drawable.demotpreview);
                         break;
             }
         }
