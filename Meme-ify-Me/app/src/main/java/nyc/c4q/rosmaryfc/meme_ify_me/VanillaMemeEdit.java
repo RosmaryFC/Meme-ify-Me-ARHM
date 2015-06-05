@@ -94,39 +94,6 @@ public class VanillaMemeEdit extends ActionBarActivity {
         return true;
     }
 
-    public void onShareClick(View v){
-        List<Intent> targetShareIntents=new ArrayList<Intent>();
-        Intent shareIntent=new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
-        List<ResolveInfo> resInfos = getPackageManager().queryIntentActivities(shareIntent, 0);
-        boolean intentSafe = resInfos.size() > 0;
-        if(intentSafe){
-
-            for(ResolveInfo resInfo : resInfos){
-                String packageName=resInfo.activityInfo.packageName;
-                Log.i("Package Name", packageName);
-
-                Intent intent=new Intent();
-                intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
-                intent.setAction(Intent.ACTION_SEND);
-                intent.setType("image/jpg");
-                intent.putExtra(Intent.EXTRA_STREAM, imageUri); //need to update this so that we are sending the final meme, not the image.
-                // maybe convert imageUri + userinputted text as a Bitmap.     bmp = Bitmap.createBitmap(imageUri);
-
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Made with Meme-ify Me");
-                intent.putExtra(Intent.EXTRA_TEXT, "Check out my new meme!");
-
-                intent.setPackage(packageName);
-                targetShareIntents.add(intent);
-            }
-            Intent chooserIntent=Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
-            startActivity(chooserIntent);
-        } else {
-            return;
-        }
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
