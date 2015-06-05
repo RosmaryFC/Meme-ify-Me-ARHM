@@ -51,6 +51,13 @@ public class MainActivity extends ActionBarActivity {
     private Intent vanillaMemeIntent;
     private Intent demotivationalMemeIntent;
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putString("SelectedImagePath", selectedImagePath);
+        vanillaMemeIntent.putExtra("SelectedImagePath", selectedImagePath);
+        demotivationalMemeIntent.putExtra("SelectedImagePath", selectedImagePath);
+    }
 
 
     @Override
@@ -59,6 +66,11 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
+        if (  (savedInstanceState != null)) {
+            selectedImagePath = savedInstanceState.getString("SelectedImagePath");
+        }
+        else {
+        }
         imageview = (ImageView) findViewById(R.id.image);
         cameraButton = (ImageButton) findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
@@ -139,14 +151,18 @@ public class MainActivity extends ActionBarActivity {
                 if (resultCode == RESULT_OK) {
                     if (requestCode == PICK_PICTURE) {
                         selectedImagePath = String.valueOf(data.getData());
+
                         imageview.setImageBitmap(decodePhoto(selectedImagePath));
                     } else if (requestCode == TAKE_PICTURE) {
                         selectedImagePath = imageUri.toString();
+                        vanillaMemeIntent.setData(imageUri);
                         imageview.setImageBitmap(decodePhoto(selectedImagePath));
                     }
                     else {
                         super.onActivityResult(requestCode, resultCode, data);
                     }
+                    demotivationalMemeIntent.putExtra("meme_dir", selectedImagePath);
+                    vanillaMemeIntent.putExtra("vanilla_meme_dir", selectedImagePath);
                 }
             }
 
@@ -245,13 +261,6 @@ public class MainActivity extends ActionBarActivity {
                         break;
             }
         }
-
-
-
-
-
-
-
 
 
 
