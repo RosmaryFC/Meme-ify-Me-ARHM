@@ -1,16 +1,12 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
 
-import android.app.Activity;
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -22,9 +18,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
+
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -61,15 +56,6 @@ public class MainActivity extends ActionBarActivity {
         demotivationalMemeIntent = new Intent(this, DemotivationalMemeEdit.class);
 
         editMemeButton = (Button)findViewById(R.id.edit_meme_button);
-        editMemeButton.setOnClickListener(editMemeListener);
-
-        vanillaRadioButton = (RadioButton) findViewById(R.id.vanilla_memes_radBtn);
-        demotivationalRadBtn = (RadioButton) findViewById(R.id.demotivational_posters_radBtn);
-
-        vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
-        demotivationalMemeIntent = new Intent(this, DemotivationalMemeEdit.class);
-
-        editMemeButton = (Button) findViewById(R.id.edit_meme_button);
         editMemeButton.setOnClickListener(editMemeListener);
 
     }
