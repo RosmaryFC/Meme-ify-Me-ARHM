@@ -193,6 +193,14 @@
 
         />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="edit picture"
+        android:id="@+id/editButton"
+        android:layout_below="@+id/layout_containing_buttons"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 
 
 </RelativeLayout>
