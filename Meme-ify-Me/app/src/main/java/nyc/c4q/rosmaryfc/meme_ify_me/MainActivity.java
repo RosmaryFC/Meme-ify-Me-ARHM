@@ -27,7 +27,7 @@ public class MainActivity extends ActionBarActivity {
     private static int TAKE_PICTURE = 1;
     private static final int PICK_PICTURE = 2;
     private Uri imageUri;
-    ImageView imageview;
+    protected ImageView imageview;
     private String selectedImagePath;
     private Button editMemeButton;
     private RadioButton vanillaRadioButton;
@@ -113,6 +113,16 @@ public class MainActivity extends ActionBarActivity {
             }
         }
     };
+
+//    public void convertImage (){
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        imageview.compress(Bitmap.CompressFormat.PNG, 90, stream);
+//
+//        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//        byte[] byteArray = stream.toByteArray();
+//    }
 
 //
 //    @Override

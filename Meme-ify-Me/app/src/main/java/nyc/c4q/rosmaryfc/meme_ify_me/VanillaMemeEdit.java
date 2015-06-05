@@ -1,25 +1,19 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
-import android.os.Bundle;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.util.Log;
-import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,7 +39,6 @@ public class VanillaMemeEdit extends ActionBarActivity {
         setContentView(R.layout.activity_vanilla_meme_edit);
 
         //Drawable myIcon = getResources().getDrawable( R.drawable.);
-
 
         Button topEditTxtPreviewBtn = (Button) findViewById(R.id.top_editText_preview_btn);
         topEditTxtPreviewBtn.setOnClickListener(topPreviewBtnListener);

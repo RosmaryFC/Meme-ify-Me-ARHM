@@ -10,14 +10,22 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context="nyc.c4q.rosmaryfc.meme_ify_me.VanillaMemeEdit">
 
+    <RelativeLayout
+        android:layout_weight="2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/successkid"/>
+
     <!-- meme preview -->
     <LinearLayout
         android:id="@+id/meme_preview"
-        android:layout_weight="2"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/successkid">
+        android:layout_height="match_parent">
 
         <TextView
             android:id="@+id/top_textView"
@@ -50,6 +58,8 @@
             android:text="bottom" />
 
     </LinearLayout>
+
+    </RelativeLayout>
 
     <!-- editTexts and buttons -->
     <LinearLayout
