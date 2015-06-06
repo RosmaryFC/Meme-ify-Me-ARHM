@@ -1,18 +1,12 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
 
-import android.app.Activity;
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
@@ -27,27 +21,22 @@ import android.widget.Toast;
 import com.adobe.creativesdk.foundation.AdobeCSDKFoundation;
 import com.adobe.creativesdk.foundation.auth.IAdobeAuthClientCredentials;
 import com.aviary.android.feather.sdk.AviaryIntent;
-import com.aviary.android.feather.sdk.FeatherActivity;
 import com.aviary.android.feather.sdk.internal.Constants;
 import com.aviary.android.feather.sdk.internal.headless.utils.MegaPixels;
 import java.io.File;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
+
 
 
 public class MainActivity extends ActionBarActivity implements IAdobeAuthClientCredentials {
 
     private static final int EDIT_PICTURE = 3;
-    private static final int USE_EDITED_PICTURE = 4;
-
     private static String logtag = "CameraApp";
     private static int TAKE_PICTURE = 1;
     private static final int PICK_PICTURE = 2;
     private Uri imageUri;
-    private Uri mimageUri;
     ImageView imageview;
     private String selectedImagePath;
     private Button editMemeButton;
@@ -55,14 +44,8 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     private RadioButton demotivationalRadBtn;
     private Intent vanillaMemeIntent;
     private Intent demotivationalMemeIntent;
-
-//
-//    private static final int RESULT_LOAD_IMAGE = 0x10;
-//    private static final int RESULT_INVOKE_EDITOR = 0x20 ;
-    File photo = null;
-
-
-
+    ImageButton editButton;
+    private File photo = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,8 +78,11 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
         demotivationalMemeIntent = new Intent(this, DemotivationalMemeEdit.class);
 
-        Button editButton = (Button)findViewById(R.id.editButton);
+        editButton = (ImageButton)findViewById(R.id.editButton);
+        //button needs to show only when picture was taken.
+        editButton.setVisibility(View.GONE);
         editButton.setOnClickListener(editListener);
+
     }
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {
@@ -128,8 +114,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
     intent.setType("image/*");
     startActivityForResult(intent, PICK_PICTURE);
-
-}
+    }
 
 
 
@@ -142,28 +127,30 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         startActivityForResult(intent, TAKE_PICTURE);
     }
 
-
+   //open up the editor to edit the picture loaded in imageView
     private void editPhoto(View v) {
+        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+
         Intent aviaryIntent = new AviaryIntent
                 .Builder(this)
                 .setData(imageUri)
+                .withOutput(photo)
                 .withOutputSize(MegaPixels.Mp5)
                 .build();
 
-        mimageUri = aviaryIntent.getData(); // generated output file
-
-
+        imageUri = Uri.fromFile(photo);
 
         Bundle extra = aviaryIntent.getExtras();
         if (null != extra) {
             // image has been changed?
             boolean changed = extra.getBoolean(Constants.EXTRA_OUT_BITMAP_CHANGED);
             if (changed) {
-                aviaryIntent.putExtra(MediaStore.EXTRA_OUTPUT, mimageUri);
+                aviaryIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+
             }
         }
-
         startActivityForResult(aviaryIntent, EDIT_PICTURE);
+
     }
 
 
@@ -187,49 +174,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         return image;
     }
 
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent intent) {
-//        super.onActivityResult(requestCode, resultCode, intent);
-//
-//        //_authSessionHelper.onActivityResult(requestCode, resultCode, intent);
-//
-//        if (resultCode == Activity.RESULT_OK) {
-//
-//
-//            if(requestCode == TAKE_PICTURE) {
-//                Uri selectedImage = imageUri;
-//                getContentResolver().notifyChange(selectedImage, null);
-//
-//                ImageView imageview = (ImageView) findViewById(R.id.image);
-//                ContentResolver cr = getContentResolver();
-//                Bitmap bitmap;
-//
-//                try {
-//                    bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage);
-//                    imageview.setImageBitmap(bitmap);
-//                    Toast.makeText(MainActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
-//
-//                } catch (Exception e) {
-//                    Log.e(logtag, e.toString());
-//                }
-//
-//                Intent aviaryIntent = new AviaryIntent
-//                        .Builder(this)
-//                        .setData(imageUri)
-//                        .withOutputSize(MegaPixels.Mp5)
-//                        .build();
-//                startActivityForResult(aviaryIntent, EDIT_PICTURE);
-//
-//                Uri mImageUri = aviaryIntent.getData(); // generated output file
-//                Bundle extra = aviaryIntent.getExtras();
-//                if( null != extra ) {
-//                    // image has been changed?
-//                    boolean changed = extra.getBoolean(Constants.EXTRA_OUT_BITMAP_CHANGED);
-//                }
-//
-//            }
-//        } else if(resultCode == RESULT_CANCELED) {
-//            Toast.makeText(this, "User cancelled for requestCode: " + requestCode, Toast.LENGTH_SHORT).show();
 
 
     private View.OnClickListener editMemeListener = new View.OnClickListener() {
@@ -246,28 +190,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         }
     };
 
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
-//
-//            try {
-//
-//                Uri selectedImage = imageUri;
-//
-//
-//                getContentResolver().notifyChange(selectedImage, null);
-//
-//                ImageView imageview = (ImageView) findViewById(R.id.image);
-//                ContentResolver cr = getContentResolver();
-//                Bitmap bitmap;
-//
-//
-//                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage); //don't store in memor card by default
-//                imageview.setImageBitmap(bitmap);
-//                Toast.makeText(MainActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
-//            }
 
 
             //method for gathering intent information from takePhoto and pickPhoto methods
@@ -279,54 +201,43 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                         selectedImagePath = String.valueOf(data.getData());
                         imageview.setImageBitmap(decodePhoto(selectedImagePath));
 
+                        //make Edit Picture button invisible
+                        editButton.setVisibility(View.GONE);
+
+
                     }  else if (requestCode == TAKE_PICTURE) {
 
                         selectedImagePath = imageUri.toString();
                         imageview.setImageBitmap(decodePhoto(selectedImagePath));
-
-//
-//                        Intent aviaryIntent = new AviaryIntent
-//                                .Builder(this)
-//                                .setData(imageUri)
-//                                .withOutputSize(MegaPixels.Mp5)
-//                                .build();
-//
-//                        startActivityForResult(aviaryIntent, EDIT_PICTURE);
-//
-//                        Uri mImageUri = aviaryIntent.getData(); // generated output file
-//                        Bundle extra = aviaryIntent.getExtras();
-//
-//                        if (null != extra) {
-//
-//                            // image has been changed?
-//                            boolean changed = extra.getBoolean(Constants.EXTRA_OUT_BITMAP_CHANGED);
-//
-//                            if (changed) {
-//
-//
-//                                File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
-//                                imageUri = Uri.fromFile(photo);
-//                                aviaryIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-////
-////
-////                                aviaryIntent.putExtra(MediaStore.EXTRA_OUTPUT, mImageUri);
-//
-//                                selectedImagePath = String.valueOf(mImageUri);
-//                                imageview.setImageBitmap(decodePhoto(selectedImagePath));
-//
-//                            } else {
-//                                selectedImagePath = imageUri.toString();
-//                                imageview.setImageBitmap(decodePhoto(selectedImagePath));
-//
-//                            }
-
+                        //make Edit Picture button visible
+                        editButton.setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(),"You can edit the picture you just took by pressing the edit picture button", Toast.LENGTH_SHORT).show();
 
                     } else if (requestCode == EDIT_PICTURE) {
 
-                        Toast.makeText(getApplicationContext(),"The edited picture is saved in the gallery", Toast.LENGTH_SHORT).show();
+                        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
 
-//                        selectedImagePath = mimageUri.toString();
-//                        imageview.setImageBitmap(decodePhoto(selectedImagePath));
+                        Intent aviaryIntent = new AviaryIntent
+                                .Builder(this)
+                                .setData(imageUri)
+                                .withOutput(photo)
+                                .withOutputSize(MegaPixels.Mp5)
+                                .build();
+
+                        Uri mimageUri = Uri.fromFile(photo);
+
+                        Bundle extra = aviaryIntent.getExtras();
+                        if (null != extra) {
+                            // image has been changed?
+                            boolean changed = extra.getBoolean(Constants.EXTRA_OUT_BITMAP_CHANGED);
+                            if (changed) {
+                                aviaryIntent.putExtra(MediaStore.EXTRA_OUTPUT, mimageUri);
+
+                            }
+                        }
+
+                       selectedImagePath = imageUri.toString();
+                        imageview.setImageBitmap(decodePhoto(selectedImagePath));
 
                         } else {
                             super.onActivityResult(requestCode, resultCode, data);
