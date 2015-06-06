@@ -163,16 +163,18 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         }
         Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
         String filename;
+       if (Environment.getExternalStorageDirectory() != null) {
 
-        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "memeFile.jpg");
-        imageUri = Uri.fromFile(photo);
-        //Toast.makeText(DemotivationalMemeEdit.this, "File saved to :" + imageUri.toString(), Toast.LENGTH_LONG).show();
-        Toast.makeText(getApplicationContext(), "File saved to: " + imageUri.toString(), Toast.LENGTH_LONG).show();
+            File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "memeFile.jpg");
+            imageUri = Uri.fromFile(photo);
+            //Toast.makeText(DemotivationalMemeEdit.this, "File saved to :" + imageUri.toString(), Toast.LENGTH_LONG).show();
+            Toast.makeText(getApplicationContext(), "File saved to: " + imageUri.toString(), Toast.LENGTH_LONG).show();
+        } else {
+            File photo = new File(Environment.getRootDirectory(), "memeFile.jpg");
+            imageUri = Uri.fromFile(photo);
+        }
 
-        File f = new File("memeFile");
-
-
-
+        //File f = new File("memeFile");
         MediaStore.Images.Media.insertImage(getContentResolver(), meme, "Meme _", "New meme");
         //return returnedBitmap;
     }

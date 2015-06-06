@@ -64,7 +64,6 @@ public class VanillaMemeEdit extends ActionBarActivity {
 //        }
 
 
-
         //Drawable myIcon = getResources().getDrawable( R.drawable.);
 
 
@@ -194,11 +193,12 @@ public class VanillaMemeEdit extends ActionBarActivity {
     }
     public File saveVanillaMeme (View v) {
         Bitmap returnedBitmap = drawMeme(v);
-
+        //File photo;
         try {
-            returnedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream("memeFile.jpg"));
-            File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
-
+           // if (Environment.getExternalStorageDirectory() != null) {
+                returnedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream("memeFile.jpg"));
+                //File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+            //}
 
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
@@ -208,11 +208,8 @@ public class VanillaMemeEdit extends ActionBarActivity {
 
         File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "memeFile.jpg");
         imageUri = Uri.fromFile(photo);
-
         File f = new File("memeFile");
         Toast.makeText(getApplicationContext(), "File saved to: " + imageUri.toString(), Toast.LENGTH_LONG).show();
-
-
         MediaStore.Images.Media.insertImage(getContentResolver(), returnedBitmap, "Meme _", "New meme");
         return photo;
     }

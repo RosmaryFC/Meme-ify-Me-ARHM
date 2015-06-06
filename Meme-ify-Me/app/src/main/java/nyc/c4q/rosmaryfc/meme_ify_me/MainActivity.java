@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.annotation.DrawableRes;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -88,8 +89,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {
+        // restore canvas to default
+
         @Override
         public void onClick(View v) {
+            //imageview.setImageResource(R.drawable.successkid);
             takePhoto(v);
         }
     };
@@ -146,6 +150,8 @@ public class MainActivity extends ActionBarActivity {
 
                         imageview.setImageBitmap(decodePhoto(selectedImagePath));
                     } else if (requestCode == TAKE_PICTURE) {
+//                        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+//                        imageUri = Uri.fromFile(photo);
                         selectedImagePath = imageUri.toString();
                         vanillaMemeIntent.setData(imageUri);
                         imageview.setImageBitmap(decodePhoto(selectedImagePath));
@@ -161,7 +167,8 @@ public class MainActivity extends ActionBarActivity {
             //requesting image's file path and converting into url and calling the
             // ContentResolver to retrieve image and set it inside a bitmap
         public Bitmap decodePhoto (String path){
-            Uri selectedImageUri = Uri.parse(selectedImagePath);
+            //Uri selectedImageUri = Uri.parse(selectedImagePath);
+            Uri selectedImageUri = Uri.parse(path);
             getContentResolver().notifyChange(selectedImageUri, null);
             ContentResolver cr = getContentResolver();
             Bitmap bitmap = null;
