@@ -3,6 +3,8 @@ package nyc.c4q.rosmaryfc.meme_ify_me;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Parcelable;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -33,12 +36,23 @@ public class VanillaMemeEdit extends ActionBarActivity {
     private EditText midEditText;
     private EditText btmEditText;
 
+    private Bitmap bmp;
+    private ImageView imageForMeme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vanilla_meme_edit);
 
-        //Drawable myIcon = getResources().getDrawable( R.drawable.);
+        //setting Image from MainActivity to ImageView source
+        Bundle extras = getIntent().getExtras();
+        byte[] byteArray = extras.getByteArray("picture");
+
+        bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        imageForMeme = (ImageView) findViewById(R.id.image_for_meme);
+
+        imageForMeme.setImageBitmap(bmp);
+
 
         Button topEditTxtPreviewBtn = (Button) findViewById(R.id.top_editText_preview_btn);
         topEditTxtPreviewBtn.setOnClickListener(topPreviewBtnListener);

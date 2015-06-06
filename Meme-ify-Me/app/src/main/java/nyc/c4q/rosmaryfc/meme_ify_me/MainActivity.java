@@ -26,6 +26,7 @@ public class MainActivity extends ActionBarActivity {
     private static int TAKE_PICTURE = 1;
     private static final int PICK_PICTURE = 2;
     private Uri imageUri;
+    private Bitmap bitmap;
     protected ImageView imageview;
     private String selectedImagePath;
     private Button editMemeButton;
@@ -34,6 +35,8 @@ public class MainActivity extends ActionBarActivity {
     private Intent vanillaMemeIntent;
     private Intent demotivationalMemeIntent;
 
+    private Bitmap bitmapImage;
+
 
 
     @Override
@@ -41,10 +44,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
         imageview = (ImageView) findViewById(R.id.image);
+
         ImageButton cameraButton = (ImageButton) findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
+
         ImageButton fromGalleryButton = (ImageButton) findViewById(R.id.pic_from_gallery_button);
         fromGalleryButton.setOnClickListener(GalleryListener);
 
@@ -92,11 +96,12 @@ public class MainActivity extends ActionBarActivity {
         startActivityForResult(intent, TAKE_PICTURE);
     }
 
-
     private View.OnClickListener editMemeListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
             if(vanillaRadioButton.isChecked()){
+                bitmap = decodePhoto(selectedImagePath);
+                vanillaMemeIntent.putExtra("picture", bitmapImage);
                 startActivity(vanillaMemeIntent);
             }else if(demotivationalRadBtn.isChecked()) {
                 startActivity(demotivationalMemeIntent);
@@ -106,17 +111,60 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-//    public void convertImage (){
+    //todo: still working on transferring image to next activity
+//    public void convertImage(Bitmap bitmap, Intent currentIntent){
 //        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        imageview.compress(Bitmap.CompressFormat.PNG, 90, stream);
-//
-//        Bitmap bmp = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher);
-//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-//        bmp.compress(Bitmap.CompressFormat.PNG, 100, stream);
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
 //        byte[] byteArray = stream.toByteArray();
+//        currentIntent.putExtra("picture", byteArray);
+//        startActivity(currentIntent);
+//    }
+//
+//    public void convertImages(Bitmap bitmap, Intent currentIntent){
+//        ByteArrayOutputStream stream = new ByteArrayOutputStream();
+//        bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+//        byte[] byteArray = stream.toByteArray();
+//        currentIntent.putExtra("picture", byteArray);
 //    }
 
-//
+
+            //method for gathering intent information from takePhoto and pickPhoto methods
+            // and setting the imageview with correct bitmap
+            @Override
+            protected void onActivityResult ( int requestCode, int resultCode, Intent data){
+                if (resultCode == RESULT_OK) {
+                    if (requestCode == PICK_PICTURE) {
+                        selectedImagePath = String.valueOf(data.getData());
+                        imageview.setImageBitmap(decodePhoto(selectedImagePath));
+                    } else if (requestCode == TAKE_PICTURE) {
+                        selectedImagePath = imageUri.toString();
+                        imageview.setImageBitmap(decodePhoto(selectedImagePath));
+                    } else {
+                        super.onActivityResult(requestCode, resultCode, data);
+                    }
+                }
+
+            }
+
+            //requesting image's file path and converting into url and calling the
+            // ContentResolver to retrieve image and set it inside a bitmap
+        public Bitmap decodePhoto (String path){
+            Uri selectedImageUri = Uri.parse(path);
+            getContentResolver().notifyChange(selectedImageUri, null);
+            ContentResolver cr = getContentResolver();
+            Bitmap bitmap = null;
+            try {
+                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImageUri);
+                //show image file path to user
+                Toast.makeText(MainActivity.this, selectedImageUri.toString(), Toast.LENGTH_LONG).show();
+
+            } catch (Exception e) {
+                Log.e(logtag, e.toString());
+            }
+            return bitmap;
+        }
+
+    //
 //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -138,44 +186,6 @@ public class MainActivity extends ActionBarActivity {
 //                imageview.setImageBitmap(bitmap);
 //                Toast.makeText(MainActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
 //            }
-
-
-            //method for gathering intent information from takePhoto and pickPhoto methods
-            // and setting the imageview with correct bitmap
-            @Override
-            protected void onActivityResult ( int requestCode, int resultCode, Intent data){
-                if (resultCode == RESULT_OK) {
-                    if (requestCode == PICK_PICTURE) {
-                        selectedImagePath = String.valueOf(data.getData());
-                        imageview.setImageBitmap(decodePhoto(selectedImagePath));
-                    } else if (requestCode == TAKE_PICTURE) {
-                        selectedImagePath = imageUri.toString();
-                        imageview.setImageBitmap(decodePhoto(selectedImagePath));
-                    } else {
-                        super.onActivityResult(requestCode, resultCode, data);
-                    }
-                }
-            }
-
-            //requesting image's file path and converting into url and calling the
-            // ContentResolver to retrieve image and set it inside a bitmap
-        public Bitmap decodePhoto (String path){
-            Uri selectedImageUri = Uri.parse(selectedImagePath);
-            getContentResolver().notifyChange(selectedImageUri, null);
-            ContentResolver cr = getContentResolver();
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImageUri);
-                //show image file path to user
-                Toast.makeText(MainActivity.this, selectedImageUri.toString(), Toast.LENGTH_LONG).show();
-
-            } catch (Exception e) {
-                Log.e(logtag, e.toString());
-            }
-            return bitmap;
-        }
-
-
 
         @Override
         public boolean onCreateOptionsMenu (Menu menu){
@@ -209,14 +219,12 @@ public class MainActivity extends ActionBarActivity {
                 case R.id.vanilla_memes_radBtn:
                     if (checked)
                         // load vanilla_memes layout
-                        //todo: this is where code will go to change sample image to sample vanilla meme image
-                        imageview.setImageResource(R.drawable.vanillapreview);
+                        //imageview.setImageResource(R.drawable.vanillapreview);
                         break;
                 case R.id.demotivational_posters_radBtn:
                     if (checked)
                         // load demotivational_posters layout
-                        //todo: this is where code will go to change sample image to sample demotivational poster image
-                        imageview.setImageResource(R.drawable.demotpreview);
+                        //imageview.setImageResource(R.drawable.demotpreview);
                         break;
             }
         }
