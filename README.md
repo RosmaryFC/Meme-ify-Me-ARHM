@@ -15,7 +15,7 @@ and general project navigation.
   -Number of hours: 
 
 * Hoshiko Oki:  
-  -Responsible for: UI + capturing image and implementing avery(if time permits)   
+  -Responsible for: UI + call camera app and capturing image, load to image view implementing avery   
   -Number of hours: 
 
 * Marbella Vidals:    
@@ -25,7 +25,7 @@ and general project navigation.
 ##Project Navigation: 
 
 ###Issue Log
-- test on older android versions
+
 - save state throughout activity lifecycle (esp. for orientation switch)
 - create a drawable shape to add to imageview in demotivional meme template for better scaling
 - review on styling layouts 
