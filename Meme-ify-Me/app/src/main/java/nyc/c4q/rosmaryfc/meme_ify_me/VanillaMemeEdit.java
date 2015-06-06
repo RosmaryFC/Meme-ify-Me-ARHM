@@ -1,12 +1,15 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Environment;
 import android.os.Parcelable;
+import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -17,10 +20,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
-
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,6 +41,7 @@ import java.util.List;
 
 public class VanillaMemeEdit extends ActionBarActivity {
     private Uri imageUri;
+    Drawable memeBG;
     private TextView topTextView;
     private TextView midTextView;
     private TextView btmTextView;
@@ -43,6 +53,16 @@ public class VanillaMemeEdit extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vanilla_meme_edit);
+        imageUri = getIntent().getData();
+        LinearLayout memePreview = (LinearLayout) findViewById(R.id.meme_preview);
+
+//        try {
+//            InputStream inputStream = getContentResolver().openInputStream(imageUri);
+//            memeBG = Drawable.createFromStream(inputStream, imageUri.toString() );
+//        } catch (FileNotFoundException e) {
+//
+//        }
+
 
         //Drawable myIcon = getResources().getDrawable( R.drawable.);
 
@@ -95,11 +115,30 @@ public class VanillaMemeEdit extends ActionBarActivity {
     }
 
     public void onShareClick(View v){
+        Bitmap meme = drawMeme(v);
+        try {
+            meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "memeFile.jpg");
+        imageUri = Uri.fromFile(photo);
+        Toast.makeText(getApplicationContext(), "Preparing to share :" + imageUri.toString(), Toast.LENGTH_LONG).show();
+//        File f = new File("memeFile");
+//        imageUri = Uri.fromFile(f);
         List<Intent> targetShareIntents=new ArrayList<Intent>();
         Intent shareIntent=new Intent();
         shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("text/plain");
+        shareIntent.setType("image/*");
+      // shareIntent.setType("text/plain");
+//
+////        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri.toString());
+////        startActivity(Intent.createChooser(shareIntent, "Share image using"));
+
         List<ResolveInfo> resInfos = getPackageManager().queryIntentActivities(shareIntent, 0);
+
         boolean intentSafe = resInfos.size() > 0;
         if(intentSafe){
 
@@ -110,7 +149,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
                 Intent intent=new Intent();
                 intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
                 intent.setAction(Intent.ACTION_SEND);
-                intent.setType("image/jpg");
+                intent.setType("image/*");
                 intent.putExtra(Intent.EXTRA_STREAM, imageUri); //need to update this so that we are sending the final meme, not the image.
                 // maybe convert imageUri + userinputted text as a Bitmap.     bmp = Bitmap.createBitmap(imageUri);
 
@@ -128,6 +167,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
         }
     }
 
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -142,4 +182,37 @@ public class VanillaMemeEdit extends ActionBarActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    public Bitmap drawMeme(View v){
+        LinearLayout layout = (LinearLayout) findViewById(R.id.meme_preview);
+        layout.setDrawingCacheEnabled(true);
+        Bitmap memeBitMap = layout.getDrawingCache();
+        Bitmap meme = memeBitMap.copy(Bitmap.Config.ARGB_8888, false);
+        layout.buildDrawingCache();
+        layout.destroyDrawingCache();
+        return meme;
+    }
+    public File saveVanillaMeme (View v) {
+        Bitmap returnedBitmap = drawMeme(v);
+        //File photo;
+        try {
+           // if (Environment.getExternalStorageDirectory() != null) {
+                returnedBitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream("memeFile.jpg"));
+                //File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+            //}
+
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+
+        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "memeFile.jpg");
+        imageUri = Uri.fromFile(photo);
+        File f = new File("memeFile");
+        Toast.makeText(getApplicationContext(), "File saved to: " + imageUri.toString(), Toast.LENGTH_LONG).show();
+        MediaStore.Images.Media.insertImage(getContentResolver(), returnedBitmap, "Meme _", "New meme");
+        return photo;
+    }
+
+
 }

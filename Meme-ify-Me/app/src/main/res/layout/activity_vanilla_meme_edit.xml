@@ -19,6 +19,7 @@
         android:layout_height="match_parent"
         android:background="@drawable/successkid">
 
+
         <TextView
             android:id="@+id/top_textView"
             android:layout_weight="1"
@@ -47,7 +48,8 @@
             android:gravity="center"
             android:textColor="#fff"
             android:textSize="30dp"
-            android:text="bottom" />
+            android:text="bottom"
+            android:onClick="saveVanillaMeme" />
 
     </LinearLayout>
 
@@ -156,7 +158,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="save"
-                android:id="@+id/shareButton"/>
+                android:id="@+id/shareButton"
+                android:onClick="saveVanillaMeme" />
 
             <Button
                 android:layout_width="wrap_content"
