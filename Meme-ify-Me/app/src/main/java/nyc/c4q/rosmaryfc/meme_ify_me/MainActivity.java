@@ -27,6 +27,16 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
+import com.adobe.creativesdk.foundation.AdobeCSDKFoundation;
+import com.adobe.creativesdk.foundation.auth.IAdobeAuthClientCredentials;
+import com.aviary.android.feather.sdk.AviaryIntent;
+import com.aviary.android.feather.sdk.internal.Constants;
+import com.aviary.android.feather.sdk.internal.headless.utils.MegaPixels;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -34,8 +44,11 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends ActionBarActivity {
-    private static String logtag = "CameraApp8";
+
+public class MainActivity extends ActionBarActivity implements IAdobeAuthClientCredentials {
+
+    private static final int EDIT_PICTURE = 3;
+    private static String logtag = "CameraApp";
     private static int TAKE_PICTURE = 1;
     private static final int PICK_PICTURE = 2;
     private static final int SAVE_PICTURE = 3;
@@ -50,6 +63,9 @@ public class MainActivity extends ActionBarActivity {
     private RadioButton demotivationalRadBtn;
     private Intent vanillaMemeIntent;
     private Intent demotivationalMemeIntent;
+    Button editButton;
+    private File photo = null;
+
 
     @Override
     protected void onSaveInstanceState(Bundle outState){
@@ -60,10 +76,15 @@ public class MainActivity extends ActionBarActivity {
     }
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        AdobeCSDKFoundation.initializeCSDKFoundation(getApplicationContext());
+        Intent intent = AviaryIntent.createCdsInitIntent(getBaseContext());
+        startService(intent);
 
 
         if (  (savedInstanceState != null)) {
@@ -86,6 +107,11 @@ public class MainActivity extends ActionBarActivity {
         editMemeButton = (Button)findViewById(R.id.edit_meme_button);
         editMemeButton.setOnClickListener(editMemeListener);
 
+        editButton = (Button)findViewById(R.id.editButton);
+        //button needs to show only when picture was taken.
+        editButton.setVisibility(View.GONE);
+        editButton.setOnClickListener(editListener);
+
     }
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {
@@ -98,11 +124,20 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
+    private View.OnClickListener editListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            editPhoto(v);
+        }
+    };
+
+
 
     private View.OnClickListener GalleryListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             pickPhoto(v);
+            editButton.setVisibility(View.GONE);
         }
     };
 
@@ -112,17 +147,65 @@ public class MainActivity extends ActionBarActivity {
     Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
     intent.setType("image/*");
     startActivityForResult(intent, PICK_PICTURE);
+    }
 
-}
 
     //method for requesting camera to capture image and save it under a new file
     public void takePhoto (View v){
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
         imageUri = Uri.fromFile(photo);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE);
     }
+
+   //open up the editor to edit the picture loaded in imageView
+    private void editPhoto(View v) {
+        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+
+        Intent aviaryIntent = new AviaryIntent
+                .Builder(this)
+                .setData(imageUri)
+                .withOutput(photo)
+                .withOutputSize(MegaPixels.Mp5)
+                .build();
+
+        imageUri = Uri.fromFile(photo);
+
+        Bundle extra = aviaryIntent.getExtras();
+        if (null != extra) {
+            // image has been changed?
+            boolean changed = extra.getBoolean(Constants.EXTRA_OUT_BITMAP_CHANGED);
+            if (changed) {
+                aviaryIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
+
+            }
+        }
+        startActivityForResult(aviaryIntent, EDIT_PICTURE);
+
+    }
+
+
+    /**
+     * Creates a temporary file that the camera can use to save
+     * @return File
+     * @throws IOException
+     */
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imageFileName = "JPEG_" + timeStamp + "_";
+        File storageDir = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(
+                imageFileName,  /* prefix */
+                ".jpg",         /* suffix */
+                storageDir      /* directory */
+        );
+
+        // Save a file: path for use with ACTION_VIEW intents
+        return image;
+    }
+
 
 
     private View.OnClickListener editMemeListener = new View.OnClickListener() {
@@ -132,7 +215,8 @@ public class MainActivity extends ActionBarActivity {
                 startActivity(vanillaMemeIntent);
             }else if(demotivationalRadBtn.isChecked()) {
                 startActivity(demotivationalMemeIntent);
-            } else {
+            }
+            else {
                 Toast.makeText(getApplicationContext(),"Select a Meme Type", Toast.LENGTH_SHORT).show();
             }
         }
@@ -143,28 +227,64 @@ public class MainActivity extends ActionBarActivity {
             //method for gathering intent information from takePhoto and pickPhoto methods
             // and setting the imageview with correct bitmap, and saving
             @Override
-            protected void onActivityResult ( int requestCode, int resultCode, Intent data){
+            protected void onActivityResult ( int requestCode, int resultCode, Intent data) {
                 if (resultCode == RESULT_OK) {
                     if (requestCode == PICK_PICTURE) {
                         selectedImagePath = String.valueOf(data.getData());
 
                         imageview.setImageBitmap(decodePhoto(selectedImagePath));
+
+                        //make Edit Picture button invisible
+                        editButton.setVisibility(View.GONE);
+
+
                     } else if (requestCode == TAKE_PICTURE) {
 //                        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
 //                        imageUri = Uri.fromFile(photo);
+
                         selectedImagePath = imageUri.toString();
                         vanillaMemeIntent.setData(imageUri);
                         imageview.setImageBitmap(decodePhoto(selectedImagePath));
-                    }
-                    else {
-                        super.onActivityResult(requestCode, resultCode, data);
+
+                        //make Edit Picture button visible
+                        editButton.setVisibility(View.VISIBLE);
+                        Toast.makeText(getApplicationContext(),"You can edit the picture you just took by pressing the edit picture button", Toast.LENGTH_SHORT).show();
+
+                    } else if (requestCode == EDIT_PICTURE) {
+
+                        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+
+                        Intent aviaryIntent = new AviaryIntent
+                                .Builder(this)
+                                .setData(imageUri)
+                                .withOutput(photo)
+                                .withOutputSize(MegaPixels.Mp5)
+                                .build();
+
+                        Uri mimageUri = Uri.fromFile(photo);
+
+                        Bundle extra = aviaryIntent.getExtras();
+                        if (null != extra) {
+                            // image has been changed?
+                            boolean changed = extra.getBoolean(Constants.EXTRA_OUT_BITMAP_CHANGED);
+                            if (changed) {
+                                aviaryIntent.putExtra(MediaStore.EXTRA_OUTPUT, mimageUri);
+
+                            }
+                        }
+
+                       selectedImagePath = imageUri.toString();
+                        imageview.setImageBitmap(decodePhoto(selectedImagePath));
+
+                        } else {
+                            super.onActivityResult(requestCode, resultCode, data);
+                        }
                     }
                     demotivationalMemeIntent.putExtra("meme_dir", selectedImagePath);
                     vanillaMemeIntent.putExtra("vanilla_meme_dir", selectedImagePath);
                 }
-            }
 
-            //requesting image's file path and converting into url and calling the
+    //requesting image's file path and converting into url and calling the
             // ContentResolver to retrieve image and set it inside a bitmap
         public Bitmap decodePhoto (String path){
             //Uri selectedImageUri = Uri.parse(selectedImagePath);
@@ -175,12 +295,13 @@ public class MainActivity extends ActionBarActivity {
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImageUri);
                 //show image file path to user
-                Toast.makeText(MainActivity.this, selectedImageUri.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, selectedImageUri.toString(), Toast.LENGTH_SHORT).show();
 
             } catch (Exception e) {
                 Log.e(logtag, e.toString());
             }
             return bitmap;
+
         }
 
 
@@ -242,6 +363,49 @@ public class MainActivity extends ActionBarActivity {
 //    }
 
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        //_authSessionHelper.onResume();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        //_authSessionHelper.onPause();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        //_authSessionHelper.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        //_authSessionHelper.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //_authSessionHelper.onDestroy();
+    }
+
+
+    @Override
+    public String getClientID() {
+        return CreativeCloud.YOUR_API_KEY;
+    }
+
+    @Override
+    public String getClientSecret() {
+        return CreativeCloud.YOUR_API_SECRET;
+    }
+
+
+
         public void onRadioButtonClicked (View view){
             // Is the button now checked?
             boolean checked = ((RadioButton) view).isChecked();
@@ -263,16 +427,10 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
-
-
-
-
         //todo future work
         public void exportMeme (View v){
 
         }
 
-
-
-
  }
+
