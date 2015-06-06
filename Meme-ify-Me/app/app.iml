@@ -85,9 +85,30 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 22 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="appcompat-v7-22.1.1" level="project" />
-    <orderEntry type="library" exported="" name="support-v4-22.1.1" level="project" />
+    <orderEntry type="library" exported="" name="hlistview-1.3.1" level="project" />
+    <orderEntry type="library" exported="" name="annotations-12.0" level="project" />
+    <orderEntry type="library" exported="" name="imagezoom-2.1.1" level="project" />
+    <orderEntry type="library" exported="" name="view-reveal-animator-1.0.2" level="project" />
+    <orderEntry type="library" exported="" name="ab-test-2.0.5" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-1.6.0" level="project" />
+    <orderEntry type="library" exported="" name="picasso-2.3.5.3" level="project" />
+    <orderEntry type="library" exported="" name="commons-io-2.4" level="project" />
+    <orderEntry type="library" exported="" name="disklrucache-2.0.2" level="project" />
     <orderEntry type="library" exported="" name="support-annotations-22.1.1" level="project" />
+    <orderEntry type="library" exported="" name="commons-lang3-3.3.2" level="project" />
+    <orderEntry type="library" exported="" name="disklrumulticache-1.0.5" level="project" />
+    <orderEntry type="library" exported="" name="lib-core-3.1.0" level="project" />
+    <orderEntry type="library" exported="" name="palette-v7-21.0.3" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-22.1.1" level="project" />
+    <orderEntry type="library" exported="" name="eventbus-2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="auth-0.3.94" level="project" />
+    <orderEntry type="library" exported="" name="okhttp-urlconnection-1.6.0" level="project" />
+    <orderEntry type="library" exported="" name="android-exif-extended-1.0.6" level="project" />
+    <orderEntry type="library" exported="" name="target-tooltip-library-1.2.4" level="project" />
+    <orderEntry type="library" exported="" name="library-2.4.0" level="project" />
+    <orderEntry type="library" exported="" name="hlistviewanimations-library-1.0.1" level="project" />
+    <orderEntry type="library" exported="" name="support-v4-22.1.1" level="project" />
+    <orderEntry type="library" exported="" name="image-4.0.0" level="project" />
   </component>
 </module>
 
