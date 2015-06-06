@@ -58,7 +58,8 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            >
 
             <TextView
                 android:layout_weight="2"
@@ -185,13 +186,16 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="share" />
+                android:text="share"
+                android:onClick="onShareClick" />
 
             <Button
                 android:id="@+id/save_meme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="save" />
+
+                android:text="save"
+                android:onClick="saveDemotivationalMeme" />
 
             <Button
                 android:layout_width="wrap_content"

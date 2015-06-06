@@ -1,13 +1,21 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
 
+import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.annotation.DrawableRes;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Menu;
@@ -16,24 +24,40 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
     private static String logtag = "CameraApp8";
     private static int TAKE_PICTURE = 1;
     private static final int PICK_PICTURE = 2;
+    private static final int SAVE_PICTURE = 3;
     private Uri imageUri;
     ImageView imageview;
     private String selectedImagePath;
     private Button editMemeButton;
+    Bitmap returnedBitmap;
+    private ImageButton cameraButton;
+    private ImageButton fromGalleryButton;
     private RadioButton vanillaRadioButton;
     private RadioButton demotivationalRadBtn;
     private Intent vanillaMemeIntent;
     private Intent demotivationalMemeIntent;
 
+    @Override
+    protected void onSaveInstanceState(Bundle outState){
+        super.onSaveInstanceState(outState);
+        outState.putString("SelectedImagePath", selectedImagePath);
+        vanillaMemeIntent.putExtra("SelectedImagePath", selectedImagePath);
+        demotivationalMemeIntent.putExtra("SelectedImagePath", selectedImagePath);
+    }
 
 
     @Override
@@ -42,10 +66,15 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
 
 
+        if (  (savedInstanceState != null)) {
+            selectedImagePath = savedInstanceState.getString("SelectedImagePath");
+        }
+        else {
+        }
         imageview = (ImageView) findViewById(R.id.image);
-        ImageButton cameraButton = (ImageButton) findViewById(R.id.camera_button);
+        cameraButton = (ImageButton) findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
-        ImageButton fromGalleryButton = (ImageButton) findViewById(R.id.pic_from_gallery_button);
+        fromGalleryButton = (ImageButton) findViewById(R.id.pic_from_gallery_button);
         fromGalleryButton.setOnClickListener(GalleryListener);
 
         vanillaRadioButton = (RadioButton) findViewById(R.id.vanilla_memes_radBtn);
@@ -60,8 +89,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {
+        // restore canvas to default
+
         @Override
         public void onClick(View v) {
+            //imageview.setImageResource(R.drawable.successkid);
             takePhoto(v);
         }
     };
@@ -106,51 +138,37 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
-//
-//            try {
-//
-//                Uri selectedImage = imageUri;
-//
-//
-//                getContentResolver().notifyChange(selectedImage, null);
-//
-//                ImageView imageview = (ImageView) findViewById(R.id.image);
-//                ContentResolver cr = getContentResolver();
-//                Bitmap bitmap;
-//
-//
-//                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage); //don't store in memor card by default
-//                imageview.setImageBitmap(bitmap);
-//                Toast.makeText(MainActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
-//            }
 
 
             //method for gathering intent information from takePhoto and pickPhoto methods
-            // and setting the imageview with correct bitmap
+            // and setting the imageview with correct bitmap, and saving
             @Override
             protected void onActivityResult ( int requestCode, int resultCode, Intent data){
                 if (resultCode == RESULT_OK) {
                     if (requestCode == PICK_PICTURE) {
                         selectedImagePath = String.valueOf(data.getData());
+
                         imageview.setImageBitmap(decodePhoto(selectedImagePath));
                     } else if (requestCode == TAKE_PICTURE) {
+//                        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+//                        imageUri = Uri.fromFile(photo);
                         selectedImagePath = imageUri.toString();
+                        vanillaMemeIntent.setData(imageUri);
                         imageview.setImageBitmap(decodePhoto(selectedImagePath));
-                    } else {
+                    }
+                    else {
                         super.onActivityResult(requestCode, resultCode, data);
                     }
+                    demotivationalMemeIntent.putExtra("meme_dir", selectedImagePath);
+                    vanillaMemeIntent.putExtra("vanilla_meme_dir", selectedImagePath);
                 }
             }
 
             //requesting image's file path and converting into url and calling the
             // ContentResolver to retrieve image and set it inside a bitmap
         public Bitmap decodePhoto (String path){
-            Uri selectedImageUri = Uri.parse(selectedImagePath);
+            //Uri selectedImageUri = Uri.parse(selectedImagePath);
+            Uri selectedImageUri = Uri.parse(path);
             getContentResolver().notifyChange(selectedImageUri, null);
             ContentResolver cr = getContentResolver();
             Bitmap bitmap = null;
@@ -188,6 +206,40 @@ public class MainActivity extends ActionBarActivity {
 
             return super.onOptionsItemSelected(item);
         }
+    public Bitmap drawMeme(View v){
+        LinearLayout layout = (LinearLayout) findViewById(R.id.meme_preview);
+        layout.setDrawingCacheEnabled(true);
+        Bitmap memeBitMap = layout.getDrawingCache();
+        Bitmap meme = memeBitMap.copy(Bitmap.Config.ARGB_8888, false);
+        layout.buildDrawingCache();
+        layout.destroyDrawingCache();
+        return meme;
+    }
+
+//    public void saveMeme (View v) {    //if there is time, fix this so it can be generalized for both types of memes
+//        Bitmap meme = drawMeme(v);
+//        try {
+//            meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
+//
+//
+//
+//        } catch (FileNotFoundException e) {
+//            // TODO Auto-generated catch block
+//            e.printStackTrace();
+//        }
+//        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+//
+//        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "memeFile.jpg");
+//        imageUri = Uri.fromFile(photo);
+//        Toast.makeText(getApplicationContext(), "File saved to :" + imageUri.toString(), Toast.LENGTH_LONG).show();
+//
+//        File f = new File("memeFile");
+//
+//
+//
+//        MediaStore.Images.Media.insertImage(getContentResolver(), meme, "Meme _", "New meme");
+//        //return returnedBitmap;
+//    }
 
 
         public void onRadioButtonClicked (View view){
@@ -212,15 +264,15 @@ public class MainActivity extends ActionBarActivity {
         }
 
 
-        public void saveMeme (View v){
-//        Intent intent = new Intent(MainActivity.this, MemeHandler.class);
-//        startActivity(intent);
-        }
+
+
 
         //todo future work
         public void exportMeme (View v){
 
         }
+
+
 
 
  }
