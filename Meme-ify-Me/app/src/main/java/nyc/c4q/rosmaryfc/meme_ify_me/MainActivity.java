@@ -44,7 +44,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     private RadioButton demotivationalRadBtn;
     private Intent vanillaMemeIntent;
     private Intent demotivationalMemeIntent;
-    ImageButton editButton;
+    Button editButton;
     private File photo = null;
 
     @Override
@@ -78,7 +78,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
         demotivationalMemeIntent = new Intent(this, DemotivationalMemeEdit.class);
 
-        editButton = (ImageButton)findViewById(R.id.editButton);
+        editButton = (Button)findViewById(R.id.editButton);
         //button needs to show only when picture was taken.
         editButton.setVisibility(View.GONE);
         editButton.setOnClickListener(editListener);

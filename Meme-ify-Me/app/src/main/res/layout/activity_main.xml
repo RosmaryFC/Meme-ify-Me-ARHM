@@ -200,50 +200,9 @@
         android:id="@+id/editButton"
         android:layout_below="@+id/layout_containing_buttons"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:onClick="editPhoto"/>
+        android:layout_alignParentStart="true" />
 
 
-    <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:orientation="horizontal"-->
-        <!--android:layout_below="@+id/layout_containing_buttons"-->
-        <!--android:layout_toLeftOf="@+id/layout_containing_buttons"-->
-        <!--android:layout_toStartOf="@+id/layout_containing_buttons"-->
-        <!--android:id="@+id/linearLayout2"-->
-        <!--android:layout_margin="">-->
-
-
-       <!---->
-    <!---->
-
-    <!--<ImageButton-->
-        <!--android:layout_width="45dp"-->
-        <!--android:layout_height="45dp"-->
-        <!--android:src="@drawable/aviarylogo"-->
-        <!--android:id="@+id/editButton"-->
-        <!--android:background="@null"-->
-        <!--android:onClick="editPhoto"-->
-        <!--android:layout_below="@+id/layout_containing_buttons"-->
-        <!--android:layout_alignParentLeft="true"-->
-        <!--android:layout_alignParentStart="true"-->
-        <!--android:layout_alignBottom="@+id/linearLayout2"-->
-        <!--android:layout_toLeftOf="@+id/linearLayout2"-->
-        <!--android:layout_toStartOf="@+id/linearLayout2"-->
-        <!--android:layout_alignParentEnd="false" />-->
-
-        <!--<TextView-->
-            <!--android:layout_width="110dp"-->
-            <!--android:layout_height="45dp"-->
-            <!--android:layout_marginLeft="10dp"-->
-            <!--android:text="Edit Picture w/ Aviary"-->
-            <!--android:textSize="18dp"-->
-            <!--android:onClick="editPhoto"-->
-            <!--android:clickable="true"-->
-            <!--android:id="@+id/edit_pic_aviary" />-->
-    <!--</LinearLayout>-->
-    <!---->
 </RelativeLayout>
 
 
