@@ -12,7 +12,7 @@
 
     <!-- meme preview -->
     <RelativeLayout
-        android:id="@+id/meme_preview"
+        android:id="@+id/meme_preview_relative_layout"
         android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -173,6 +173,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
         <!-- share, save, export buttons -->
         <LinearLayout
             android:id="@+id/all_buttons"
@@ -187,6 +188,7 @@
                 android:text="share" />
 
             <Button
+                android:id="@+id/save_meme"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="save" />

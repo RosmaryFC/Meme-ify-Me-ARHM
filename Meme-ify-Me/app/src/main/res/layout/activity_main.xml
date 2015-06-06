@@ -1,14 +1,13 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:orientation="vertical"
-    android:layout_height="match_parent" android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin" tools:context=".MainActivity"
-    >
-
-
-
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    tools:context=".MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -16,67 +15,23 @@
         android:width="100pt"
         android:textSize="10pt"
         android:id="@+id/editText"
-
-
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="Choose Meme Type"/>
+        android:text="Choose Meme Type" />
 
     <ImageView
-
-
         android:layout_width="fill_parent"
         android:layout_height="250dp"
         android:src="@drawable/successkid"
         android:layout_gravity="center"
         android:layout_below="@+id/radioGroup"
-        android:id="@+id/image"
-       />
-
-    <LinearLayout
-        android:id="@+id/layout_containing_buttons"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/linearLayout"
-        android:layout_centerHorizontal="true">
-
-
-    </LinearLayout>
-
-    <!--<LinearLayout-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_below="@id/image"-->
-
-        <!--android:layout_centerHorizontal="true"-->
-        <!--android:orientation="horizontal">-->
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-
-            <!--android:text="Take a picture"-->
-            <!--android:gravity="left"-->
-
-            <!--android:id="@+id/textView" />-->
-
-        android:layout_below="@+id/radioGroup"
-
-        <!--<TextView-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-
-            <!--android:text="Choose from gallery"-->
-            <!--android:gravity="right"/>-->
-    <!--</LinearLayout>-->
+        android:id="@+id/image" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/image"
         android:paddingTop="50dp"
-
-
         android:orientation="horizontal"
         android:id="@+id/linearLayout">
 
@@ -86,7 +41,6 @@
             android:orientation="horizontal"
             android:paddingRight="30dp"
             android:clickable="true"
-
             android:id="@+id/mediaButtons">
 
             <ImageButton
@@ -96,8 +50,7 @@
                 android:id="@+id/camera_button"
                 android:background="@null"
                 android:onClick="takePhoto"
-                android:layout_below="@id/image"
-                />
+                android:layout_below="@id/image" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -109,51 +62,41 @@
         </LinearLayout>
 
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-
-        <ImageButton
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-
-        android:src="@android:drawable/ic_menu_gallery"
-        android:id="@+id/pic_from_gallery_button"
-        android:background="@null"
-            android:onClick="pickPhoto" />
-
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Gallery"
-            android:textSize="20dp"
-            android:onClick="pickPhoto"
-            android:clickable="true" />
-    />
-    </LinearLayout>
-        <!--<ListView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:id="@+id/cameraListView"></ListView>-->
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:src="@android:drawable/ic_menu_gallery"
+                android:id="@+id/pic_from_gallery_button"
+                android:background="@null"
+                android:onClick="pickPhoto" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Gallery"
+                android:textSize="20dp"
+                android:onClick="pickPhoto"
+                android:clickable="true" />
+        </LinearLayout>
 
     </LinearLayout>
-
-
 
     <RadioGroup
+        android:id="@+id/radioGroup"
+
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/pic_from_gallery_button"
         android:layout_marginTop="50dp"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:orientation="horizontal"
-        android:id="@+id/radioGroup">
-
+        android:orientation="horizontal">
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -161,7 +104,7 @@
             android:text="Vanilla Memes"
             android:id="@+id/vanilla_memes_radBtn"
             android:layout_weight="1"
-            android:onClick="onRadioButtonClicked"/>
+            android:onClick="onRadioButtonClicked" />
 
         <RadioButton
             android:layout_width="wrap_content"
@@ -177,19 +120,14 @@
     </RadioGroup>
 
     <!-- added button to test VanillaMeme activity -->
-
-
-
     <Button
         style="?android:attr/buttonStyleSmall"
+        android:id="@+id/edit_meme_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="-->"
-        android:id="@+id/edit_meme_button"
+        android:text="Edit Meme -->"
         android:layout_alignParentBottom="true"
        android:layout_centerHorizontal="true"
-
-
 
         />
 
@@ -198,10 +136,13 @@
         android:layout_height="wrap_content"
         android:text="edit picture"
         android:id="@+id/editButton"
-        android:layout_below="@+id/layout_containing_buttons"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_below="@+id/linearLayout"
+        android:layout_toLeftOf="@+id/edit_meme_button"
+        android:layout_toStartOf="@+id/edit_meme_button" />
 
+=======
+        android:layout_centerHorizontal="true" />
+>>>>>>> 1f24c460e35bbc673264dc0249068e9c5b0ab8bd
 
 </RelativeLayout>
 

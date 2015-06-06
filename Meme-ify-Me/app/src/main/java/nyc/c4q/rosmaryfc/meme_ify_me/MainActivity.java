@@ -29,6 +29,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
+import java.io.File;
+
 
 public class MainActivity extends ActionBarActivity implements IAdobeAuthClientCredentials {
 
@@ -72,12 +74,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         editMemeButton = (Button)findViewById(R.id.edit_meme_button);
         editMemeButton.setOnClickListener(editMemeListener);
 
-        vanillaRadioButton = (RadioButton) findViewById(R.id.vanilla_memes_radBtn);
-        demotivationalRadBtn = (RadioButton) findViewById(R.id.demotivational_posters_radBtn);
-
-        vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
-        demotivationalMemeIntent = new Intent(this, DemotivationalMemeEdit.class);
-
         editButton = (Button)findViewById(R.id.editButton);
         //button needs to show only when picture was taken.
         editButton.setVisibility(View.GONE);
@@ -105,6 +101,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         @Override
         public void onClick(View v) {
             pickPhoto(v);
+            editButton.setVisibility(View.GONE);
         }
     };
 
@@ -115,7 +112,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     intent.setType("image/*");
     startActivityForResult(intent, PICK_PICTURE);
     }
-
 
 
     //method for requesting camera to capture image and save it under a new file
@@ -259,7 +255,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
             try {
                 bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImageUri);
                 //show image file path to user
-                Toast.makeText(MainActivity.this, selectedImageUri.toString(), Toast.LENGTH_LONG).show();
+                Toast.makeText(MainActivity.this, selectedImageUri.toString(), Toast.LENGTH_SHORT).show();
 
             } catch (Exception e) {
                 Log.e(logtag, e.toString());
@@ -346,11 +342,13 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                     if (checked)
                         // load vanilla_memes layout
                         //todo: this is where code will go to change sample image to sample vanilla meme image
+                        imageview.setImageResource(R.drawable.vanillapreview);
                         break;
                 case R.id.demotivational_posters_radBtn:
                     if (checked)
                         // load demotivational_posters layout
                         //todo: this is where code will go to change sample image to sample demotivational poster image
+                        imageview.setImageResource(R.drawable.demotpreview);
                         break;
             }
         }
@@ -361,11 +359,12 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 //        startActivity(intent);
         }
 
-
+        //todo future work
         public void exportMeme (View v){
 
         }
 
 
-        }
+
+ }
 
