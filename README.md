@@ -12,7 +12,7 @@ and general project navigation.
 
 * Rosemary Fermin:  
   -Responsible for: UI + customizing dynamic elements of meme   
-  -Number of hours: 
+  -Number of hours: 28 
 
 * Hoshiko Oki:  
   -Responsible for: UI + call camera app and capturing image, load to image view implementing avery   
