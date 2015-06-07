@@ -151,7 +151,7 @@
             android:background="@drawable/button_background"
             android:textColor="#ffffffff"
             android:textStyle="bold"
-            android:textSize="17dp" />
+            android:textSize="17sp" />
 
         </LinearLayout>
 
