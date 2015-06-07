@@ -218,11 +218,8 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
 
             } else if (requestCode == TAKE_PICTURE) {
-//                        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
-//                        imageUri = Uri.fromFile(photo);
 
                 selectedImagePath = imageUri.toString();
-                vanillaMemeIntent.setData(imageUri);
                 imageview.setImageBitmap(decodePhoto(MainActivity.this, selectedImagePath));
 
                 //make Edit Picture button visible
@@ -233,7 +230,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                 LayoutInflater inflater = getLayoutInflater();
 
                 View customToastroot = inflater.inflate(R.layout.mycustom_toast, null);
-
                 Toast customtoast = new Toast(context);
 
                 customtoast.setView(customToastroot);
