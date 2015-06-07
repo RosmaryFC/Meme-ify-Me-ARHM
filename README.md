@@ -26,7 +26,7 @@ and general project navigation.
 
 
 
-###Issue Log
+###FUTURE WORK
 
 - See todos in code
 - Save state throughout activity lifecycle (esp. for orientation switch)
@@ -36,5 +36,6 @@ and general project navigation.
 - Review on styling layouts (optimize UI)
 - Choose a meme templates option
 - Shrink text to fit inside Textview as you type
+-Add Edit to gallery and or during templates
 
 
