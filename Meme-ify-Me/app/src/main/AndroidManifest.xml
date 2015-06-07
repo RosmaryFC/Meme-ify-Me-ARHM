@@ -4,9 +4,11 @@
 
 
     <!-- Permissions for camera app -->
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature android:name="android.hardware.camera" />
 
@@ -14,7 +16,10 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme"
+        android:name=".CreativeCloud">
+
+
         <activity
             android:configChanges="orientation"
 
@@ -29,7 +34,15 @@
             </intent-filter>
         </activity>
 
+        <provider
+            android:name="com.aviary.android.feather.sdk.internal.cds.AviaryCdsProvider"
+            android:authorities="${applicationId}.AviaryCdsProvider"
+            android:exported="false"
+            android:process=":aviary_cds" />
 
+        <meta-data
+            android:name="com.aviary.android.feather.v1.API_KEY"
+            android:value="958f6b23c0604850aae5bfc2f0c62628" />
 
         <activity
             android:configChanges="orientation"
@@ -44,8 +57,6 @@
             android:label="@string/title_activity_demotivational_meme_edit"
             android:screenOrientation="portrait">
         </activity>
-
-
 
     </application>
 

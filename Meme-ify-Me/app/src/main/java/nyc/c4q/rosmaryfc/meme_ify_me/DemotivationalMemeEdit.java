@@ -1,10 +1,11 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
 import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -32,31 +33,29 @@ import java.util.List;
 
 
 public class DemotivationalMemeEdit extends ActionBarActivity {
-
+    private static String logtag = "CameraApp";
     private Uri imageUri;
     private TextView titleTextView;
     private TextView phraseTextView;
     private EditText titleEditText;
     private EditText phraseEditText;
-
-
-    private RelativeLayout layout;
-    private Bitmap viewbitmap;
-
     private Bitmap bmp;
-    private ImageView imageForMeme;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demotivational_meme_edit);
 
-        //setting Image from MainActivity to ImageView source
+        //setting Image from filepath to ImageView source
         Bundle extras = getIntent().getExtras();
-        byte[] byteArray = extras.getByteArray("picture");
-        bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        imageForMeme = (ImageView) findViewById(R.id.imageView_for_poster);
-        imageForMeme.setImageBitmap(bmp);
+        String imagePath = extras.getString("SelectedImagePath");
+        if(imagePath == null){
+            Log.d("Error","imagePath is null" );
+        }
+        bmp = decodePhoto(this, imagePath);
+
+        ImageView posterImageView = (ImageView) findViewById(R.id.imageView_for_poster);
+        posterImageView.setImageBitmap(bmp);
 
         Button titleEditTxtPreviewBtn = (Button) findViewById(R.id.title_editText_preview_btn);
         titleEditTxtPreviewBtn.setOnClickListener(titlePreviewBtnListener);
@@ -84,11 +83,21 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         }
     };
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_demotivational_meme_edit, menu);
-        return true;
+    //requesting image's file path and converting into url and calling the
+    // ContentResolver to retrieve image and set it inside a bitmap
+    public Bitmap decodePhoto(Context context, String path) {
+        Uri selectedImageUri = Uri.parse(path);
+        getContentResolver().notifyChange(selectedImageUri, null);
+        ContentResolver cr = getContentResolver();
+        Bitmap bitmapImage = null;
+        try {
+            bitmapImage = MediaStore.Images.Media.getBitmap(cr, selectedImageUri);
+            //show image file path to user
+            Toast.makeText(context, selectedImageUri.toString(), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e(logtag, e.toString());
+        }
+        return bitmapImage;
     }
 
     public void onShareClick(View v) {
@@ -169,6 +178,13 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
             imageUri = Uri.fromFile(photo);
         }
         MediaStore.Images.Media.insertImage(getContentResolver(), meme, "Meme _", "New meme");
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_demotivational_meme_edit, menu);
+        return true;
     }
 
     @Override
