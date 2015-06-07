@@ -2,7 +2,6 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
-    android:background="#ff96bd8e"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingLeft="@dimen/activity_horizontal_margin"
@@ -24,7 +23,7 @@
             android:scaleType="fitXY"
             android:src="@drawable/successkid"/>
 
-    <!-- meme preview -->
+    <!-- meme preview   -->
     <LinearLayout
         android:id="@+id/textView_preview_linearLayout"
         android:orientation="vertical"
