@@ -1,6 +1,4 @@
-Include your team name, how many hours you believe each of
-you worked on this over the course of the week, who was responsible for what features, 
-and general project navigation.
+
 
 #Team Name: ARHM
 
@@ -21,10 +19,6 @@ and general project navigation.
 * Marbella Vidals:    
   -Responsible for: UI + implementing gallery/camera roll button and debugging camera and gallery functionality, styling   
   -Number of hours: 28
-
-##Project Navigation: 
-
-
 
 ###FUTURE WORK
 
