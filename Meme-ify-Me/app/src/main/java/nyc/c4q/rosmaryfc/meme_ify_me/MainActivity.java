@@ -245,20 +245,28 @@ public class MainActivity extends ActionBarActivity {
         public void onRadioButtonClicked (View view){
             // Is the button now checked?
             boolean checked = ((RadioButton) view).isChecked();
+            boolean imageSelected = (selectedImagePath != null);
 
             // Check which radio button was clicked
             switch (view.getId()) {
                 case R.id.vanilla_memes_radBtn:
-                    if (checked)
+                    if (checked && !imageSelected) {
                         // load vanilla_memes layout
                         //todo: this is where code will go to change sample image to sample vanilla meme image
                         imageview.setImageResource(R.drawable.vanillapreview);
+                    } else {
+                        // set background behind image to background of vanilla preview
+                    }
                         break;
                 case R.id.demotivational_posters_radBtn:
-                    if (checked)
+                    if (checked && !imageSelected) {
                         // load demotivational_posters layout
                         //todo: this is where code will go to change sample image to sample demotivational poster image
                         imageview.setImageResource(R.drawable.demotpreview);
+                    } else {
+                        //set background image to demotivational looking
+
+                    }
                         break;
             }
         }
