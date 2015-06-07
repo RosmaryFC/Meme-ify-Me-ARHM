@@ -13,7 +13,7 @@
 
         <ImageView
             android:id="@+id/imageView1"
-            android:src="@drawable/demotpreview"
+            android:src="@drawable/familyguydemotivationalposter"
             android:layout_width="260dp"
             android:layout_height="260dp"
             android:layout_gravity="center_vertical" />

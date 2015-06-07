@@ -30,15 +30,18 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-
+<!-- todo: set impact font for all textViews -->
         <TextView
             android:id="@+id/top_textView"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:shadowColor="#ff000000"
+            android:shadowRadius="10"
             android:textColor="#fff"
-            android:textSize="30dp"
+            android:textSize="40dp"
+            android:textStyle="bold"
             android:text="top" />
 
         <TextView
@@ -47,20 +50,26 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:shadowColor="#ff000000"
+            android:shadowRadius="10"
             android:textColor="#fff"
-            android:textSize="30dp"
+            android:textSize="40dp"
+            android:textStyle="bold"
             android:text="middle" />
 
         <TextView
             android:id="@+id/btm_textView"
+            android:onClick="saveVanillaMeme"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:gravity="center"
+            android:shadowColor="#ff000000"
+            android:shadowRadius="10"
             android:textColor="#fff"
-            android:textSize="30dp"
-            android:text="bottom"
-            android:onClick="saveVanillaMeme" />
+            android:textSize="40dp"
+            android:textStyle="bold"
+            android:text="bottom"/>
 
     </LinearLayout>
 
@@ -101,6 +110,7 @@
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/edit_button_background"
                     android:text="Preview" />
 
             </LinearLayout>
@@ -124,6 +134,7 @@
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/edit_button_background"
                     android:text="Preview" />
 
             </LinearLayout>
@@ -148,6 +159,7 @@
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/edit_button_background"
                     android:text="Preview" />
 
             </LinearLayout>
@@ -167,6 +179,7 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
                 android:text="share"
                 android:onClick="onShareClick" />
 
@@ -175,6 +188,7 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
                 android:text="save"
                 android:onClick="saveVanillaMeme" />
 

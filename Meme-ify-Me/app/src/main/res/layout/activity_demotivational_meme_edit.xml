@@ -57,8 +57,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            >
+            android:layout_height="match_parent">
 
             <TextView
                 android:layout_weight="2"
@@ -70,6 +69,8 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="0dp">
+
+                <!-- todo: set impact font for all textViews -->
 
                 <TextView
                     android:layout_weight="1"
@@ -145,6 +146,7 @@
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/edit_button_background"
                     android:text="Preview" />
 
             </LinearLayout>
@@ -168,6 +170,7 @@
                     android:layout_weight="2"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:background="@drawable/edit_button_background"
                     android:text="Preview" />
 
             </LinearLayout>
@@ -187,6 +190,7 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
                 android:text="share"
                 android:onClick="onShareClick" />
 
@@ -195,6 +199,7 @@
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/button_background"
                 android:text="save"
                 android:onClick="saveDemotivationalMeme" />
 
