@@ -4,6 +4,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,7 +17,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.LinearLayout;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -30,8 +31,6 @@ import java.util.List;
 
 public class DemotivationalMemeEdit extends ActionBarActivity {
 
-
-
     private Uri imageUri;
     private TextView titleTextView;
     private TextView phraseTextView;
@@ -42,10 +41,20 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     private RelativeLayout layout;
     private Bitmap viewbitmap;
 
+    private Bitmap bmp;
+    private ImageView imageForMeme;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demotivational_meme_edit);
+
+        //setting Image from MainActivity to ImageView source
+        Bundle extras = getIntent().getExtras();
+        byte[] byteArray = extras.getByteArray("picture");
+        bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+        imageForMeme = (ImageView) findViewById(R.id.imageView_for_poster);
+        imageForMeme.setImageBitmap(bmp);
 
         Button titleEditTxtPreviewBtn = (Button) findViewById(R.id.title_editText_preview_btn);
         titleEditTxtPreviewBtn.setOnClickListener(titlePreviewBtnListener);
@@ -53,31 +62,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         Button phraseEditTxtPreviewBtn = (Button) findViewById(R.id.phrase_editText_preview_btn);
         phraseEditTxtPreviewBtn.setOnClickListener(phrasePreviewBtnListener);
 
-        //Todo: some code for the save button that might be useful, is not working yet so left commented out
-//        Button saveButton = (Button) findViewById(R.id.save_meme);
-//        saveButton.setOnClickListener(saveBtnListener);
-
     }
-
-//    private View.OnClickListener saveBtnListener = new View.OnClickListener() {
-//        @Override
-//        public void onClick(View view) {
-//
-//            layout = (RelativeLayout) findViewById(R.id.meme_preview_relative_layout);
-//            layout.setDrawingCacheEnabled(true);
-//            layout.buildDrawingCache();
-//            viewbitmap = layout.getDrawingCache(true);
-//
-//            File f = new File(getApplicationContext().getFilesDir(), "memeEdit"+"1"+".jpg");
-//
-//            try {
-//                viewbitmap.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(f));
-//            } catch (FileNotFoundException e) {
-//                // TODO Auto-generated catch block
-//                e.printStackTrace();
-//            }
-//        }
-//    };
 
     private View.OnClickListener titlePreviewBtnListener = new View.OnClickListener() {
         @Override
@@ -96,7 +81,6 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
             phraseTextView.setText(phraseEditText.getText().toString());
         }
     };
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -154,32 +138,20 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         Bitmap meme = drawMeme(v);
         try {
             meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
-
-
-
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
-        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-        String filename;
        if (Environment.getExternalStorageDirectory() != null) {
-
             File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "memeFile.jpg");
             imageUri = Uri.fromFile(photo);
-            //Toast.makeText(DemotivationalMemeEdit.this, "File saved to :" + imageUri.toString(), Toast.LENGTH_LONG).show();
             Toast.makeText(getApplicationContext(), "File saved to: " + imageUri.toString(), Toast.LENGTH_LONG).show();
         } else {
             File photo = new File(Environment.getRootDirectory(), "memeFile.jpg");
             imageUri = Uri.fromFile(photo);
         }
-
-        //File f = new File("memeFile");
         MediaStore.Images.Media.insertImage(getContentResolver(), meme, "Meme _", "New meme");
-        //return returnedBitmap;
     }
-
-
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -192,7 +164,6 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 }
