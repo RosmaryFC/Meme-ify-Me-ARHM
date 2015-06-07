@@ -24,9 +24,17 @@ and general project navigation.
 
 ##Project Navigation: 
 
+
+
 ###Issue Log
 
+- see todos in code
 - save state throughout activity lifecycle (esp. for orientation switch)
-- create a drawable shape to add to imageview in demotivional meme template for better scaling
-- review on styling layouts 
+- add icon launcher
+- add drag text feature
+- add different font size, color, set proper font type
+- review on styling layouts (optimize UI)
+- Choose a meme templates option
+- shrink text to fit inside Textview as you type
+
 
