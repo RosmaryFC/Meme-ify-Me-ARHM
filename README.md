@@ -20,7 +20,7 @@ and general project navigation.
 
 * Marbella Vidals:    
   -Responsible for: UI + implementing gallery/camera roll button and debugging camera and gallery functionality, styling   
-  -Number of hours: 
+  -Number of hours: 30
 
 ##Project Navigation: 
 
