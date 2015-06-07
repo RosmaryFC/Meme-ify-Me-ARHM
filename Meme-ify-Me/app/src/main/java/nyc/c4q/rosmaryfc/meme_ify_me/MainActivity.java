@@ -279,7 +279,8 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                     // load vanilla_memes layout
                     //todo: this is where code will go to change sample image to sample vanilla meme image
                     imageview.setImageResource(R.drawable.vanillapreview);
-                } else {
+                }
+                //else {
                     if (checked) {
                         // load vanilla_memes layout toast
 
@@ -296,7 +297,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
                     }
                     break;
-                }
+                //}
 
             case R.id.demotivational_posters_radBtn:
 
@@ -304,7 +305,8 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                     // load demotivational_posters layout
                     //todo: this is where code will go to change sample image to sample demotivational poster image
                     imageview.setImageResource(R.drawable.demotpreview);
-                } else {
+                }
+                //else {
                     //set background image to demotivational looking
                     if (checked) {
                         // load demotivational_posters layout toast
@@ -322,7 +324,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
                     }
                     break;
-                }
+                //}
         }
     }
 
