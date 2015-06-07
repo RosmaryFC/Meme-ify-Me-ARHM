@@ -29,7 +29,8 @@
 - Add different font size, color, set proper font type
 - Review on styling layouts (optimize UI)
 - Choose a meme templates option
-- Shrink text to fit inside Textview as you type
--Add Edit to gallery and or during templates
+- Shrink text to fit inside Textview as you type   
+- Add Splash animation to prior to loading the app
+- Add Edit to gallery and or during templates
 
 
