@@ -109,7 +109,8 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
             e.printStackTrace();
         }
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        meme.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        meme = Bitmap.createScaledBitmap(meme, 100, 100, true);
+       meme.compress(Bitmap.CompressFormat.JPEG, 256, bytes);
 
         File photo = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
         try {
@@ -119,7 +120,9 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         imageUri = Uri.fromFile(photo);
+
         Toast.makeText(getApplicationContext(), "Preparing to share :" + imageUri.toString(), Toast.LENGTH_LONG).show();
         List<Intent> targetShareIntents = new ArrayList<Intent>();
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
@@ -144,8 +147,9 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
             }
             Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
-            startActivity(chooserIntent);
             startActivity(Intent.createChooser(shareIntent, "Share Image"));
+            startActivity(chooserIntent);
+
         } else {
             return;
         }

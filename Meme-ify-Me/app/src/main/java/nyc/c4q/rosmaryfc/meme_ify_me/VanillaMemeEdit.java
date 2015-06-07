@@ -120,18 +120,21 @@ public class VanillaMemeEdit extends ActionBarActivity {
         return bitmapImage;
     }
 
-    public void onShareClick(View v){
+    public void onShareClick(View v){   //todo: add conditions for specific apps.
         Bitmap meme = drawMeme(v);
         try {
             meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
+
         } catch (FileNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        meme = Bitmap.createScaledBitmap(meme, 100, 100, true);
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        meme.compress(Bitmap.CompressFormat.PNG, 100, bytes);
+        meme.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
 
         File photo = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+        imageUri = Uri.fromFile(photo);
         try {
             photo.createNewFile();
             FileOutputStream fo = new FileOutputStream(photo);
@@ -139,7 +142,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
         }catch (IOException e) {
             e.printStackTrace();
         }
-        imageUri = Uri.fromFile(photo);
+
         Toast.makeText(getApplicationContext(), "Preparing to share :" + imageUri.toString(), Toast.LENGTH_LONG).show();
         List<Intent> targetShareIntents=new ArrayList<Intent>();
         Intent shareIntent=new Intent(Intent.ACTION_SEND);
@@ -169,6 +172,8 @@ public class VanillaMemeEdit extends ActionBarActivity {
         } else {
             return;
         }
+        //startActivity(Intent.createChooser(shareIntent, "Share Image"));
+
     }
 
     public Bitmap drawMeme(View v){
