@@ -1,10 +1,11 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
 import android.content.ComponentName;
+import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -18,7 +19,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +31,7 @@ import java.util.List;
 
 public class VanillaMemeEdit extends ActionBarActivity {
     private Uri imageUri;
+    private static String logtag = "CameraApp";
     private TextView topTextView;
     private TextView midTextView;
     private TextView btmTextView;
@@ -37,20 +39,21 @@ public class VanillaMemeEdit extends ActionBarActivity {
     private EditText midEditText;
     private EditText btmEditText;
 
-    private Bitmap bmp;
-    private ImageView imageForMeme;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vanilla_meme_edit);
         imageUri = getIntent().getData();
 
-        //setting Image from MainActivity to ImageView source
+        //setting Image from filepath to ImageView source
         Bundle extras = getIntent().getExtras();
-        byte[] byteArray = extras.getByteArray("picture");
-        bmp = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-        imageForMeme = (ImageView) findViewById(R.id.image_for_meme);
+        String imagePath = extras.getString("SelectedImagePath");
+        if(imagePath == null){
+            Log.d("Error","imagePath is null" );
+        }
+        Bitmap bmp = decodePhoto(this, imagePath);
+
+        ImageView imageForMeme = (ImageView) findViewById(R.id.image_for_meme);
         imageForMeme.setImageBitmap(bmp);
 
         Button topEditTxtPreviewBtn = (Button) findViewById(R.id.top_editText_preview_btn);
@@ -96,6 +99,23 @@ public class VanillaMemeEdit extends ActionBarActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_vanilla_meme_edit, menu);
         return true;
+    }
+
+    //requesting image's file path and converting into url and calling the
+    // ContentResolver to retrieve image and set it inside a bitmap
+    public Bitmap decodePhoto(Context context, String path) {
+        Uri selectedImageUri = Uri.parse(path);
+        getContentResolver().notifyChange(selectedImageUri, null);
+        ContentResolver cr = getContentResolver();
+        Bitmap bitmapImage = null;
+        try {
+            bitmapImage = MediaStore.Images.Media.getBitmap(cr, selectedImageUri);
+            //show image file path to user
+            Toast.makeText(context, selectedImageUri.toString(), Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Log.e(logtag, e.toString());
+        }
+        return bitmapImage;
     }
 
     public void onShareClick(View v){
@@ -144,7 +164,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
     }
 
     public Bitmap drawMeme(View v){
-        LinearLayout layout = (LinearLayout) findViewById(R.id.meme_preview);
+        RelativeLayout layout = (RelativeLayout) findViewById(R.id.meme_preview_relativeLayout);
         layout.setDrawingCacheEnabled(true);
         Bitmap memeBitMap = layout.getDrawingCache();
         Bitmap meme = memeBitMap.copy(Bitmap.Config.ARGB_8888, false);

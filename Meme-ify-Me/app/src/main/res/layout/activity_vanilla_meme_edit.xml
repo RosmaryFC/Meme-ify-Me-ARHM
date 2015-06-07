@@ -1,4 +1,5 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:background="#ff96bd8e"
@@ -11,6 +12,7 @@
     tools:context="nyc.c4q.rosmaryfc.meme_ify_me.VanillaMemeEdit">
 
     <RelativeLayout
+        android:id="@+id/meme_preview_relativeLayout"
         android:layout_weight="2"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -23,7 +25,7 @@
 
     <!-- meme preview -->
     <LinearLayout
-        android:id="@+id/meme_preview"
+        android:id="@+id/textView_preview_linearLayout"
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -151,6 +153,7 @@
             </LinearLayout>
 
         </LinearLayout>
+
         <!-- share, save, export buttons -->
         <LinearLayout
             android:id="@+id/all_buttons"
@@ -160,22 +163,20 @@
             android:layout_height="match_parent">
 
             <Button
+                android:id="@+id/share_meme_button"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="share"
                 android:onClick="onShareClick" />
 
             <Button
+                android:id="@+id/shareButton"
+                android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="save"
-                android:id="@+id/shareButton"
                 android:onClick="saveVanillaMeme" />
-
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="export" />
 
         </LinearLayout>
 
