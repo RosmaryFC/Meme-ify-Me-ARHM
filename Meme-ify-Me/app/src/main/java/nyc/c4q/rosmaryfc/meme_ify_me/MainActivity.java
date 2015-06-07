@@ -210,53 +210,6 @@ public class MainActivity extends ActionBarActivity {
         return meme;
     }
 
-    public void onRadioButtonClicked (View view){
-        // Is the button now checked?
-        boolean checked = ((RadioButton) view).isChecked();
-
-        // Check which radio button was clicked
-        switch (view.getId()) {
-            case R.id.vanilla_memes_radBtn:
-                if (checked)
-                    // load vanilla_memes layout
-                    //imageview.setImageResource(R.drawable.vanillapreview);
-                    break;
-            case R.id.demotivational_posters_radBtn:
-                if (checked)
-                    // load demotivational_posters layout
-                    //imageview.setImageResource(R.drawable.demotpreview);
-                    break;
-        }
-    }
-
-
- }
-
-//    public void saveMeme (View v) {    //if there is time, fix this so it can be generalized for both types of memes
-//        Bitmap meme = drawMeme(v);
-//        try {
-//            meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
-//
-//
-//
-//        } catch (FileNotFoundException e) {
-//            // TODO Auto-generated catch block
-//            e.printStackTrace();
-//        }
-//        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
-//
-//        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "memeFile.jpg");
-//        imageUri = Uri.fromFile(photo);
-//        Toast.makeText(getApplicationContext(), "File saved to :" + imageUri.toString(), Toast.LENGTH_LONG).show();
-//
-//        File f = new File("memeFile");
-//
-//
-//
-//        MediaStore.Images.Media.insertImage(getContentResolver(), meme, "Meme _", "New meme");
-//        //return returnedBitmap;
-//    }
-
 
         public void onRadioButtonClicked (View view){
             // Is the button now checked?
@@ -300,25 +253,3 @@ public class MainActivity extends ActionBarActivity {
 
 
  }
-//
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == REQUEST_IMAGE_GET && resultCode == Activity.RESULT_OK) {
-//
-//            try {
-//
-//                Uri selectedImage = imageUri;
-//
-//
-//                getContentResolver().notifyChange(selectedImage, null);
-//
-//                ImageView imageview = (ImageView) findViewById(R.id.image);
-//                ContentResolver cr = getContentResolver();
-//                Bitmap bitmap;
-//
-//
-//                bitmap = MediaStore.Images.Media.getBitmap(cr, selectedImage); //don't store in memor card by default
-//                imageview.setImageBitmap(bitmap);
-//                Toast.makeText(MainActivity.this, selectedImage.toString(), Toast.LENGTH_LONG).show();
-//            }
