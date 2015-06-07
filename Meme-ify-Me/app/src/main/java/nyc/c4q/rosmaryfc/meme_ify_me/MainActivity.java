@@ -49,6 +49,8 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     private ImageButton fromGalleryButton;
     private RadioButton vanillaRadioButton;
     private RadioButton demotivationalRadBtn;
+    private Intent vanillaMemeIntent;
+    private Intent demotivationalMemeIntent;
     Button editButton;
     private File photo = null;
 
@@ -122,13 +124,13 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         public void onClick(View view) {
             if (selectedImagePath == null) {
                 Toast.makeText(getApplicationContext(), "Select an image or take a picture", Toast.LENGTH_SHORT).show();
-            }else {
+            } else {
                 if (vanillaRadioButton.isChecked()) {
-                    Intent vanillaMemeIntent = new Intent(MainActivity.this, VanillaMemeEdit.class);
+                    vanillaMemeIntent = new Intent(MainActivity.this, VanillaMemeEdit.class);
                     vanillaMemeIntent.putExtra("SelectedImagePath", selectedImagePath);
                     startActivity(vanillaMemeIntent);
                 } else if (demotivationalRadBtn.isChecked()) {
-                    Intent demotivationalMemeIntent = new Intent(MainActivity.this, DemotivationalMemeEdit.class);
+                    demotivationalMemeIntent = new Intent(MainActivity.this, DemotivationalMemeEdit.class);
                     demotivationalMemeIntent.putExtra("SelectedImagePath", selectedImagePath);
                     startActivity(demotivationalMemeIntent);
                 } else {
@@ -201,108 +203,47 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         return image;
     }
 
+    //method for gathering intent information from takePhoto and pickPhoto methods
+    // and setting the imageview with correct bitmap, and saving
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == RESULT_OK) {
+            if (requestCode == PICK_PICTURE) {
+                selectedImagePath = String.valueOf(data.getData());
+
+                imageview.setImageBitmap(decodePhoto(MainActivity.this, selectedImagePath));
+
+                //make Edit Picture button invisible
+                editButton.setVisibility(View.INVISIBLE);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            //method for gathering intent information from takePhoto and pickPhoto methods
-            // and setting the imageview with correct bitmap, and saving
-            @Override
-            protected void onActivityResult ( int requestCode, int resultCode, Intent data) {
-                if (resultCode == RESULT_OK) {
-                    if (requestCode == PICK_PICTURE) {
-                        selectedImagePath = String.valueOf(data.getData());
-
-                        imageview.setImageBitmap(decodePhoto(selectedImagePath));
-
-                        //make Edit Picture button invisible
-                        editButton.setVisibility(View.INVISIBLE);
-
-
-                    } else if (requestCode == TAKE_PICTURE) {
+            } else if (requestCode == TAKE_PICTURE) {
 //                        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
 //                        imageUri = Uri.fromFile(photo);
 
-                        selectedImagePath = imageUri.toString();
-                        vanillaMemeIntent.setData(imageUri);
-                        imageview.setImageBitmap(decodePhoto(selectedImagePath));
+                selectedImagePath = imageUri.toString();
+                vanillaMemeIntent.setData(imageUri);
+                imageview.setImageBitmap(decodePhoto(MainActivity.this, selectedImagePath));
 
-                        //make Edit Picture button visible
-                        editButton.setVisibility(View.VISIBLE);
-                        //Toast.makeText(getApplicationContext(),"You can edit the picture you just took by pressing the edit picture button", Toast.LENGTH_LONG).show();
+                //make Edit Picture button visible
+                editButton.setVisibility(View.VISIBLE);
+                //Toast.makeText(getApplicationContext(),"You can edit the picture you just took by pressing the edit picture button", Toast.LENGTH_LONG).show();
 
-                        Context context=getApplicationContext();
-                        LayoutInflater inflater=getLayoutInflater();
+                Context context = getApplicationContext();
+                LayoutInflater inflater = getLayoutInflater();
 
-                        View customToastroot =inflater.inflate(R.layout.mycustom_toast, null);
+                View customToastroot = inflater.inflate(R.layout.mycustom_toast, null);
 
-                        Toast customtoast=new Toast(context);
+                Toast customtoast = new Toast(context);
 
-                        customtoast.setView(customToastroot);
-                        customtoast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL,0, 0);
-                        customtoast.setDuration(Toast.LENGTH_LONG);
-                        customtoast.show();
-
-
-                    } else if (requestCode == EDIT_PICTURE) {
+                customtoast.setView(customToastroot);
+                customtoast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL, 0, 0);
+                customtoast.setDuration(Toast.LENGTH_LONG);
+                customtoast.show();
 
 
-                Bundle extra = aviaryIntent.getExtras();
-                if (null != extra) {
-                    // image has been changed?
-                    boolean changed = extra.getBoolean(Constants.EXTRA_OUT_BITMAP_CHANGED);
-                    if (changed) {
-                        aviaryIntent.putExtra(MediaStore.EXTRA_OUTPUT, mimageUri);
+            } else if (requestCode == EDIT_PICTURE) {
 
-                    }
-                }
                 selectedImagePath = imageUri.toString();
                 imageview.setImageBitmap(decodePhoto(MainActivity.this, selectedImagePath));
             } else {
