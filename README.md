@@ -28,13 +28,13 @@ and general project navigation.
 
 ###Issue Log
 
-- see todos in code
-- save state throughout activity lifecycle (esp. for orientation switch)
-- add icon launcher
-- add drag text feature
-- add different font size, color, set proper font type
-- review on styling layouts (optimize UI)
+- See todos in code
+- Save state throughout activity lifecycle (esp. for orientation switch)
+- Add icon launcher
+- Add drag text feature
+- Add different font size, color, set proper font type
+- Review on styling layouts (optimize UI)
 - Choose a meme templates option
-- shrink text to fit inside Textview as you type
+- Shrink text to fit inside Textview as you type
 
 
