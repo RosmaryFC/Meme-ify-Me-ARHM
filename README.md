@@ -8,7 +8,7 @@ and general project navigation.
 
 * Abass Bayo:  
   -Responsible for: UI + Saving meme, sharing, and exporting  
-  -Number of hours: 
+  -Number of hours: 25
 
 * Rosemary Fermin:  
   -Responsible for: UI + customizing dynamic elements of meme   
