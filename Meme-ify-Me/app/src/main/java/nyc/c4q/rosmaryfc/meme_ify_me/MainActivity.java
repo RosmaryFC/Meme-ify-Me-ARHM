@@ -11,6 +11,8 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -85,7 +87,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
         editButton = (Button) findViewById(R.id.editButton);
         //button needs to show only when picture was taken.
-        editButton.setVisibility(View.GONE);
+        editButton.setVisibility(View.INVISIBLE);
         editButton.setOnClickListener(editListener);
 
     }
@@ -111,7 +113,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         @Override
         public void onClick(View v) {
             pickPhoto(v);
-            editButton.setVisibility(View.GONE);
+            editButton.setVisibility(View.INVISIBLE);
         }
     };
 
@@ -199,39 +201,98 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         return image;
     }
 
-    //method for gathering intent information from takePhoto and pickPhoto methods
-    // and setting the imageview with correct bitmap, and saving
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == RESULT_OK) {
-            if (requestCode == PICK_PICTURE) {
-                selectedImagePath = String.valueOf(data.getData());
-                imageview.setImageBitmap(decodePhoto(MainActivity.this, selectedImagePath));
 
-                //make Edit Picture button invisible
-                editButton.setVisibility(View.GONE);
 
-            } else if (requestCode == TAKE_PICTURE) {
 
-                selectedImagePath = imageUri.toString();//todo: error on this line
-                imageview.setImageBitmap(decodePhoto(MainActivity.this, selectedImagePath));
 
-                //make Edit Picture button visible
-                editButton.setVisibility(View.VISIBLE);
-                Toast.makeText(getApplicationContext(), "You can edit the picture you just took by pressing the edit picture button", Toast.LENGTH_SHORT).show();
 
-            } else if (requestCode == EDIT_PICTURE) {
 
-                photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
 
-                Intent aviaryIntent = new AviaryIntent
-                        .Builder(this)
-                        .setData(imageUri)
-                        .withOutput(photo)
-                        .withOutputSize(MegaPixels.Mp5)
-                        .build();
 
-                Uri mimageUri = Uri.fromFile(photo);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+            //method for gathering intent information from takePhoto and pickPhoto methods
+            // and setting the imageview with correct bitmap, and saving
+            @Override
+            protected void onActivityResult ( int requestCode, int resultCode, Intent data) {
+                if (resultCode == RESULT_OK) {
+                    if (requestCode == PICK_PICTURE) {
+                        selectedImagePath = String.valueOf(data.getData());
+
+                        imageview.setImageBitmap(decodePhoto(selectedImagePath));
+
+                        //make Edit Picture button invisible
+                        editButton.setVisibility(View.INVISIBLE);
+
+
+                    } else if (requestCode == TAKE_PICTURE) {
+//                        File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+//                        imageUri = Uri.fromFile(photo);
+
+                        selectedImagePath = imageUri.toString();
+                        vanillaMemeIntent.setData(imageUri);
+                        imageview.setImageBitmap(decodePhoto(selectedImagePath));
+
+                        //make Edit Picture button visible
+                        editButton.setVisibility(View.VISIBLE);
+                        //Toast.makeText(getApplicationContext(),"You can edit the picture you just took by pressing the edit picture button", Toast.LENGTH_LONG).show();
+
+                        Context context=getApplicationContext();
+                        LayoutInflater inflater=getLayoutInflater();
+
+                        View customToastroot =inflater.inflate(R.layout.mycustom_toast, null);
+
+                        Toast customtoast=new Toast(context);
+
+                        customtoast.setView(customToastroot);
+                        customtoast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL,0, 0);
+                        customtoast.setDuration(Toast.LENGTH_LONG);
+                        customtoast.show();
+
+
+                    } else if (requestCode == EDIT_PICTURE) {
+
 
                 Bundle extra = aviaryIntent.getExtras();
                 if (null != extra) {
