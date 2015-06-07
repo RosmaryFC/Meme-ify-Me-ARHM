@@ -109,7 +109,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
         editButton = (Button)findViewById(R.id.editButton);
         //button needs to show only when picture was taken.
-        editButton.setVisibility(View.GONE);
+        editButton.setVisibility(View.INVISIBLE);
         editButton.setOnClickListener(editListener);
 
     }
@@ -137,7 +137,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         @Override
         public void onClick(View v) {
             pickPhoto(v);
-            editButton.setVisibility(View.GONE);
+            editButton.setVisibility(View.INVISIBLE);
         }
     };
 
@@ -235,7 +235,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                         imageview.setImageBitmap(decodePhoto(selectedImagePath));
 
                         //make Edit Picture button invisible
-                        editButton.setVisibility(View.GONE);
+                        editButton.setVisibility(View.INVISIBLE);
 
 
                     } else if (requestCode == TAKE_PICTURE) {
@@ -248,7 +248,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
                         //make Edit Picture button visible
                         editButton.setVisibility(View.VISIBLE);
-                        Toast.makeText(getApplicationContext(),"You can edit the picture you just took by pressing the edit picture button", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(),"You can edit the picture you just took by pressing the edit picture button", Toast.LENGTH_LONG).show();
 
                     } else if (requestCode == EDIT_PICTURE) {
 
