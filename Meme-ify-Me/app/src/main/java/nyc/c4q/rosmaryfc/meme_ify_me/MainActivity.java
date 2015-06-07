@@ -3,6 +3,7 @@ package nyc.c4q.rosmaryfc.meme_ify_me;
 
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
@@ -18,6 +19,8 @@ import android.provider.MediaStore;
 import android.support.annotation.DrawableRes;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -109,7 +112,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
         editButton = (Button)findViewById(R.id.editButton);
         //button needs to show only when picture was taken.
-        editButton.setVisibility(View.GONE);
+        editButton.setVisibility(View.INVISIBLE);
         editButton.setOnClickListener(editListener);
 
     }
@@ -137,7 +140,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         @Override
         public void onClick(View v) {
             pickPhoto(v);
-            editButton.setVisibility(View.GONE);
+            editButton.setVisibility(View.INVISIBLE);
         }
     };
 
@@ -235,7 +238,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                         imageview.setImageBitmap(decodePhoto(selectedImagePath));
 
                         //make Edit Picture button invisible
-                        editButton.setVisibility(View.GONE);
+                        editButton.setVisibility(View.INVISIBLE);
 
 
                     } else if (requestCode == TAKE_PICTURE) {
@@ -248,30 +251,22 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
                         //make Edit Picture button visible
                         editButton.setVisibility(View.VISIBLE);
-                        Toast.makeText(getApplicationContext(),"You can edit the picture you just took by pressing the edit picture button", Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(getApplicationContext(),"You can edit the picture you just took by pressing the edit picture button", Toast.LENGTH_LONG).show();
+
+                        Context context=getApplicationContext();
+                        LayoutInflater inflater=getLayoutInflater();
+
+                        View customToastroot =inflater.inflate(R.layout.mycustom_toast, null);
+
+                        Toast customtoast=new Toast(context);
+
+                        customtoast.setView(customToastroot);
+                        customtoast.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL,0, 0);
+                        customtoast.setDuration(Toast.LENGTH_LONG);
+                        customtoast.show();
+
 
                     } else if (requestCode == EDIT_PICTURE) {
-
-                        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
-
-                        Intent aviaryIntent = new AviaryIntent
-                                .Builder(this)
-                                .setData(imageUri)
-                                .withOutput(photo)
-                                .withOutputSize(MegaPixels.Mp5)
-                                .build();
-
-                        Uri mimageUri = Uri.fromFile(photo);
-
-                        Bundle extra = aviaryIntent.getExtras();
-                        if (null != extra) {
-                            // image has been changed?
-                            boolean changed = extra.getBoolean(Constants.EXTRA_OUT_BITMAP_CHANGED);
-                            if (changed) {
-                                aviaryIntent.putExtra(MediaStore.EXTRA_OUTPUT, mimageUri);
-
-                            }
-                        }
 
                        selectedImagePath = imageUri.toString();
                         imageview.setImageBitmap(decodePhoto(selectedImagePath));

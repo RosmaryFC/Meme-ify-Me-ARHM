@@ -15,7 +15,8 @@
         android:width="100pt"
         android:textSize="10pt"
         android:id="@+id/editText"
-        android:text="Choose Meme Type" />
+        android:text="Choose Meme Type"
+        android:layout_weight="1" />
 
     <RadioGroup
         android:id="@+id/radioGroup"
@@ -49,18 +50,19 @@
 
     <ImageView
         android:layout_width="fill_parent"
-        android:layout_height="250dp"
+        android:layout_height="270dp"
         android:src="@drawable/successkid"
         android:layout_gravity="center"
-        android:id="@+id/image"/>
+        android:id="@+id/image"
+        android:layout_weight="1" />
 
     <LinearLayout
         android:layout_width="wrap_content"
-        android:layout_height="fill_parent"
-        android:paddingTop="20dp"
+        android:layout_height="60dp"
         android:orientation="horizontal"
         android:id="@+id/linearLayout"
-        android:layout_weight="0.27"  >
+        android:layout_weight="1"
+        android:layout_marginTop="10dp">
 
 
         <LinearLayout
@@ -119,26 +121,39 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="edit picture"
-        android:id="@+id/editButton"
-        android:layout_below="@+id/linearLayout"
-        android:layout_toLeftOf="@+id/edit_meme_button"
-        android:layout_toStartOf="@+id/edit_meme_button"
-        android:layout_gravity="center_horizontal|left" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_weight="1"
+        android:gravity="center_horizontal|bottom">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="edit picture"
+            android:id="@+id/editButton"
+            android:layout_below="@+id/linearLayout"
+            android:layout_toLeftOf="@+id/edit_meme_button"
+            android:layout_toStartOf="@+id/edit_meme_button"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/edit_button_background"
+            android:padding="8dp"
+            android:textColor="#ffffffff" />
 
 
-    <Button
-        android:layout_gravity="center_horizontal"
-        android:id="@+id/edit_meme_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit Meme -->" />
+        <Button
+            android:id="@+id/edit_meme_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit Meme -->"
+            android:clickable="true"
+            android:padding="10dp"
+            android:background="@drawable/button_background"
+            android:textColor="#ffffffff"
+            android:textStyle="bold"
+            android:textSize="17dp" />
 
-
-
+        </LinearLayout>
 
 </LinearLayout>
 
