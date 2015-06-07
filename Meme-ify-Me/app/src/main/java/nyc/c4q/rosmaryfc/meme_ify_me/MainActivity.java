@@ -278,7 +278,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                 if (checked && !imageSelected) {
                     // load vanilla_memes layout
                     //todo: this is where code will go to change sample image to sample vanilla meme image
-                    imageview.setImageResource(R.drawable.vanillapreview);
+                    //imageview.setImageResource(R.drawable.vanillapreview);
                 }
                 //else {
                     if (checked) {
@@ -304,7 +304,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                 if (checked && !imageSelected) {
                     // load demotivational_posters layout
                     //todo: this is where code will go to change sample image to sample demotivational poster image
-                    imageview.setImageResource(R.drawable.demotpreview);
+                    //imageview.setImageResource(R.drawable.demotpreview);
                 }
                 //else {
                     //set background image to demotivational looking
