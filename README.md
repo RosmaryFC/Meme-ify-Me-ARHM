@@ -16,7 +16,7 @@ and general project navigation.
 
 * Hoshiko Oki:  
   -Responsible for: UI + call camera app and capturing image, load to image view implementing avery   
-  -Number of hours: 
+  -Number of hours: at least 28 -32?
 
 * Marbella Vidals:    
   -Responsible for: UI + implementing gallery/camera roll button and debugging camera and gallery functionality, styling   
