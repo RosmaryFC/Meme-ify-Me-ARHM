@@ -51,7 +51,7 @@
     <ImageView
         android:layout_width="fill_parent"
         android:layout_height="270dp"
-        android:src="@drawable/successkid"
+        android:src="@drawable/truthhurts"
         android:layout_gravity="center"
         android:id="@+id/image"
         android:layout_weight="1" />
