@@ -21,6 +21,7 @@
             android:id="@+id/image_for_meme"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:scaleType="fitXY"
             android:src="@drawable/successkid"/>
 
     <!-- meme preview -->
