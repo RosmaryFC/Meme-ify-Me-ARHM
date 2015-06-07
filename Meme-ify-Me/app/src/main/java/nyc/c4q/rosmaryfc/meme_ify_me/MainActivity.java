@@ -265,85 +265,111 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         return bitmapImage;
     }
 
+
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
+        boolean imageSelected = (selectedImagePath != null);
 
         // Check which radio button was clicked
         switch (view.getId()) {
             case R.id.vanilla_memes_radBtn:
 
-
-
-                if (checked){
-                    // load vanilla_memes layout toast
-
-                    Context contextMeme = getApplicationContext();
-                    LayoutInflater inflater = getLayoutInflater();
-                    View customToastroot = inflater.inflate(R.layout.meme1toast, null);
-                    Toast contextMeme1 = new Toast(contextMeme);
-                    contextMeme1.setView(customToastroot);
-                    contextMeme1.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
-                    contextMeme1.setGravity(Gravity.AXIS_X_SHIFT, 0, 33);
-                    contextMeme1.setDuration(Toast.LENGTH_SHORT);
-                    contextMeme1.show();
-
+                if (checked && !imageSelected) {
+                    // load vanilla_memes layout
+                    //todo: this is where code will go to change sample image to sample vanilla meme image
+                    imageview.setImageResource(R.drawable.vanillapreview);
                 }
-                break;
+                //else {
+                    if (checked) {
+                        // load vanilla_memes layout toast
+
+                        Context contextMeme = getApplicationContext();
+                        LayoutInflater inflater = getLayoutInflater();
+                        View customToastroot = inflater.inflate(R.layout.meme1toast, null);
+                        Toast contextMeme1 = new Toast(contextMeme);
+                        contextMeme1.setView(customToastroot);
+                        contextMeme1.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                        contextMeme1.setGravity(Gravity.AXIS_X_SHIFT, 0, 33);
+                        contextMeme1.setDuration(Toast.LENGTH_SHORT);
+                        contextMeme1.show();
+
+
+                    }
+                    break;
+                //}
 
             case R.id.demotivational_posters_radBtn:
 
-                if (checked){
-                    // load demotivational_posters layout toast
-
-
-                    Context contextMemeTwo = getApplicationContext();
-                    LayoutInflater inflaterTwo = getLayoutInflater();
-                    View customToastrootTwo = inflaterTwo.inflate(R.layout.meme2toast, null);
-                    Toast contextMemetoastTwo = new Toast(contextMemeTwo);
-                    contextMemetoastTwo.setView(customToastrootTwo);
-                    contextMemetoastTwo.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
-                    contextMemetoastTwo.setGravity(Gravity.AXIS_X_SHIFT, 0, 33);
-                    contextMemetoastTwo.setDuration(Toast.LENGTH_SHORT);
-                    contextMemetoastTwo.show();
+                if (checked && !imageSelected) {
+                    // load demotivational_posters layout
+                    //todo: this is where code will go to change sample image to sample demotivational poster image
+                    imageview.setImageResource(R.drawable.demotpreview);
                 }
-                break;
+                //else {
+                    //set background image to demotivational looking
+                    if (checked) {
+                        // load demotivational_posters layout toast
+
+
+                        Context contextMemeTwo = getApplicationContext();
+                        LayoutInflater inflaterTwo = getLayoutInflater();
+                        View customToastrootTwo = inflaterTwo.inflate(R.layout.meme2toast, null);
+                        Toast contextMemetoastTwo = new Toast(contextMemeTwo);
+                        contextMemetoastTwo.setView(customToastrootTwo);
+                        contextMemetoastTwo.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                        contextMemetoastTwo.setGravity(Gravity.AXIS_X_SHIFT, 0, 33);
+                        contextMemetoastTwo.setDuration(Toast.LENGTH_SHORT);
+                        contextMemetoastTwo.show();
+
+                    }
+                    break;
+                //}
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        @Override
+        public boolean onCreateOptionsMenu (Menu menu){
+            // Inflate the menu; this adds items to the action bar if it is present.
+            getMenuInflater().inflate(R.menu.menu_main, menu);
             return true;
         }
 
-        return super.onOptionsItemSelected(item);
-    }
+        @Override
+        public boolean onOptionsItemSelected (MenuItem item){
+            // Handle action bar item clicks here. The action bar will
+            // automatically handle clicks on the Home/Up button, so long
+            // as you specify a parent activity in AndroidManifest.xml.
+            int id = item.getItemId();
 
-    @Override
-    public String getClientID() {
-        return CreativeCloud.YOUR_API_KEY;
-    }
+            //noinspection SimplifiableIfStatement
+            if (id == R.id.action_settings) {
+                return true;
+            }
 
-    @Override
-    public String getClientSecret() {
-        return CreativeCloud.YOUR_API_SECRET;
+            return super.onOptionsItemSelected(item);
+        }
+
+        @Override
+        public String getClientID () {
+            return CreativeCloud.YOUR_API_KEY;
+        }
+
+        @Override
+        public String getClientSecret () {
+            return CreativeCloud.YOUR_API_SECRET;
+        }
+
+
+
+    //todo future work
+    public void exportMeme(View v) {
+
     }
 
 
 
 }
+
+
 
