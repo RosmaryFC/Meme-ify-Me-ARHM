@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -40,6 +41,8 @@ public class VanillaMemeEdit extends ActionBarActivity {
     private EditText topEditText;
     private EditText midEditText;
     private EditText btmEditText;
+    InputMethodManager imm;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,6 +59,8 @@ public class VanillaMemeEdit extends ActionBarActivity {
         Bitmap bmp = decodePhoto(this, imagePath);
         ImageView imageForMeme = (ImageView) findViewById(R.id.image_for_meme);
         imageForMeme.setImageBitmap(bmp);
+
+        imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
         Button topEditTxtPreviewBtn = (Button) findViewById(R.id.top_editText_preview_btn);
         topEditTxtPreviewBtn.setOnClickListener(topPreviewBtnListener);
@@ -74,6 +79,9 @@ public class VanillaMemeEdit extends ActionBarActivity {
             topEditText = (EditText) findViewById(R.id.top_editText);
             topTextView = (TextView) findViewById(R.id.top_textView);
             topTextView.setText(topEditText.getText().toString());
+
+            imm.hideSoftInputFromWindow(topEditText.getWindowToken(), 0);
+
         }
     };
 
@@ -83,6 +91,9 @@ public class VanillaMemeEdit extends ActionBarActivity {
             midEditText = (EditText) findViewById(R.id.mid_editText);
             midTextView = (TextView) findViewById(R.id.mid_textView);
             midTextView.setText(midEditText.getText().toString());
+
+            imm.hideSoftInputFromWindow(midEditText.getWindowToken(), 0);
+
         }
     };
 
@@ -92,6 +103,9 @@ public class VanillaMemeEdit extends ActionBarActivity {
             btmEditText = (EditText) findViewById(R.id.btm_editText);
             btmTextView = (TextView) findViewById(R.id.btm_textView);
             btmTextView.setText(btmEditText.getText().toString());
+
+            imm.hideSoftInputFromWindow(btmEditText.getWindowToken(), 0);
+
         }
     };
 

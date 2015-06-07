@@ -274,15 +274,31 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         // Check which radio button was clicked
         switch (view.getId()) {
             case R.id.vanilla_memes_radBtn:
+
                 if (checked && !imageSelected) {
                     // load vanilla_memes layout
                     //todo: this is where code will go to change sample image to sample vanilla meme image
                     imageview.setImageResource(R.drawable.vanillapreview);
-                } else {
-                    // set background behind image to background of vanilla preview
+                }
+                if (checked) {
+                    // load vanilla_memes layout toast
+
+                    Context contextMeme = getApplicationContext();
+                    LayoutInflater inflater = getLayoutInflater();
+                    View customToastroot = inflater.inflate(R.layout.meme1toast, null);
+                    Toast contextMeme1 = new Toast(contextMeme);
+                    contextMeme1.setView(customToastroot);
+                    contextMeme1.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                    contextMeme1.setGravity(Gravity.AXIS_X_SHIFT, 0, 33);
+                    contextMeme1.setDuration(Toast.LENGTH_SHORT);
+                    contextMeme1.show();
+
+
                 }
                 break;
+
             case R.id.demotivational_posters_radBtn:
+
                 if (checked && !imageSelected) {
                     // load demotivational_posters layout
                     //todo: this is where code will go to change sample image to sample demotivational poster image
@@ -290,8 +306,24 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                 } else {
                     //set background image to demotivational looking
 
+
+                    if (checked) {
+                        // load demotivational_posters layout toast
+
+
+                        Context contextMemeTwo = getApplicationContext();
+                        LayoutInflater inflaterTwo = getLayoutInflater();
+                        View customToastrootTwo = inflaterTwo.inflate(R.layout.meme2toast, null);
+                        Toast contextMemetoastTwo = new Toast(contextMemeTwo);
+                        contextMemetoastTwo.setView(customToastrootTwo);
+                        contextMemetoastTwo.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
+                        contextMemetoastTwo.setGravity(Gravity.AXIS_X_SHIFT, 0, 33);
+                        contextMemetoastTwo.setDuration(Toast.LENGTH_SHORT);
+                        contextMemetoastTwo.show();
+
+                    }
+                    break;
                 }
-                break;
         }
     }
 
@@ -335,4 +367,8 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     }
 
 
+
 }
+
+
+

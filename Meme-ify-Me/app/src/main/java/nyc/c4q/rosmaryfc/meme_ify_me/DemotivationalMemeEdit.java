@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -41,6 +42,9 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     private EditText phraseEditText;
     private Bitmap bmp;
 
+    InputMethodManager imm;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,6 +61,8 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         ImageView posterImageView = (ImageView) findViewById(R.id.imageView_for_poster);
         posterImageView.setImageBitmap(bmp);
 
+        imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+
         Button titleEditTxtPreviewBtn = (Button) findViewById(R.id.title_editText_preview_btn);
         titleEditTxtPreviewBtn.setOnClickListener(titlePreviewBtnListener);
 
@@ -71,6 +77,9 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
             titleEditText = (EditText) findViewById(R.id.title_editText);
             titleTextView = (TextView) findViewById(R.id.title_textView);
             titleTextView.setText(titleEditText.getText().toString());
+
+            imm.hideSoftInputFromWindow(titleEditText.getWindowToken(), 0);
+
         }
     };
 
@@ -80,6 +89,9 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
             phraseEditText = (EditText) findViewById(R.id.phrase_editText);
             phraseTextView = (TextView) findViewById(R.id.phrase_textView);
             phraseTextView.setText(phraseEditText.getText().toString());
+
+            imm.hideSoftInputFromWindow(phraseTextView.getWindowToken(), 0);
+
         }
     };
 
