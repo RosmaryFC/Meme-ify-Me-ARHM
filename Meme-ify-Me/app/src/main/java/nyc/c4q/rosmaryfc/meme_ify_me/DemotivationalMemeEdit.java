@@ -24,9 +24,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -110,36 +112,35 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         return bitmapImage;
     }
 
-    public void onShareClick(View v){
-        //returnedBitmap = drawMeme(v);
-        List<Intent> targetShareIntents=new ArrayList<Intent>();
-        Intent shareIntent=new Intent();
-        shareIntent.setAction(Intent.ACTION_SEND);
-        shareIntent.setType("image/jpg");
+    public void onShareClick(View v) {
+        imageUri = saveDemotivationalMeme(v);
+        Toast.makeText(getApplicationContext(), "Preparing to share :" + imageUri.toString(), Toast.LENGTH_LONG).show();
+        List<Intent> targetShareIntents = new ArrayList<Intent>();
+        Intent shareIntent = new Intent(Intent.ACTION_SEND);
+        shareIntent.setType("image/*");
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
         List<ResolveInfo> resInfos = getPackageManager().queryIntentActivities(shareIntent, 0);
+
         boolean intentSafe = resInfos.size() > 0;
-        if(intentSafe){
-
-            for(ResolveInfo resInfo : resInfos){
-                String packageName=resInfo.activityInfo.packageName;
+        if (intentSafe) {
+            for (ResolveInfo resInfo : resInfos) {
+                String packageName = resInfo.activityInfo.packageName;
                 Log.i("Package Name", packageName);
-
-                Intent intent=new Intent();
+                Intent intent = new Intent();
                 intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
                 intent.setAction(Intent.ACTION_SEND);
-                intent.setType("image/jpg");
-                intent.putExtra(Intent.EXTRA_STREAM, imageUri); //need to update this so that we are sending the final meme, not the image.
-                // maybe convert imageUri + userinputted text as a Bitmap.     bmp = Bitmap.createBitmap(imageUri);
-
-                //intent.putExtra(Intent.EXTRA_SUBJECT, "Made with Meme-ify Me");
-                //intent.putExtra(Intent.EXTRA_TEXT, "Check out my new meme!");
-
+                intent.setType("image/*");
+                intent.putExtra(Intent.EXTRA_STREAM, imageUri);
+                intent.putExtra(Intent.EXTRA_SUBJECT, "Made with Meme-ify Me");
+                intent.putExtra(Intent.EXTRA_TEXT, "Check out my new meme!");
                 intent.setPackage(packageName);
                 targetShareIntents.add(intent);
             }
-            Intent chooserIntent=Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
+            Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
             chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
+            startActivity(Intent.createChooser(shareIntent, "Share Image"));
             startActivity(chooserIntent);
+
         } else {
             return;
         }
@@ -155,7 +156,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         return meme;
     }
 
-    public void saveDemotivationalMeme (View v) {
+    public Uri saveDemotivationalMeme (View v) {
         Bitmap meme = drawMeme(v);
         try {
             meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
@@ -171,7 +172,20 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
             File photo = new File(Environment.getRootDirectory(), "memeFile.jpg");
             imageUri = Uri.fromFile(photo);
         }
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        meme.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File photo = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+        try {
+            photo.createNewFile();
+            FileOutputStream fo = new FileOutputStream(photo);
+            fo.write(bytes.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        imageUri = Uri.fromFile(photo);
         MediaStore.Images.Media.insertImage(getContentResolver(), meme, "Meme _", "New meme");
+        return imageUri;
     }
 
     @Override
