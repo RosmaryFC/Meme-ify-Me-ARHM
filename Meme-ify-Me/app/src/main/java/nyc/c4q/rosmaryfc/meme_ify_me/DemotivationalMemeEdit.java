@@ -101,33 +101,12 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     }
 
     public void onShareClick(View v) {
-        Bitmap meme = drawMeme(v);
-        try {
-            meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        meme = Bitmap.createScaledBitmap(meme, 100, 100, true);
-       meme.compress(Bitmap.CompressFormat.JPEG, 256, bytes);
-
-        File photo = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-        try {
-            photo.createNewFile();
-            FileOutputStream fo = new FileOutputStream(photo);
-            fo.write(bytes.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        imageUri = Uri.fromFile(photo);
-
+        imageUri = saveDemotivationalMeme(v);
         Toast.makeText(getApplicationContext(), "Preparing to share :" + imageUri.toString(), Toast.LENGTH_LONG).show();
         List<Intent> targetShareIntents = new ArrayList<Intent>();
         Intent shareIntent = new Intent(Intent.ACTION_SEND);
         shareIntent.setType("image/*");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, Uri.parse(photo.getPath()));
+        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
         List<ResolveInfo> resInfos = getPackageManager().queryIntentActivities(shareIntent, 0);
 
         boolean intentSafe = resInfos.size() > 0;
@@ -165,7 +144,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         return meme;
     }
 
-    public void saveDemotivationalMeme (View v) {
+    public Uri saveDemotivationalMeme (View v) {
         Bitmap meme = drawMeme(v);
         try {
             meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
@@ -181,7 +160,20 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
             File photo = new File(Environment.getRootDirectory(), "memeFile.jpg");
             imageUri = Uri.fromFile(photo);
         }
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        meme.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        File photo = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
+        try {
+            photo.createNewFile();
+            FileOutputStream fo = new FileOutputStream(photo);
+            fo.write(bytes.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        imageUri = Uri.fromFile(photo);
         MediaStore.Images.Media.insertImage(getContentResolver(), meme, "Meme _", "New meme");
+        return imageUri;
     }
 
     @Override
