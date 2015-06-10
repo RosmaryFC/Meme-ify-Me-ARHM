@@ -45,6 +45,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(MainActivity.TAG, "VanillaMemeEdit.onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vanilla_meme_edit);
         imageUri = getIntent().getData();
@@ -119,6 +120,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
     //requesting image's file path and converting into url and calling the
     // ContentResolver to retrieve image and set it inside a bitmap
     public Bitmap decodePhoto(Context context, String path) {
+        Log.d(MainActivity.TAG, "VanillaMemeEdit.decodePhoto()");
         Uri selectedImageUri = Uri.parse(path);
         getContentResolver().notifyChange(selectedImageUri, null);
         ContentResolver cr = getContentResolver();
@@ -134,6 +136,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
     }
 
     public void onShareClick(View v) {
+        Log.d(MainActivity.TAG, "VanillaMemeEdit.onShareClick()");
         imageUri = saveVanillaMeme(v);
         Toast.makeText(getApplicationContext(), "Preparing to share :" + imageUri.toString(), Toast.LENGTH_LONG).show();
         List<Intent> targetShareIntents = new ArrayList<Intent>();
@@ -168,6 +171,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
     }
 
     public Bitmap drawMeme(View v){
+        Log.d(MainActivity.TAG, "VanillaMemeEdit.drawMeme()");
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.meme_preview_relativeLayout);
         layout.setDrawingCacheEnabled(true);
         Bitmap memeBitMap = layout.getDrawingCache();
@@ -178,6 +182,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
     }
 
     public Uri saveVanillaMeme (View v) {
+        Log.d(MainActivity.TAG, "VanillaMemeEdit.saveVanillaMeme()");
         Bitmap meme = drawMeme(v);
         try {
             meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));

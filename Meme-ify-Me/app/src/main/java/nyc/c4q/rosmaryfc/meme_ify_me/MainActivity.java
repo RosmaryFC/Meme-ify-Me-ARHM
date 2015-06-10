@@ -56,6 +56,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
+        Log.d(TAG, "MainActivity.onSaveInstanceState()");
         super.onSaveInstanceState(outState);
         outState.putString("SelectedImagePath", selectedImagePath);
     }
@@ -64,7 +65,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Log.d(TAG, "onCreate()");
+        Log.d(TAG, "MainActivity.onCreate()");
 
         AdobeCSDKFoundation.initializeCSDKFoundation(getApplicationContext());
         Intent intent = AviaryIntent.createCdsInitIntent(getBaseContext());
@@ -143,6 +144,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
     //method for requesting image from gallery/camera roll
     public void pickPhoto(View v) {
+        Log.d(TAG, "MainActivity.pickPhoto()");
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");
         startActivityForResult(intent, PICK_PICTURE);
@@ -150,6 +152,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
     //method for requesting camera to capture image and save it under a new file
     public void takePhoto(View v) {
+        Log.d(TAG, "MainActivity.takePhoto()");
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
         imageUri = Uri.fromFile(photo);
@@ -159,6 +162,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
     //open up the editor to edit the picture loaded in imageView
     private void editPhoto(View v) {
+        Log.d(TAG, "MainActivity.editPhoto()");
         photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
 
         Intent aviaryIntent = new AviaryIntent
@@ -190,6 +194,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
      * @throws IOException
      */
     private File createImageFile() throws IOException {
+        Log.d(TAG, "MainActivity.createImageFile()");
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
         File storageDir = Environment.getExternalStoragePublicDirectory(
@@ -208,6 +213,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     // and setting the imageview with correct bitmap, and saving
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "MainActivity.onActivityResult()");
         if (resultCode == RESULT_OK) {
             if (requestCode == PICK_PICTURE) {
                 selectedImagePath = String.valueOf(data.getData());
@@ -252,6 +258,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     //requesting image's file path and converting into url and calling the
     // ContentResolver to retrieve image and set it inside a bitmap
     public Bitmap decodePhoto(Context context, String path) {
+        Log.d(TAG, "MainActivity.decodePhoto()");
         Uri selectedImageUri = Uri.parse(path);
         getContentResolver().notifyChange(selectedImageUri, null);
         ContentResolver cr = getContentResolver();
@@ -268,6 +275,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
 
     public void onRadioButtonClicked(View view) {
+        Log.d(TAG, "MainActivity.onRadioButtonClicked()");
         // Is the button now checked?
         boolean checked = ((RadioButton) view).isChecked();
         boolean imageSelected = (selectedImagePath != null);

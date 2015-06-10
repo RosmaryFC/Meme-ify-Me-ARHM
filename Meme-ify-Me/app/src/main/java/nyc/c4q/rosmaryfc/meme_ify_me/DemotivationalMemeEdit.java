@@ -46,6 +46,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(MainActivity.TAG, "DemotivationalMemeEdit.onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demotivational_meme_edit);
 
@@ -97,6 +98,8 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     //requesting image's file path and converting into url and calling the
     // ContentResolver to retrieve image and set it inside a bitmap
     public Bitmap decodePhoto(Context context, String path) {
+        Log.d(MainActivity.TAG, "DemotivationalMemeEdit.decodePhoto()");
+
         Uri selectedImageUri = Uri.parse(path);
         getContentResolver().notifyChange(selectedImageUri, null);
         ContentResolver cr = getContentResolver();
@@ -112,6 +115,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     }
 
     public void onShareClick(View v) {
+        Log.d(MainActivity.TAG, "DemotivationalMemeEdit.onShareClick()");
         imageUri = saveDemotivationalMeme(v);
         Toast.makeText(getApplicationContext(), "Preparing to share :" + imageUri.toString(), Toast.LENGTH_LONG).show();
         List<Intent> targetShareIntents = new ArrayList<Intent>();
@@ -146,6 +150,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     }
 
     public Bitmap drawMeme(View v){
+        Log.d(MainActivity.TAG, "DemotivationalMemeEdit.drawMeme()");
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.meme_preview_relative_layout);
         layout.setDrawingCacheEnabled(true);
         Bitmap memeBitMap = layout.getDrawingCache();
@@ -156,6 +161,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     }
 
     public Uri saveDemotivationalMeme (View v) {
+        Log.d(MainActivity.TAG, "DemotivationalMemeEdit.saveDemotivationalMeme()");
         Bitmap meme = drawMeme(v);
         try {
             meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
