@@ -1,1 +1,6 @@
-Meme-ify-Me/.idea/misc.xml
+Meme-ify-Me/.gradle
+Meme-ify-Me/local.properties
+Meme-ify-Me/.idea
+.DS_Store
+Meme-ify-Me/build
+Meme-ify-Me/app/build
