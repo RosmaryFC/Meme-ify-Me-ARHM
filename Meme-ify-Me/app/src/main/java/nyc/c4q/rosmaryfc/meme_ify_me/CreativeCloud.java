@@ -8,7 +8,9 @@ import android.app.Application;
 import com.adobe.creativesdk.foundation.auth.IAdobeAuthClientCredentials;
 import com.aviary.android.feather.sdk.IAviaryClientCredentials;
 
-
+/*
+ * This connects our app to the Adobe Creative SDK.
+ */
 public class CreativeCloud extends Application implements IAviaryClientCredentials {
     public static final String YOUR_API_KEY = "958f6b23c0604850aae5bfc2f0c62628";
     public static final String YOUR_API_SECRET = "65f65622-35aa-4898-a901-cccff4562c15";

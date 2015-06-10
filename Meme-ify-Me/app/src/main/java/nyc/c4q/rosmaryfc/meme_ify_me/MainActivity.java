@@ -37,7 +37,7 @@ import java.util.Date;
 public class MainActivity extends ActionBarActivity implements IAdobeAuthClientCredentials {
 
     private static final int EDIT_PICTURE = 3;
-    private static String logtag = "CameraApp";
+    public static final String TAG = "CameraApp";
     private static int TAKE_PICTURE = 1;
     private static final int PICK_PICTURE = 2;
     private static final int SAVE_PICTURE = 3;
@@ -64,6 +64,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Log.d(TAG, "onCreate()");
 
         AdobeCSDKFoundation.initializeCSDKFoundation(getApplicationContext());
         Intent intent = AviaryIntent.createCdsInitIntent(getBaseContext());
@@ -260,7 +261,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
             //show image file path to user
             Toast.makeText(context, selectedImageUri.toString(), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e(logtag, e.toString());
+            Log.e(TAG, e.toString());
         }
         return bitmapImage;
     }

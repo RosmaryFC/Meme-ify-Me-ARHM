@@ -34,7 +34,6 @@ import java.util.List;
 
 public class VanillaMemeEdit extends ActionBarActivity {
     private Uri imageUri;
-    private static String logtag = "CameraApp";
     private TextView topTextView;
     private TextView midTextView;
     private TextView btmTextView;
@@ -54,7 +53,8 @@ public class VanillaMemeEdit extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         String imagePath = extras.getString("SelectedImagePath");
         if(imagePath == null){
-            Log.d("Error","imagePath is null" );
+            Log.d(MainActivity.TAG,"imagePath is null" );
+
         }
         Bitmap bmp = decodePhoto(this, imagePath);
         ImageView imageForMeme = (ImageView) findViewById(R.id.image_for_meme);
@@ -128,7 +128,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
             //show image file path to user
             Toast.makeText(context, selectedImageUri.toString(), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e(logtag, e.toString());
+            Log.e(MainActivity.TAG, e.toString());
         }
         return bitmapImage;
     }
@@ -146,7 +146,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
         if (intentSafe) {
             for (ResolveInfo resInfo : resInfos) {
                 String packageName = resInfo.activityInfo.packageName;
-                Log.i("Package Name", packageName);
+                Log.i(MainActivity.TAG, packageName);
                 Intent intent = new Intent();
                 intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
                 intent.setAction(Intent.ACTION_SEND);
