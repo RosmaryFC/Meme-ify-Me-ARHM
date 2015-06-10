@@ -22,3 +22,14 @@ Example:
     // Bitmap bmp = MainActivity.decodePhoto(this, imagePath);	// 2
 
 2. add more logging for actions that are taken but don't have a corresponding log message
+
+Example:
+	- when text activities are filled out
+	- when some of the buttons are clicked, like when texts are being previewed
+
+3. Verify that `IAdobeAuthClientCredentials` and `IAviaryClientCredentials` are being used. If not, remove their implementations. Easy way to figure out is to ask the team members about it.
+
+4. Add `Meme from Template` feature to Rosmary's app.
+
+
+When in doubt, ask the team members or @ehtesh in the #general slack channel.
