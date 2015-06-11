@@ -50,6 +50,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
         Log.d(MainActivity.TAG, "VanillaMemeEdit.onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vanilla_meme_edit);
+
         imageUri = getIntent().getData();
 
         //setting Image from filepath to ImageView source
@@ -65,23 +66,60 @@ public class VanillaMemeEdit extends ActionBarActivity {
 
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        Button topEditTxtPreviewBtn = (Button) findViewById(R.id.top_editText_preview_btn);
-        topEditTxtPreviewBtn.setOnClickListener(topPreviewBtnListener);
+        topEditText = (EditText) findViewById(R.id.top_editText);
+        topTextView = (TextView) findViewById(R.id.top_textView);
+        topTextView.setText(topEditText.getText().toString());
 
-        Button midEditTxtPreviewBtn = (Button) findViewById(R.id.mid_editText_preview_btn);
-        midEditTxtPreviewBtn.setOnClickListener(midPreviewBtnListener);
+        midEditText = (EditText) findViewById(R.id.mid_editText);
+        midTextView = (TextView) findViewById(R.id.mid_textView);
+        midTextView.setText(midEditText.getText().toString());
 
-        Button btmEditTxtPreviewBtn = (Button) findViewById(R.id.btm_editText_preview_btn);
-        btmEditTxtPreviewBtn.setOnClickListener(btmPreviewBtnListener);
+        btmEditText = (EditText) findViewById(R.id.btm_editText);
+        btmTextView = (TextView) findViewById(R.id.btm_textView);
+        btmTextView.setText(btmEditText.getText().toString());
+
+//TODO: what's up with the underlining of text?? low priority
+        topEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                topTextView.setText(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+        midEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                midTextView.setText(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+        btmEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                btmTextView.setText(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 
     private View.OnClickListener topPreviewBtnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            topEditText = (EditText) findViewById(R.id.top_editText);
-            topTextView = (TextView) findViewById(R.id.top_textView);
-            topTextView.setText(topEditText.getText().toString());
-
             imm.hideSoftInputFromWindow(topEditText.getWindowToken(), 0);
 
         }
@@ -90,10 +128,6 @@ public class VanillaMemeEdit extends ActionBarActivity {
     private View.OnClickListener midPreviewBtnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            midEditText = (EditText) findViewById(R.id.mid_editText);
-            midTextView = (TextView) findViewById(R.id.mid_textView);
-            midTextView.setText(midEditText.getText().toString());
-
             imm.hideSoftInputFromWindow(midEditText.getWindowToken(), 0);
 
         }
@@ -102,10 +136,6 @@ public class VanillaMemeEdit extends ActionBarActivity {
     private View.OnClickListener btmPreviewBtnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            btmEditText = (EditText) findViewById(R.id.btm_editText);
-            btmTextView = (TextView) findViewById(R.id.btm_textView);
-            btmTextView.setText(btmEditText.getText().toString());
-
             imm.hideSoftInputFromWindow(btmEditText.getWindowToken(), 0);
 
         }

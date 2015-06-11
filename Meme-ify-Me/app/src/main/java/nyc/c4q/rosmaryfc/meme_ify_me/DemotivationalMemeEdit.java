@@ -65,14 +65,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
 
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        //TODO: Delete this commented out stuff
-//        Button titleEditTxtPreviewBtn = (Button) findViewById(R.id.title_editText_preview_btn);
-//        titleEditTxtPreviewBtn.setOnClickListener(titlePreviewBtnListener);
-
-//        Button phraseEditTxtPreviewBtn = (Button) findViewById(R.id.phrase_editText_preview_btn);
-//        phraseEditTxtPreviewBtn.setOnClickListener(phrasePreviewBtnListener);
-
-        //Moved these next 2 lines here because they're better placed in onCreate()
+        //Moved these next 4 lines here because they're better placed in onCreate()
         titleEditText = (EditText) findViewById(R.id.title_editText);
         titleTextView = (TextView) findViewById(R.id.title_textView);
         phraseEditText = (EditText) findViewById(R.id.phrase_editText);
@@ -120,11 +113,6 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     private View.OnClickListener phrasePreviewBtnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            //moving these into onCreate()--TODO: delete this when it works
-//            phraseEditText = (EditText) findViewById(R.id.phrase_editText);
-//            phraseTextView = (TextView) findViewById(R.id.phrase_textView);
-            phraseTextView.setText(phraseEditText.getText().toString());
-
             imm.hideSoftInputFromWindow(phraseTextView.getWindowToken(), 0);
 
         }
