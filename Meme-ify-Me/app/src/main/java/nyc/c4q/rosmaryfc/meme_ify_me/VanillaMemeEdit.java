@@ -12,6 +12,8 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -71,7 +73,6 @@ public class VanillaMemeEdit extends ActionBarActivity {
 
         Button btmEditTxtPreviewBtn = (Button) findViewById(R.id.btm_editText_preview_btn);
         btmEditTxtPreviewBtn.setOnClickListener(btmPreviewBtnListener);
-
     }
 
     private View.OnClickListener topPreviewBtnListener = new View.OnClickListener() {

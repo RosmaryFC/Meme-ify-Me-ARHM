@@ -12,6 +12,8 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,19 +65,51 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
 
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        Button titleEditTxtPreviewBtn = (Button) findViewById(R.id.title_editText_preview_btn);
-        titleEditTxtPreviewBtn.setOnClickListener(titlePreviewBtnListener);
+        //TODO: Delete this commented out stuff
+//        Button titleEditTxtPreviewBtn = (Button) findViewById(R.id.title_editText_preview_btn);
+//        titleEditTxtPreviewBtn.setOnClickListener(titlePreviewBtnListener);
 
-        Button phraseEditTxtPreviewBtn = (Button) findViewById(R.id.phrase_editText_preview_btn);
-        phraseEditTxtPreviewBtn.setOnClickListener(phrasePreviewBtnListener);
+//        Button phraseEditTxtPreviewBtn = (Button) findViewById(R.id.phrase_editText_preview_btn);
+//        phraseEditTxtPreviewBtn.setOnClickListener(phrasePreviewBtnListener);
 
+        //Moved these next 2 lines here because they're better placed in onCreate()
+        titleEditText = (EditText) findViewById(R.id.title_editText);
+        titleTextView = (TextView) findViewById(R.id.title_textView);
+        phraseEditText = (EditText) findViewById(R.id.phrase_editText);
+        phraseTextView = (TextView) findViewById(R.id.phrase_textView);
+        phraseTextView.setText(phraseEditText.getText().toString());
+
+//      Added this method so I could get rid of the preview buttons--letting user see their changes
+//      immediately and also decluttering the UI a bit.
+        titleEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                titleTextView.setText(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+        phraseEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                phraseTextView.setText(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 
     private View.OnClickListener titlePreviewBtnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            titleEditText = (EditText) findViewById(R.id.title_editText);
-            titleTextView = (TextView) findViewById(R.id.title_textView);
             titleTextView.setText(titleEditText.getText().toString());
 
             imm.hideSoftInputFromWindow(titleEditText.getWindowToken(), 0);
@@ -86,8 +120,9 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     private View.OnClickListener phrasePreviewBtnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            phraseEditText = (EditText) findViewById(R.id.phrase_editText);
-            phraseTextView = (TextView) findViewById(R.id.phrase_textView);
+            //moving these into onCreate()--TODO: delete this when it works
+//            phraseEditText = (EditText) findViewById(R.id.phrase_editText);
+//            phraseTextView = (TextView) findViewById(R.id.phrase_textView);
             phraseTextView.setText(phraseEditText.getText().toString());
 
             imm.hideSoftInputFromWindow(phraseTextView.getWindowToken(), 0);
