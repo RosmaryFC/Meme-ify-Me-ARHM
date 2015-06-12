@@ -29,6 +29,7 @@ import com.aviary.android.feather.sdk.internal.Constants;
 import com.aviary.android.feather.sdk.internal.headless.utils.MegaPixels;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -263,6 +264,44 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
             Log.e(logtag, e.toString());
         }
         return bitmapImage;
+    }
+
+    // Save image into a directory.
+    public void SaveButton(Context context, String path){
+
+        Bitmap save = decodePhoto(context, path);
+
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss").format(new Date());
+
+        String filename = "JPEG_" + timeStamp + "_";
+        String directory = "memeifyme";
+        String paths = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + File.separator + directory;
+        File outputDir = new File(paths);
+        outputDir.mkdirs();
+        File newFile = new File(path + "/" + filename);
+        Uri resultUri = Uri.fromFile(newFile);
+
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        mediaScanIntent.setData(resultUri);
+        this.sendBroadcast(mediaScanIntent);
+
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(newFile);
+            save.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+
     }
 
 
