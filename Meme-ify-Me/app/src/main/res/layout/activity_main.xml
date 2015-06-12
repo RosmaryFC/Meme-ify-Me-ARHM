@@ -137,7 +137,8 @@
             android:layout_marginRight="20dp"
             android:background="@drawable/edit_button_background"
             android:padding="8dp"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"
+            android:onClick="editPhoto"/>
 
 
         <Button
@@ -150,7 +151,8 @@
             android:background="@drawable/button_background"
             android:textColor="#ffffffff"
             android:textStyle="bold"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:onClick="editMeme"/>
 
         </LinearLayout>
 

@@ -13,11 +13,8 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -43,9 +40,6 @@ public class MainActivity extends Activity implements IAdobeAuthClientCredential
     private Uri imageUri;
     protected ImageView imageview;
     private String selectedImagePath;
-    private Button editMemeButton;
-    private ImageButton cameraButton;
-    private ImageButton fromGalleryButton;
     private RadioButton vanillaRadioButton;
     private RadioButton demotivationalRadBtn;
     private Intent vanillaMemeIntent;
@@ -80,53 +74,16 @@ public class MainActivity extends Activity implements IAdobeAuthClientCredential
 
         imageview = (ImageView) findViewById(R.id.image);
 
-        cameraButton = (ImageButton) findViewById(R.id.camera_button);
-        cameraButton.setOnClickListener(cameraListener);
-
-        fromGalleryButton = (ImageButton) findViewById(R.id.pic_from_gallery_button);
-        fromGalleryButton.setOnClickListener(GalleryListener);
-
         vanillaRadioButton = (RadioButton) findViewById(R.id.vanilla_memes_radBtn);
         demotivationalRadBtn = (RadioButton) findViewById(R.id.demotivational_posters_radBtn);
-
-        editMemeButton = (Button) findViewById(R.id.edit_meme_button);
-        editMemeButton.setOnClickListener(editMemeListener);
 
         editButton = (Button) findViewById(R.id.editButton);
         //button needs to show only when picture was taken.
         editButton.setVisibility(View.INVISIBLE);
-        editButton.setOnClickListener(editListener);
-
     }
 
-    private View.OnClickListener cameraListener = new View.OnClickListener() {
-        // restore canvas to default
 
-        @Override
-        public void onClick(View v) {
-            takePhoto(v);
-        }
-    };
-
-    private View.OnClickListener editListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            editPhoto(v);
-        }
-    };
-
-
-    private View.OnClickListener GalleryListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            pickPhoto(v);
-            editButton.setVisibility(View.INVISIBLE);
-        }
-    };
-
-    private View.OnClickListener editMemeListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
+    public void editMeme(View v){
             if (selectedImagePath == null) {
                 Toast.makeText(getApplicationContext(), "Select an image or take a picture", Toast.LENGTH_SHORT).show();
             } else {
@@ -142,8 +99,7 @@ public class MainActivity extends Activity implements IAdobeAuthClientCredential
                     Toast.makeText(getApplicationContext(), "Select a Meme Type", Toast.LENGTH_SHORT).show();
                 }
             }
-        }
-    };
+    }
 
     //method for requesting image from gallery/camera roll
     public void pickPhoto(View v) {
@@ -162,7 +118,7 @@ public class MainActivity extends Activity implements IAdobeAuthClientCredential
     }
 
     //open up the editor to edit the picture loaded in imageView
-    private void editPhoto(View v) {
+    public void editPhoto(View v) {
         photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), createImageFileName());
 
         Intent aviaryIntent = new AviaryIntent
@@ -324,27 +280,6 @@ public class MainActivity extends Activity implements IAdobeAuthClientCredential
         }
     }
 
-        @Override
-        public boolean onCreateOptionsMenu (Menu menu){
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.menu_main, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onOptionsItemSelected (MenuItem item){
-            // Handle action bar item clicks here. The action bar will
-            // automatically handle clicks on the Home/Up button, so long
-            // as you specify a parent activity in AndroidManifest.xml.
-            int id = item.getItemId();
-
-            //noinspection SimplifiableIfStatement
-            if (id == R.id.action_settings) {
-                return true;
-            }
-
-            return super.onOptionsItemSelected(item);
-        }
 
         @Override
         public String getClientID () {
