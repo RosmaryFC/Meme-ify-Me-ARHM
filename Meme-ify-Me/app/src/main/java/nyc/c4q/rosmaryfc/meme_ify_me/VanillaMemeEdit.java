@@ -1,5 +1,6 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
+import android.app.Activity;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
@@ -11,10 +12,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -32,7 +30,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class VanillaMemeEdit extends ActionBarActivity {
+public class VanillaMemeEdit extends Activity {
     private Uri imageUri;
     private static String logtag = "CameraApp";
     private TextView topTextView;
@@ -108,13 +106,6 @@ public class VanillaMemeEdit extends ActionBarActivity {
 
         }
     };
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_vanilla_meme_edit, menu);
-        return true;
-    }
 
     //requesting image's file path and converting into url and calling the
     // ContentResolver to retrieve image and set it inside a bitmap
@@ -208,22 +199,6 @@ public class VanillaMemeEdit extends ActionBarActivity {
         imageUri = Uri.fromFile(photo);
         MediaStore.Images.Media.insertImage(getContentResolver(), meme, "Meme _", "New meme");
         return imageUri;
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
     }
 
 }

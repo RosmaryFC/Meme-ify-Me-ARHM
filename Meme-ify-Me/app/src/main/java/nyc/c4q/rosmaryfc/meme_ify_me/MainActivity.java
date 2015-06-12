@@ -1,6 +1,7 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -34,13 +34,12 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class MainActivity extends ActionBarActivity implements IAdobeAuthClientCredentials {
+public class MainActivity extends Activity implements IAdobeAuthClientCredentials {
 
     private static final int EDIT_PICTURE = 3;
     private static String logtag = "CameraApp";
     private static int TAKE_PICTURE = 1;
     private static final int PICK_PICTURE = 2;
-    private static final int SAVE_PICTURE = 3;
     private Uri imageUri;
     protected ImageView imageview;
     private String selectedImagePath;
@@ -72,6 +71,12 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         if ((savedInstanceState != null)) {
             selectedImagePath = savedInstanceState.getString("SelectedImagePath");
         }
+
+        initializeViews();
+
+    }
+
+    private void initializeViews(){
 
         imageview = (ImageView) findViewById(R.id.image);
 
@@ -150,7 +155,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     //method for requesting camera to capture image and save it under a new file
     public void takePhoto(View v) {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), createImageFileName());
         imageUri = Uri.fromFile(photo);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE);
@@ -158,7 +163,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
     //open up the editor to edit the picture loaded in imageView
     private void editPhoto(View v) {
-        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), createImageFileName());
 
         Intent aviaryIntent = new AviaryIntent
                 .Builder(this)
@@ -188,19 +193,12 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
      * @return File
      * @throws IOException
      */
-    private File createImageFile() throws IOException {
+    private String createImageFileName() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        String imageFileName = "JPEG_" + timeStamp + ".jpg";
 
         // Save a file: path for use with ACTION_VIEW intents
-        return image;
+        return imageFileName;
     }
 
     //method for gathering intent information from takePhoto and pickPhoto methods
@@ -210,7 +208,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         if (resultCode == RESULT_OK) {
             if (requestCode == PICK_PICTURE) {
                 selectedImagePath = String.valueOf(data.getData());
-
                 imageview.setImageBitmap(decodePhoto(MainActivity.this, selectedImagePath));
 
                 //make Edit Picture button invisible
@@ -264,7 +261,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         }
         return bitmapImage;
     }
-
 
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
@@ -359,13 +355,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         public String getClientSecret () {
             return CreativeCloud.YOUR_API_SECRET;
         }
-
-
-
-    //todo future work
-    public void exportMeme(View v) {
-
-    }
 
 
 
