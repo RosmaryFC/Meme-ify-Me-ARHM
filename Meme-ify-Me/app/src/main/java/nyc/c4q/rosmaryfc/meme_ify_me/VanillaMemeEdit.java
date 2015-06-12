@@ -1,8 +1,10 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
+import android.app.AlertDialog;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
@@ -31,6 +33,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class VanillaMemeEdit extends ActionBarActivity {
     private Uri imageUri;
@@ -80,6 +83,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
             topTextView = (TextView) findViewById(R.id.top_textView);
             topTextView.setText(topEditText.getText().toString());
 
+            //hide soft keyboard
             imm.hideSoftInputFromWindow(topEditText.getWindowToken(), 0);
 
         }
@@ -92,6 +96,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
             midTextView = (TextView) findViewById(R.id.mid_textView);
             midTextView.setText(midEditText.getText().toString());
 
+            //hide soft keyboard
             imm.hideSoftInputFromWindow(midEditText.getWindowToken(), 0);
 
         }
@@ -104,6 +109,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
             btmTextView = (TextView) findViewById(R.id.btm_textView);
             btmTextView.setText(btmEditText.getText().toString());
 
+            //hide soft keyboard
             imm.hideSoftInputFromWindow(btmEditText.getWindowToken(), 0);
 
         }

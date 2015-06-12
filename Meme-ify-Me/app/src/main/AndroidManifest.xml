@@ -2,34 +2,29 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="nyc.c4q.rosmaryfc.meme_ify_me" >
 
-
     <!-- Permissions for camera app -->
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.VIBRATE" />
 
     <uses-feature android:name="android.hardware.camera" />
 
     <application
+        android:name=".CreativeCloud"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme"
-        android:name=".CreativeCloud">
-
-
+        android:theme="@style/AppTheme" >
         <activity
-            android:configChanges="orientation"
-
             android:name=".MainActivity"
+            android:configChanges="orientation"
             android:label="@string/app_name"
-            android:screenOrientation="portrait">
+            android:screenOrientation="portrait" >
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.GET_CONTENT" />
-                <category android:name="android.intent.category.LAUNCHER" />
+
                 <category android:name="android.intent.category.OPENABLE" />
             </intent-filter>
         </activity>
@@ -45,19 +40,26 @@
             android:value="958f6b23c0604850aae5bfc2f0c62628" />
 
         <activity
-            android:configChanges="orientation"
             android:name=".VanillaMemeEdit"
-            android:label="@string/title_activity_vanilla_meme_edit"
-            android:screenOrientation="portrait">
-        </activity>
-
-        <activity
             android:configChanges="orientation"
-            android:name=".DemotivationalMemeEdit"
-            android:label="@string/title_activity_demotivational_meme_edit"
-            android:screenOrientation="portrait">
+            android:label="@string/title_activity_vanilla_meme_edit"
+            android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name=".DemotivationalMemeEdit"
+            android:configChanges="orientation"
+            android:label="@string/title_activity_demotivational_meme_edit"
+            android:screenOrientation="portrait" >
+        </activity>
+        <activity
+            android:name=".SplashScreen"
+            android:label="@string/title_activity_splash_screen" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>
