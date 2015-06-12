@@ -1,0 +1,9 @@
+<animation-list
+    android:id="@+id/selected"
+    android:oneshot="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:drawable="@drawable/picture1" android:duration="800" />
+    <item android:drawable="@drawable/picture2" android:duration="800" />
+    <item android:drawable="@drawable/picture3" android:duration="800" />
+    <item android:drawable="@drawable/picture4" android:duration="800" />
+</animation-list>

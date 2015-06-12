@@ -41,6 +41,9 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     private EditText titleEditText;
     private EditText phraseEditText;
     private Bitmap bmp;
+    private ImageView posterImageView;
+    Button titleEditTxtPreviewBtn;
+    Button phraseEditTxtPreviewBtn;
 
     InputMethodManager imm;
 
@@ -58,24 +61,36 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         }
         bmp = decodePhoto(this, imagePath);
 
-        ImageView posterImageView = (ImageView) findViewById(R.id.imageView_for_poster);
+        //(tasha) - initialize all views using InitializeViews method
+        InitializeViews();
+
+        //(tasha) - setting bitmap to imageView
         posterImageView.setImageBitmap(bmp);
 
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        Button titleEditTxtPreviewBtn = (Button) findViewById(R.id.title_editText_preview_btn);
+        //set onclick listeners to buttons
         titleEditTxtPreviewBtn.setOnClickListener(titlePreviewBtnListener);
-
-        Button phraseEditTxtPreviewBtn = (Button) findViewById(R.id.phrase_editText_preview_btn);
         phraseEditTxtPreviewBtn.setOnClickListener(phrasePreviewBtnListener);
+
+    }
+
+    //(tasha) - creating a method to initialize all your views
+    public void InitializeViews() {
+
+        posterImageView = (ImageView) findViewById(R.id.imageView_for_poster);
+        titleEditTxtPreviewBtn = (Button) findViewById(R.id.title_editText_preview_btn);
+        phraseEditTxtPreviewBtn = (Button) findViewById(R.id.phrase_editText_preview_btn);
+        titleEditText = (EditText) findViewById(R.id.title_editText);
+        titleTextView = (TextView) findViewById(R.id.title_textView);
+        phraseEditText = (EditText) findViewById(R.id.phrase_editText);
+        phraseTextView = (TextView) findViewById(R.id.phrase_textView);
 
     }
 
     private View.OnClickListener titlePreviewBtnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            titleEditText = (EditText) findViewById(R.id.title_editText);
-            titleTextView = (TextView) findViewById(R.id.title_textView);
             titleTextView.setText(titleEditText.getText().toString());
 
             imm.hideSoftInputFromWindow(titleEditText.getWindowToken(), 0);
@@ -86,12 +101,9 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     private View.OnClickListener phrasePreviewBtnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            phraseEditText = (EditText) findViewById(R.id.phrase_editText);
-            phraseTextView = (TextView) findViewById(R.id.phrase_textView);
             phraseTextView.setText(phraseEditText.getText().toString());
 
             imm.hideSoftInputFromWindow(phraseTextView.getWindowToken(), 0);
-
         }
     };
 
