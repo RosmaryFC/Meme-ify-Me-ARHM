@@ -79,6 +79,9 @@ public class VanillaMemeEdit extends ActionBarActivity {
         btmTextView.setText(btmEditText.getText().toString());
 
 //TODO: what's up with the underlining of text?? low priority
+
+        //Just like I did in DemotivationalMemeEdit.java, I added these next 3 methods so I could get rid of
+        // the preview buttons--letting user see their changes immediately and also decluttering the UI a bit.
         topEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {}

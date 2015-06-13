@@ -41,12 +41,14 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     private static int TAKE_PICTURE = 1;
     private static final int PICK_PICTURE = 2;
     private static final int SAVE_PICTURE = 3;
+    private static final int TEMPLATE = 4;
     private Uri imageUri;
     protected ImageView imageview;
     private String selectedImagePath;
     private Button editMemeButton;
     private ImageButton cameraButton;
     private ImageButton fromGalleryButton;
+    private ImageButton fromTemplateButton;
     private RadioButton vanillaRadioButton;
     private RadioButton demotivationalRadBtn;
     private Intent vanillaMemeIntent;
@@ -82,6 +84,9 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
         fromGalleryButton = (ImageButton) findViewById(R.id.pic_from_gallery_button);
         fromGalleryButton.setOnClickListener(GalleryListener);
+
+        fromTemplateButton = (ImageButton) findViewById(R.id.pic_from_template_button);
+        fromTemplateButton.setOnClickListener(TemplateListener);
 
         vanillaRadioButton = (RadioButton) findViewById(R.id.vanilla_memes_radBtn);
         demotivationalRadBtn = (RadioButton) findViewById(R.id.demotivational_posters_radBtn);
@@ -121,6 +126,14 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         }
     };
 
+    private View.OnClickListener TemplateListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            pickTemplate(v);
+            fromTemplateButton.setVisibility(View.INVISIBLE);
+        }
+    };
+
     private View.OnClickListener editMemeListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
@@ -149,6 +162,15 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         intent.setType("image/*");
         startActivityForResult(intent, PICK_PICTURE);
     }
+    public void pickTemplate(View v) {
+        Log.d(TAG, "MainActivity.pickTemplate()");
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, TEMPLATE);
+        Intent template = new Intent(this, Template.class);
+        startActivity(template);
+    }
+
 
     //method for requesting camera to capture image and save it under a new file
     public void takePhoto(View v) {
