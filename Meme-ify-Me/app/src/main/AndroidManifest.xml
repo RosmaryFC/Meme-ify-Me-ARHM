@@ -22,7 +22,6 @@
 
         <activity
             android:configChanges="orientation"
-
             android:name=".MainActivity"
             android:label="@string/app_name"
             android:screenOrientation="portrait">
