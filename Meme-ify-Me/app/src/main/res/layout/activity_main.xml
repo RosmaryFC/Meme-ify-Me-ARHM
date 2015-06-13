@@ -49,12 +49,11 @@
     </RadioGroup>
 
     <ImageView
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="270dp"
         android:src="@drawable/truthhurts"
         android:layout_gravity="center"
-        android:id="@+id/image"
-        android:layout_weight="1" />
+        android:id="@+id/image" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -138,7 +137,8 @@
             android:layout_marginRight="20dp"
             android:background="@drawable/edit_button_background"
             android:padding="8dp"
-            android:textColor="#ffffffff" />
+            android:textColor="#ffffffff"
+            android:onClick="editPhoto"/>
 
 
         <Button
@@ -151,7 +151,8 @@
             android:background="@drawable/button_background"
             android:textColor="#ffffffff"
             android:textStyle="bold"
-            android:textSize="17sp" />
+            android:textSize="17sp"
+            android:onClick="editMeme"/>
 
         </LinearLayout>
 

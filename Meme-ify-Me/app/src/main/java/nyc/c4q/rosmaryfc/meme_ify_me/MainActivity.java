@@ -1,6 +1,7 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
 
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -9,15 +10,11 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
@@ -34,19 +31,15 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 
-public class MainActivity extends ActionBarActivity implements IAdobeAuthClientCredentials {
+public class MainActivity extends Activity implements IAdobeAuthClientCredentials {
 
     private static final int EDIT_PICTURE = 3;
     private static String logtag = "CameraApp";
     private static int TAKE_PICTURE = 1;
     private static final int PICK_PICTURE = 2;
-    private static final int SAVE_PICTURE = 3;
     private Uri imageUri;
     protected ImageView imageview;
     private String selectedImagePath;
-    private Button editMemeButton;
-    private ImageButton cameraButton;
-    private ImageButton fromGalleryButton;
     private RadioButton vanillaRadioButton;
     private RadioButton demotivationalRadBtn;
     private Intent vanillaMemeIntent;
@@ -73,55 +66,24 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
             selectedImagePath = savedInstanceState.getString("SelectedImagePath");
         }
 
+        initializeViews();
+
+    }
+
+    private void initializeViews(){
+
         imageview = (ImageView) findViewById(R.id.image);
-
-        cameraButton = (ImageButton) findViewById(R.id.camera_button);
-        cameraButton.setOnClickListener(cameraListener);
-
-        fromGalleryButton = (ImageButton) findViewById(R.id.pic_from_gallery_button);
-        fromGalleryButton.setOnClickListener(GalleryListener);
 
         vanillaRadioButton = (RadioButton) findViewById(R.id.vanilla_memes_radBtn);
         demotivationalRadBtn = (RadioButton) findViewById(R.id.demotivational_posters_radBtn);
 
-        editMemeButton = (Button) findViewById(R.id.edit_meme_button);
-        editMemeButton.setOnClickListener(editMemeListener);
-
         editButton = (Button) findViewById(R.id.editButton);
         //button needs to show only when picture was taken.
         editButton.setVisibility(View.INVISIBLE);
-        editButton.setOnClickListener(editListener);
-
     }
 
-    private View.OnClickListener cameraListener = new View.OnClickListener() {
-        // restore canvas to default
 
-        @Override
-        public void onClick(View v) {
-            takePhoto(v);
-        }
-    };
-
-    private View.OnClickListener editListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            editPhoto(v);
-        }
-    };
-
-
-    private View.OnClickListener GalleryListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            pickPhoto(v);
-            editButton.setVisibility(View.INVISIBLE);
-        }
-    };
-
-    private View.OnClickListener editMemeListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
+    public void editMeme(View v){
             if (selectedImagePath == null) {
                 Toast.makeText(getApplicationContext(), "Select an image or take a picture", Toast.LENGTH_SHORT).show();
             } else {
@@ -137,8 +99,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                     Toast.makeText(getApplicationContext(), "Select a Meme Type", Toast.LENGTH_SHORT).show();
                 }
             }
-        }
-    };
+    }
 
     //method for requesting image from gallery/camera roll
     public void pickPhoto(View v) {
@@ -150,15 +111,15 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     //method for requesting camera to capture image and save it under a new file
     public void takePhoto(View v) {
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
-        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), createImageFileName());
         imageUri = Uri.fromFile(photo);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE);
     }
 
     //open up the editor to edit the picture loaded in imageView
-    private void editPhoto(View v) {
-        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
+    public void editPhoto(View v) {
+        photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), createImageFileName());
 
         Intent aviaryIntent = new AviaryIntent
                 .Builder(this)
@@ -188,19 +149,12 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
      * @return File
      * @throws IOException
      */
-    private File createImageFile() throws IOException {
+    private String createImageFileName() {
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
+        String imageFileName = "JPEG_" + timeStamp + ".jpg";
 
         // Save a file: path for use with ACTION_VIEW intents
-        return image;
+        return imageFileName;
     }
 
     //method for gathering intent information from takePhoto and pickPhoto methods
@@ -210,7 +164,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         if (resultCode == RESULT_OK) {
             if (requestCode == PICK_PICTURE) {
                 selectedImagePath = String.valueOf(data.getData());
-
                 imageview.setImageBitmap(decodePhoto(MainActivity.this, selectedImagePath));
 
                 //make Edit Picture button invisible
@@ -264,7 +217,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         }
         return bitmapImage;
     }
-
 
     public void onRadioButtonClicked(View view) {
         // Is the button now checked?
@@ -328,27 +280,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         }
     }
 
-        @Override
-        public boolean onCreateOptionsMenu (Menu menu){
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.menu_main, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onOptionsItemSelected (MenuItem item){
-            // Handle action bar item clicks here. The action bar will
-            // automatically handle clicks on the Home/Up button, so long
-            // as you specify a parent activity in AndroidManifest.xml.
-            int id = item.getItemId();
-
-            //noinspection SimplifiableIfStatement
-            if (id == R.id.action_settings) {
-                return true;
-            }
-
-            return super.onOptionsItemSelected(item);
-        }
 
         @Override
         public String getClientID () {
@@ -359,13 +290,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         public String getClientSecret () {
             return CreativeCloud.YOUR_API_SECRET;
         }
-
-
-
-    //todo future work
-    public void exportMeme(View v) {
-
-    }
 
 
 
