@@ -78,7 +78,6 @@
             <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_camera"
                 android:id="@+id/camera_button"
                 android:background="@null"
                 android:onClick="takePhoto" />
@@ -86,8 +85,8 @@
 
             <TextView
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Take a picture"
+                android:layout_height="wrap_content"
+                android:text="Take a pic"
                 android:onClick="takePhoto"
                 android:textSize="20sp"
                 android:clickable="true" />
@@ -95,27 +94,52 @@
 
 
         <LinearLayout
-            android:layout_width="0dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:clickable="true"
             android:layout_weight="1">
 
-            <ImageButton
-                android:layout_width="match_parent"
+            <TextView
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@android:drawable/ic_menu_gallery"
+                android:text="Gallery  "
+                android:textSize="20sp"
+                android:onClick="pickPhoto"
+                android:clickable="true" />
+
+            <ImageButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:id="@+id/pic_from_gallery_button"
                 android:background="@null"
                 android:onClick="pickPhoto"/>
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:onClick="pickTemplate"
+            android:clickable="true"
+            android:layout_weight="1">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Gallery"
+                android:text="Templates"
                 android:textSize="20sp"
-                android:onClick="pickPhoto"
+                android:onClick="pickTemplate"
                 android:clickable="true" />
+
+            <ImageButton
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/pic_from_template_button"
+                android:background="@null"
+                android:onClick="pickTemplate"/>
+
         </LinearLayout>
 
 

@@ -12,6 +12,8 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -34,7 +36,6 @@ import java.util.List;
 
 
 public class DemotivationalMemeEdit extends ActionBarActivity {
-    private static String logtag = "CameraApp";
     private Uri imageUri;
     private TextView titleTextView;
     private TextView phraseTextView;
@@ -47,6 +48,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.d(MainActivity.TAG, "DemotivationalMemeEdit.onCreate()");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_demotivational_meme_edit);
 
@@ -54,7 +56,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         Bundle extras = getIntent().getExtras();
         String imagePath = extras.getString("SelectedImagePath");
         if(imagePath == null){
-            Log.d("Error","imagePath is null" );
+            Log.d(MainActivity.TAG,"imagePath is null" );
         }
         bmp = decodePhoto(this, imagePath);
 
@@ -63,19 +65,44 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
 
         imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
 
-        Button titleEditTxtPreviewBtn = (Button) findViewById(R.id.title_editText_preview_btn);
-        titleEditTxtPreviewBtn.setOnClickListener(titlePreviewBtnListener);
+        //Moved these next 4 lines here because they're better placed in onCreate()
+        titleEditText = (EditText) findViewById(R.id.title_editText);
+        titleTextView = (TextView) findViewById(R.id.title_textView);
+        phraseEditText = (EditText) findViewById(R.id.phrase_editText);
+        phraseTextView = (TextView) findViewById(R.id.phrase_textView);
+        phraseTextView.setText(phraseEditText.getText().toString());
 
-        Button phraseEditTxtPreviewBtn = (Button) findViewById(R.id.phrase_editText_preview_btn);
-        phraseEditTxtPreviewBtn.setOnClickListener(phrasePreviewBtnListener);
+//      Added this method so I could get rid of the preview buttons--letting user see their changes
+//      immediately and also decluttering the UI a bit.
+        titleEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
 
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                titleTextView.setText(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+        phraseEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                phraseTextView.setText(s);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 
     private View.OnClickListener titlePreviewBtnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            titleEditText = (EditText) findViewById(R.id.title_editText);
-            titleTextView = (TextView) findViewById(R.id.title_textView);
             titleTextView.setText(titleEditText.getText().toString());
 
             imm.hideSoftInputFromWindow(titleEditText.getWindowToken(), 0);
@@ -86,10 +113,6 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     private View.OnClickListener phrasePreviewBtnListener = new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-            phraseEditText = (EditText) findViewById(R.id.phrase_editText);
-            phraseTextView = (TextView) findViewById(R.id.phrase_textView);
-            phraseTextView.setText(phraseEditText.getText().toString());
-
             imm.hideSoftInputFromWindow(phraseTextView.getWindowToken(), 0);
 
         }
@@ -98,6 +121,8 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     //requesting image's file path and converting into url and calling the
     // ContentResolver to retrieve image and set it inside a bitmap
     public Bitmap decodePhoto(Context context, String path) {
+        Log.d(MainActivity.TAG, "DemotivationalMemeEdit.decodePhoto()");
+
         Uri selectedImageUri = Uri.parse(path);
         getContentResolver().notifyChange(selectedImageUri, null);
         ContentResolver cr = getContentResolver();
@@ -107,12 +132,13 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
             //show image file path to user
             Toast.makeText(context, selectedImageUri.toString(), Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
-            Log.e(logtag, e.toString());
+            Log.e(MainActivity.TAG, e.toString());
         }
         return bitmapImage;
     }
 
     public void onShareClick(View v) {
+        Log.d(MainActivity.TAG, "DemotivationalMemeEdit.onShareClick()");
         imageUri = saveDemotivationalMeme(v);
         Toast.makeText(getApplicationContext(), "Preparing to share :" + imageUri.toString(), Toast.LENGTH_LONG).show();
         List<Intent> targetShareIntents = new ArrayList<Intent>();
@@ -125,7 +151,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         if (intentSafe) {
             for (ResolveInfo resInfo : resInfos) {
                 String packageName = resInfo.activityInfo.packageName;
-                Log.i("Package Name", packageName);
+                Log.i(MainActivity.TAG, packageName);
                 Intent intent = new Intent();
                 intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
                 intent.setAction(Intent.ACTION_SEND);
@@ -147,6 +173,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     }
 
     public Bitmap drawMeme(View v){
+        Log.d(MainActivity.TAG, "DemotivationalMemeEdit.drawMeme()");
         RelativeLayout layout = (RelativeLayout) findViewById(R.id.meme_preview_relative_layout);
         layout.setDrawingCacheEnabled(true);
         Bitmap memeBitMap = layout.getDrawingCache();
@@ -157,6 +184,7 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     }
 
     public Uri saveDemotivationalMeme (View v) {
+        Log.d(MainActivity.TAG, "DemotivationalMemeEdit.saveDemotivationalMeme()");
         Bitmap meme = drawMeme(v);
         try {
             meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));

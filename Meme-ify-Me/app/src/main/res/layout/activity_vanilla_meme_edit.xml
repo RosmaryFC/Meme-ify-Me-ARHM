@@ -105,14 +105,6 @@
                     android:layout_height="match_parent"
                     android:hint="top text" />
 
-                <Button
-                    android:id="@+id/top_editText_preview_btn"
-                    android:layout_weight="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/edit_button_background"
-                    android:text="Preview" />
-
             </LinearLayout>
 
             <!-- mid edit text and preview button -->
@@ -128,14 +120,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="mid text" />
-
-                <Button
-                    android:id="@+id/mid_editText_preview_btn"
-                    android:layout_weight="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/edit_button_background"
-                    android:text="Preview" />
 
             </LinearLayout>
 
@@ -153,14 +137,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:hint="bottom text" />
-
-                <Button
-                    android:id="@+id/btm_editText_preview_btn"
-                    android:layout_weight="2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/edit_button_background"
-                    android:text="Preview" />
 
             </LinearLayout>
 
