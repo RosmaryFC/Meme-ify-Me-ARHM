@@ -13,15 +13,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.RadioButton;
 import android.widget.Toast;
-
 import com.adobe.creativesdk.foundation.AdobeCSDKFoundation;
 import com.adobe.creativesdk.foundation.auth.IAdobeAuthClientCredentials;
 import com.aviary.android.feather.sdk.AviaryIntent;
@@ -29,10 +26,6 @@ import com.aviary.android.feather.sdk.internal.Constants;
 import com.aviary.android.feather.sdk.internal.headless.utils.MegaPixels;
 
 import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 
 public class MainActivity extends ActionBarActivity implements IAdobeAuthClientCredentials {
 
@@ -40,7 +33,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     private static String logtag = "CameraApp";
     private static int TAKE_PICTURE = 1;
     private static final int PICK_PICTURE = 2;
-    private static final int SAVE_PICTURE = 3;
+    private static final int SAVE_PICTURE = 3; //It seems Like this was not implemented.
     private Uri imageUri;
     protected ImageView imageview;
     private String selectedImagePath;
@@ -182,27 +175,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
     }
 
-    /**
-     * Creates a temporary file that the camera can use to save
-     *
-     * @return File
-     * @throws IOException
-     */
-    private File createImageFile() throws IOException {
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-        String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
-        File image = File.createTempFile(
-                imageFileName,  /* prefix */
-                ".jpg",         /* suffix */
-                storageDir      /* directory */
-        );
-
-        // Save a file: path for use with ACTION_VIEW intents
-        return image;
-    }
-
     //method for gathering intent information from takePhoto and pickPhoto methods
     // and setting the imageview with correct bitmap, and saving
     @Override
@@ -216,7 +188,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
                 //make Edit Picture button invisible
                 editButton.setVisibility(View.INVISIBLE);
 
-
             } else if (requestCode == TAKE_PICTURE) {
 
                 selectedImagePath = imageUri.toString();
@@ -224,7 +195,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
 
                 //make Edit Picture button visible
                 editButton.setVisibility(View.VISIBLE);
-                //Toast.makeText(getApplicationContext(),"You can edit the picture you just took by pressing the edit picture button", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(),"You can edit the picture you just took by pressing the edit picture button", Toast.LENGTH_LONG).show();
 
                 Context context = getApplicationContext();
                 LayoutInflater inflater = getLayoutInflater();
@@ -328,27 +299,6 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         }
     }
 
-        @Override
-        public boolean onCreateOptionsMenu (Menu menu){
-            // Inflate the menu; this adds items to the action bar if it is present.
-            getMenuInflater().inflate(R.menu.menu_main, menu);
-            return true;
-        }
-
-        @Override
-        public boolean onOptionsItemSelected (MenuItem item){
-            // Handle action bar item clicks here. The action bar will
-            // automatically handle clicks on the Home/Up button, so long
-            // as you specify a parent activity in AndroidManifest.xml.
-            int id = item.getItemId();
-
-            //noinspection SimplifiableIfStatement
-            if (id == R.id.action_settings) {
-                return true;
-            }
-
-            return super.onOptionsItemSelected(item);
-        }
 
         @Override
         public String getClientID () {

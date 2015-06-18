@@ -1,20 +1,15 @@
 package nyc.c4q.rosmaryfc.meme_ify_me;
 
-import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ResolveInfo;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -29,8 +24,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class DemotivationalMemeEdit extends ActionBarActivity {
@@ -113,37 +106,12 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     }
 
     public void onShareClick(View v) {
-        imageUri = saveDemotivationalMeme(v);
-        Toast.makeText(getApplicationContext(), "Preparing to share :" + imageUri.toString(), Toast.LENGTH_LONG).show();
-        List<Intent> targetShareIntents = new ArrayList<Intent>();
-        Intent shareIntent = new Intent(Intent.ACTION_SEND);
-        shareIntent.setType("image/*");
-        shareIntent.putExtra(Intent.EXTRA_STREAM, imageUri);
-        List<ResolveInfo> resInfos = getPackageManager().queryIntentActivities(shareIntent, 0);
+        //simplified the code for sharing the picture.
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.setType("image/jpeg");
+        intent.putExtra(Intent.EXTRA_STREAM, imageUri);
+        startActivity(Intent.createChooser(intent, "Share picture with..."));
 
-        boolean intentSafe = resInfos.size() > 0;
-        if (intentSafe) {
-            for (ResolveInfo resInfo : resInfos) {
-                String packageName = resInfo.activityInfo.packageName;
-                Log.i("Package Name", packageName);
-                Intent intent = new Intent();
-                intent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
-                intent.setAction(Intent.ACTION_SEND);
-                intent.setType("image/*");
-                intent.putExtra(Intent.EXTRA_STREAM, imageUri);
-                intent.putExtra(Intent.EXTRA_SUBJECT, "Made with Meme-ify Me");
-                intent.putExtra(Intent.EXTRA_TEXT, "Check out my new meme!");
-                intent.setPackage(packageName);
-                targetShareIntents.add(intent);
-            }
-            Intent chooserIntent = Intent.createChooser(targetShareIntents.remove(0), "Choose app to share");
-            chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, targetShareIntents.toArray(new Parcelable[]{}));
-            startActivity(Intent.createChooser(shareIntent, "Share Image"));
-            startActivity(chooserIntent);
-
-        } else {
-            return;
-        }
     }
 
     public Bitmap drawMeme(View v){
@@ -188,24 +156,5 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         return imageUri;
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_demotivational_meme_edit, menu);
-        return true;
-    }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
 }

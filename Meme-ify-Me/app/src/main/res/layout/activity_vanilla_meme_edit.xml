@@ -59,7 +59,6 @@
 
         <TextView
             android:id="@+id/btm_textView"
-            android:onClick="saveVanillaMeme"
             android:layout_weight="1"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -184,7 +183,7 @@
                 android:onClick="onShareClick" />
 
             <Button
-                android:id="@+id/shareButton"
+                android:id="@+id/save_meme_button"
                 android:layout_weight="1"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
