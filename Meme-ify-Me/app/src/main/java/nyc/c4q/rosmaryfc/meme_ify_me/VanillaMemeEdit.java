@@ -178,6 +178,7 @@ public class VanillaMemeEdit extends ActionBarActivity {
     }
 
     public Uri saveVanillaMeme (View v) {
+        final String appDirectoryName = getString(R.string.app_name);
         Bitmap meme = drawMeme(v);
         try {
             meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
@@ -185,12 +186,15 @@ public class VanillaMemeEdit extends ActionBarActivity {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
+        File storageDir = new File (Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), appDirectoryName);
         if (Environment.getExternalStorageDirectory() != null) {
-            File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "memeFile.jpg");
+            File photo = new File(storageDir, "memeFile.jpg");
             imageUri = Uri.fromFile(photo);
             Toast.makeText(getApplicationContext(), "File saved to: " + imageUri.toString(), Toast.LENGTH_LONG).show();
         } else {
-            File photo = new File(Environment.getRootDirectory(), "memeFile.jpg");
+            storageDir.mkdirs();
+            File photo = new File(storageDir, "memeFile.jpg");
             imageUri = Uri.fromFile(photo);
         }
         ByteArrayOutputStream bytes = new ByteArrayOutputStream();

@@ -28,7 +28,9 @@ import com.aviary.android.feather.sdk.AviaryIntent;
 import com.aviary.android.feather.sdk.internal.Constants;
 import com.aviary.android.feather.sdk.internal.headless.utils.MegaPixels;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -54,6 +56,8 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     Button editButton;
     private File photo = null;
 
+
+
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -64,17 +68,18 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        AdobeCSDKFoundation.initializeCSDKFoundation(getApplicationContext());
-        Intent intent = AviaryIntent.createCdsInitIntent(getBaseContext());
-        startService(intent);
-
+        initializeViews();
         if ((savedInstanceState != null)) {
             selectedImagePath = savedInstanceState.getString("SelectedImagePath");
         }
 
-        imageview = (ImageView) findViewById(R.id.image);
+    }
 
+    public void initializeViews(){
+        AdobeCSDKFoundation.initializeCSDKFoundation(getApplicationContext());
+        Intent intent = AviaryIntent.createCdsInitIntent(getBaseContext());
+        startService(intent);
+        imageview = (ImageView) findViewById(R.id.image);
         cameraButton = (ImageButton) findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
 
@@ -188,16 +193,30 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
      * @return File
      * @throws IOException
      */
-    private File createImageFile() throws IOException {
+    public File createImageFile() throws IOException {
+        final String appDirectoryName = getString(R.string.app_name);
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String imageFileName = "JPEG_" + timeStamp + "_";
-        File storageDir = Environment.getExternalStoragePublicDirectory(
-                Environment.DIRECTORY_PICTURES);
+        File storageDir = new File (Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES), appDirectoryName);
+
+        if (!storageDir.exists()){
+            storageDir.mkdirs();
+        }
         File image = File.createTempFile(
                 imageFileName,  /* prefix */
                 ".jpg",         /* suffix */
                 storageDir      /* directory */
         );
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        try {
+            image.createNewFile();
+            FileOutputStream fo = new FileOutputStream(photo);
+            fo.write(bytes.toByteArray());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
 
         // Save a file: path for use with ACTION_VIEW intents
         return image;
@@ -332,6 +351,7 @@ public class MainActivity extends ActionBarActivity implements IAdobeAuthClientC
         public boolean onCreateOptionsMenu (Menu menu){
             // Inflate the menu; this adds items to the action bar if it is present.
             getMenuInflater().inflate(R.menu.menu_main, menu);
+           // mDataCastManager.addMediaRouterButton(menu, R.id.media_route_menu_item);
             return true;
         }
 
