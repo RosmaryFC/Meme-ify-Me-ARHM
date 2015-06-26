@@ -2,11 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/&lt;ABSOLUTE_PATH_TO_CREATIVE_SDK_ROOT&gt;/creativesdk/CreativeSDKImage/CreativeSDKImage.iml" filepath="$PROJECT_DIR$/&lt;ABSOLUTE_PATH_TO_CREATIVE_SDK_ROOT&gt;/creativesdk/CreativeSDKImage/CreativeSDKImage.iml" />
       <module fileurl="file://$PROJECT_DIR$/Meme-ify-Me.iml" filepath="$PROJECT_DIR$/Meme-ify-Me.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/&lt;ABSOLUTE_PATH_TO_CREATIVE_SDK_ROOT&gt;/creativesdk/creativesdk.iml" filepath="$PROJECT_DIR$/&lt;ABSOLUTE_PATH_TO_CREATIVE_SDK_ROOT&gt;/creativesdk/creativesdk.iml" />
     </modules>
   </component>
 </project>
-

@@ -29,7 +29,9 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 
@@ -156,43 +158,39 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
         return meme;
     }
 
+    // The meme now has it's own directory.
     public Uri saveDemotivationalMeme (View v) {
         Bitmap meme = drawMeme(v);
-        try {
-            meme.compress(Bitmap.CompressFormat.JPEG, 100, new FileOutputStream(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES)));
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-       if (Environment.getExternalStorageDirectory() != null) {
-            File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "memeFile.jpg");
-            imageUri = Uri.fromFile(photo);
-            Toast.makeText(getApplicationContext(), "File saved to: " + imageUri.toString(), Toast.LENGTH_LONG).show();
-        } else {
-            File photo = new File(Environment.getRootDirectory(), "memeFile.jpg");
-            imageUri = Uri.fromFile(photo);
-        }
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        meme.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        File photo = new File(Environment.getExternalStorageDirectory() + File.separator + "temporary_file.jpg");
-        try {
-            photo.createNewFile();
-            FileOutputStream fo = new FileOutputStream(photo);
-            fo.write(bytes.toByteArray());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        imageUri = Uri.fromFile(photo);
-        MediaStore.Images.Media.insertImage(getContentResolver(), meme, "Meme _", "New meme");
-        return imageUri;
-    }
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss").format(new Date());
+        String filename = "JPEG_" + timeStamp + "_";
+        String directory = "memeifyme";
+        String path = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + directory;
+        File newDir = new File(path);
+        newDir.mkdirs();
+        File newFile = new File(path + filename);
+        Uri resultUri = Uri.fromFile(newFile);
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_demotivational_meme_edit, menu);
-        return true;
+        Intent mediaScanIntent = new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE);
+        mediaScanIntent.setData(resultUri);
+        this.sendBroadcast(mediaScanIntent);
+
+        FileOutputStream out = null;
+        try {
+            out = new FileOutputStream(newFile);
+            meme.compress(Bitmap.CompressFormat.JPEG, 100, out);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (out != null) {
+                    out.close();
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return resultUri;
     }
 
     @Override

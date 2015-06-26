@@ -11,10 +11,7 @@
 
    
     <string name="title_activity_demotivational_meme_edit">Demotivational Meme</string>
-
-
-
-
+    <string name="choose_text">Choose Meme Type</string>
 
 
 </resources>
