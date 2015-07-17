@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -20,6 +21,7 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import java.io.File;
+import java.util.List;
 
 public class MainActivity extends ActionBarActivity {
     private static String logtag = "CameraApp8";
@@ -33,8 +35,6 @@ public class MainActivity extends ActionBarActivity {
     private RadioButton demotivationalRadBtn;
     private Intent vanillaMemeIntent;
     private Intent demotivationalMemeIntent;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +56,6 @@ public class MainActivity extends ActionBarActivity {
 
         editMemeButton = (Button)findViewById(R.id.edit_meme_button);
         editMemeButton.setOnClickListener(editMemeListener);
-
     }
 
     private View.OnClickListener cameraListener = new View.OnClickListener() {
@@ -66,7 +65,6 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-
     private View.OnClickListener GalleryListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -74,24 +72,28 @@ public class MainActivity extends ActionBarActivity {
         }
     };
 
-
     //method for requesting image from gallery/camera roll
     public void pickPhoto(View v) {
-    Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-    intent.setType("image/*");
-    startActivityForResult(intent, PICK_PICTURE);
-
-}
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_PICTURE);
+    }
 
     //method for requesting camera to capture image and save it under a new file
     public void takePhoto (View v){
         Intent intent = new Intent("android.media.action.IMAGE_CAPTURE");
         File photo = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), "picture.jpg");
         imageUri = Uri.fromFile(photo);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, imageUri);
         startActivityForResult(intent, TAKE_PICTURE);
     }
 
+    //method for requesting image from gallery/camera roll
+    public void pickTemplate(View v) {
+        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        intent.setType("image/*");
+        startActivityForResult(intent, PICK_PICTURE);
+    }
 
     private View.OnClickListener editMemeListener = new View.OnClickListener() {
         @Override

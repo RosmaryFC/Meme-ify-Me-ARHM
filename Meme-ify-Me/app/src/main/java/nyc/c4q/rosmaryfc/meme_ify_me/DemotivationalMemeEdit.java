@@ -18,7 +18,6 @@ public class DemotivationalMemeEdit extends ActionBarActivity {
     private EditText titleEditText;
     private EditText phraseEditText;
 
-
     private RelativeLayout layout;
     private Bitmap viewbitmap;
 
