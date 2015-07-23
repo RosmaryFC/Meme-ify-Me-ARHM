@@ -23,38 +23,37 @@ import android.widget.Toast;
 import java.io.File;
 import java.util.List;
 
+import butterknife.Bind;
+import butterknife.ButterKnife;
+
 public class MainActivity extends ActionBarActivity {
     private static String logtag = "CameraApp8";
     private static int TAKE_PICTURE = 1;
     private static final int PICK_PICTURE = 2;
     private Uri imageUri;
-    ImageView imageview;
     private String selectedImagePath;
-    private Button editMemeButton;
-    private RadioButton vanillaRadioButton;
-    private RadioButton demotivationalRadBtn;
     private Intent vanillaMemeIntent;
     private Intent demotivationalMemeIntent;
+    @Bind(R.id.image)ImageView imageview;
+    @Bind(R.id.edit_meme_button) Button editMemeButton;
+    @Bind(R.id.camera_button) ImageButton cameraButton;
+    @Bind(R.id.pic_from_gallery_button) ImageButton fromGalleryButton;
+    @Bind(R.id.vanilla_memes_radBtn) RadioButton vanillaRadioButton;
+    @Bind(R.id.demotivational_posters_radBtn) RadioButton demotivationalRadBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ButterKnife.bind(this);
 
-        imageview = (ImageView) findViewById(R.id.image);
-        ImageButton cameraButton = (ImageButton) findViewById(R.id.camera_button);
         cameraButton.setOnClickListener(cameraListener);
-        ImageButton fromGalleryButton = (ImageButton) findViewById(R.id.pic_from_gallery_button);
         fromGalleryButton.setOnClickListener(GalleryListener);
-
-        vanillaRadioButton = (RadioButton) findViewById(R.id.vanilla_memes_radBtn);
-        demotivationalRadBtn = (RadioButton) findViewById(R.id.demotivational_posters_radBtn);
 
         vanillaMemeIntent = new Intent(this, VanillaMemeEdit.class);
         demotivationalMemeIntent = new Intent(this, DemotivationalMemeEdit.class);
 
-        editMemeButton = (Button)findViewById(R.id.edit_meme_button);
         editMemeButton.setOnClickListener(editMemeListener);
     }
 
@@ -88,7 +87,7 @@ public class MainActivity extends ActionBarActivity {
         startActivityForResult(intent, TAKE_PICTURE);
     }
 
-    //method for requesting image from gallery/camera roll
+    //method for requesting image from a template image
     public void pickTemplate(View v) {
         Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
         intent.setType("image/*");

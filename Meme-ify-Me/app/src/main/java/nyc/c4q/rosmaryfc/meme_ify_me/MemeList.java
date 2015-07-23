@@ -22,8 +22,8 @@ public class MemeList extends Activity {
     @Bind(R.id.listView) ListView mListView;
     private DatabaseHelper mHelper;
     private MemeAdapter mAdapter;
-    private List<Meme> mList;
-    private Uri uri;
+    public List<Meme> mList;
+    public Uri uri;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
